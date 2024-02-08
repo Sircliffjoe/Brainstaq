@@ -53,6 +53,7 @@ Rails.application.routes.draw do
     resources :messages
   end
   
+  resources :subscription_plans
   resources :donations
   resources :features
   # resources :contact, only: [:new, :create]
@@ -105,7 +106,7 @@ Rails.application.routes.draw do
   post '/users/:username/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   get '/about' => 'pages#about'
-  # get '/pricing' => 'plan_subscription#new'
+  get '/pricing' => 'subscription_plans#index'
   get '/career' => 'pages#career'
   get '/faqs' => 'pages#faqs'
   get '/all_features' => 'pages#features'

@@ -8,7 +8,7 @@
         <h2 class="h1 font-weight-bold">Donate</h2>
           <nav class="mt-15" aria-label="breadcrumb">
             <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
-              <li class="breadcrumb-item"><%= link_to "Project", idea_path(@idea), class: "text-black-300" %></li>
+              <li class="breadcrumb-item"><%= link_to "Back", idea_path(@idea), class: "text-black-300" %></li>
               <li class="breadcrumb-item text-primary" aria-current="page">Donate</li>
             </ol>
           </nav>
@@ -32,11 +32,12 @@
 <article class="card-body col-lg-12 mx-auto" style="max-width: 50%; padding-top: 150px;">
   <div class="section-header mb-5">
     <div id="alert-holder"></div>
-    <h4 class="mb-2 text-center">You're about to support <br>
+    <h4 id="support-tag" class="mb-2 text-center">You're about to support <br>
       <span class="text-primary">
         <%= link_to @idea.title, @idea %> 
       </span>
-       Campaign 🎉</h4>
+       Campaign 🎉
+    </h4>
   </div>
   
 

@@ -7,6 +7,10 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: %i[github google_oauth2]
 
   mount_uploader :image, ImageUploader
+
+  enum subscription_plan: [:free, :startup, :enterprise]
+  attribute :subscription_status, :integer, default: 0
+  attribute :subscription_expiration_date, :datetime
   
   validates :username, presence: true
   validate :image_size_validation

@@ -6,7 +6,7 @@ class SubscriptionPlansController < ApplicationController
 
   before_action :authenticate_user!
   before_action :find_plan, only: [:edit, :update, :show, :update_plan_record]
-  
+
   def index
     @subscription_plans = SubscriptionPlan.all
   end
@@ -82,10 +82,16 @@ class SubscriptionPlansController < ApplicationController
 
   private
 
+  # def instantiate_paystack
+  #   paystackObj = Paystack.new
+  #   return paystackObj
+  # end
+  
   def instantiate_paystack
-    paystackObj = Paystack.new
+    paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     return paystackObj
-  end  
+  end
+  
 
   def fetch_paystack_plan(plan_id, paystackObj)
     plans = PaystackPlans.new(paystackObj)

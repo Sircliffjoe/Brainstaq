@@ -11,39 +11,28 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
 gem 'redis', '~> 4.0'
 gem 'redis-rails'
-# gem 'kredis', github: 'rails/kredis'
-# gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 4.8'
 gem 'devise_invitable', '~> 2.0.0'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-# gem 'jquery-turbolinks', '~> 2.1'
 gem 'font_awesome5_rails'
 gem "font-ionicons-rails"
-gem 'dotenv-rails', groups: [:development, :test]
 gem 'carrierwave'
 gem 'cloudinary'
 gem 'receipts'
 gem 'mini_magick'
-# gem 'intro', '~> 0.3.0'
 gem 'friendly_id', '~> 5.3'
 gem 'local_time', '~> 2.1'
-#gem 'tel_to_helper'
 gem 'mail_form'
 gem 'popper_js', '~> 2.9.3'
-gem 'recaptcha', '~> 5.8', '>= 5.8.1'
-# gem 'tinymce-rails'
-# gem 'social-share-button'
-# gem 'rails-social-share-button'
+gem 'recaptcha', '~> 5.16'
 gem 'simple_form'
 gem 'faker'
 gem 'ransack'
 gem 'rolify', '~> 6.0'
 gem 'pundit'
-gem 'exception_notification', group: :production
 gem 'chartkick'
 gem 'groupdate'
-gem 'rails-erd', group: :development
 gem 'ranked-model'
 gem 'impressionist'
 gem 'acts_as_votable'
@@ -57,15 +46,11 @@ gem 'spreadsheet'
 gem 'tapir-reports', git: 'https://github.com/jnicho02/tapir-reports'
 gem 'trix-rails', require: 'trix'
 gem 'sablon'
-# gem 'geoip'
-# gem 'geocoder'
-# gem 'blazer'
 gem 'wicked_pdf'
 gem 'stimulus-rails', '~> 1.2', '>= 1.2.1'
 gem 'wicked', '~> 2.0'
 gem 'cocoon', '~> 1.2', '>= 1.2.15'
 gem 'wkhtmltopdf-binary', '~> 0.12.6.6'
-# gem "wkhtmltopdf-heroku", group: :production
 gem 'turbo-rails'
 gem 'public_activity', '~> 2.0', '>= 2.0.2'
 gem 'inherited_resources', '~> 1.13', '>= 1.13.1'
@@ -80,21 +65,39 @@ gem "fog-aws"
 gem 'activerecord', '~> 6.0', '>= 6.0.3.2'
 gem 'ahoy_matey'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
+gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'sidekiq', '~> 6.2', '>= 6.2.1'
+
+# gem 'intro', '~> 0.3.0'
+# gem 'tel_to_helper'
+# gem 'jquery-turbolinks', '~> 2.1'
+# gem 'kredis', github: 'rails/kredis'
+# gem 'bcrypt', '~> 3.1.7'
+# gem 'tinymce-rails'
+# gem 'social-share-button'
+# gem 'rails-social-share-button'
+# gem 'geoip'
+# gem 'geocoder'
+# gem 'blazer'
+# gem "forest_liana", "~> 8.0"
 # gem 'country_select'
 # gem 'countries'
 # gem 'city-state'
-
-# local ENV var
+# gem "stimulus_reflex", "~> 3.3"
+# gem "chat_gpt", "~> 0.1.1"
 # gem 'rails_admin', '~> 2.0', '>= 2.0.2'
 # gem 'rails_admin_rollincode', '~> 1.0'
 # gem "aws-sdk-s3", require: false
+# gem 'image_processing', '~> 1.2' 
 
-# gem 'image_processing', '~> 1.2'
-# gem 'webpacker-pwa', group: :development
-# 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
+group :production do
+  # gem "wkhtmltopdf-heroku"
+  gem 'exception_notification'
+end
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'dotenv-rails'
 end
 
 group :development do
@@ -102,8 +105,11 @@ group :development do
   gem 'listen', '~> 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem "dockerfile-rails", ">= 1.0"
+  gem 'rails-erd'
   # gem "better_errors"
   # gem "binding_of_caller"
+  # gem 'webpacker-pwa'
 end
 
 group :test do
@@ -111,12 +117,3 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
-
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
-gem 'sidekiq', '~> 6.2', '>= 6.2.1'
-# gem "stimulus_reflex", "~> 3.3"
-# gem "chat_gpt", "~> 0.1.1"
-
-gem "dockerfile-rails", ">= 1.0", :group => :development
-
-# gem "forest_liana", "~> 8.0"

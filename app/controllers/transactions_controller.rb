@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
 
 	def callback
 		res = 0;
-		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY']) 
+		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY']) 
 		transaction_reference = params[:trxref]
 		transactions = PaystackTransactions.new(@paystackObj)
 		result = transactions.verify(transaction_reference)
@@ -79,7 +79,7 @@ class TransactionsController < ApplicationController
 
 	def show
 		res = 0;
-		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY']) 
+		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY']) 
 		transaction_reference = params[:trxref]
 		transactions = PaystackTransactions.new(@paystackObj)
 		result = transactions.verify(transaction_reference)
@@ -147,7 +147,7 @@ class TransactionsController < ApplicationController
 	end
 	
 	def new
-		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
 		page_number = 1
 		plans = PaystackPlans.new(@paystackObj)
 		result = plans.list(page_number)
@@ -156,7 +156,7 @@ class TransactionsController < ApplicationController
 	end
 
 	def upgrade
-		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+		@paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
 		page_number = 1
 		plans = PaystackPlans.new(@paystackObj)
 		result = plans.list(page_number)

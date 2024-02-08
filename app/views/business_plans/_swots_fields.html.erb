@@ -7,11 +7,11 @@
         <div class="col-md-6 pb-3">
           <label for="exampleAccount">SWOT Type</label>
           <%= form.select(:swot_type, options_for_select([
-          ['Strength'],
-          ['Weakness'],
-          ['Opportunity'],
-          ['Threats']
-          ]), {}, :class => 'form-control') %>
+            ['Strength', 'Strength'],
+            ['Weakness', 'Weakness'],
+            ['Opportunity', 'Opportunity'],
+            ['Threats', 'Threats']
+          ], selected: form.object.swot_type), {}, class: 'form-control') %>
         </div>
         
         <div class="col-md-12 pb-3">

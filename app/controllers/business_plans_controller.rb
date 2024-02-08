@@ -31,12 +31,13 @@ class BusinessPlansController < ApplicationController
   end
 
   def edit
-    # @enterprises = current_user.enterprises
+    @business_plan = BusinessPlan.find(params[:id])
   end
 
   def show
     @business_plan = BusinessPlan.find(params[:id])
     @milestones = Milestone.all
+    @marketing_expenses = MarketingExpense.all
     @positions = Position.all
     @products_and_growth_rates = ProductsAndGrowthRate.all
     @total_cost = [
@@ -51,11 +52,10 @@ class BusinessPlansController < ApplicationController
       @business_plan.contingency
     ].sum
     
-
-    @loan_year = if @business_plan.loan_year == 0 then @business_plan.loan_year else 0 end
-    @repayment_period = if @business_plan.repayment_period == 0 then @business_plan.repayment_period else 0 end
-    @loan_end = @loan_year += @repayment_period
-    @loan_amount = @business_plan.debt == 0 ? 0 : @business_plan.debt * 0.01 * @total_cost
+    @loan_year = @business_plan.loan_year.to_i.zero? ? 0 : @business_plan.loan_year
+    @repayment_period = @business_plan.repayment_period.to_i.zero? ? 0 : @business_plan.repayment_period
+    @loan_end = @loan_year + @repayment_period
+    @loan_amount = @business_plan.debt.to_i.zero? ? 0 : (@business_plan.debt * 0.01 * @total_cost)
 
     @equity = @business_plan.equity
     @calculated_equity = @total_cost * (@equity / 100.0)
@@ -286,7 +286,7 @@ class BusinessPlansController < ApplicationController
 
     respond_to do |format|
       if @business_plan.save
-        current_user.increment!(:business_plans_count)
+        current_user.increment!(:business_plan_count)
         format.html { redirect_to enterprise_business_plans_path(@enterprise), notice: "Business plan was successfully created" }
         format.json { render :show, status: :created, location: @business_plan }
       else

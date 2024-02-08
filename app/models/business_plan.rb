@@ -8,7 +8,7 @@ class BusinessPlan < ApplicationRecord
   # validates_uniqueness_of :enterprise_id
 
   belongs_to :enterprise
-  # belongs_to :user
+  belongs_to :user
   
   has_many :products_and_growth_rates, dependent: :destroy
   has_many :positions, dependent: :destroy

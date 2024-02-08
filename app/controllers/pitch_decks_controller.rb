@@ -49,7 +49,7 @@ class PitchDecksController < ApplicationController
 
     respond_to do |format|
       if @pitch_deck.save
-        format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Business plan was successfully created" }
+        format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Pitch Deck was successfully created" }
         format.json { render :show, status: :created, location: @pitch_deck }
       else
         format.html { render :new }
@@ -61,7 +61,7 @@ class PitchDecksController < ApplicationController
   def update
     respond_to do |format|
       if @pitch_deck.update(pitch_deck_params)
-        format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Business plan was successfully updated" }
+        format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Pitch Deck was successfully updated" }
         format.json { render :show, status: :ok, location: @pitch_deck }
       else
         format.html { render :edit }
@@ -73,7 +73,7 @@ class PitchDecksController < ApplicationController
   def destroy
     @pitch_deck.destroy
     respond_to do |format|
-      format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Business plan was successfully deleted" }
+      format.html { redirect_to enterprise_pitch_decks_path(@enterprise), notice: "Pitch Deck was successfully deleted" }
       format.json { head :no_content }
     end
   end

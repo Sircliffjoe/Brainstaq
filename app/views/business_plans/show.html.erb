@@ -128,6 +128,28 @@
           <p class="mt-2 mb-0">
             <%= simple_format(@business_plan.marketing.html_safe) %>
           </p>
+          <div class="container mt-2">
+            <div class="row">
+              <div class="col-12 table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Expense Item</th>
+                      <th scope="col">Cost</th>
+                    </tr>
+                  </thead>
+                  <% @marketing_expenses.each do |marketing_expense| %>
+                    <tbody>
+                      <tr>
+                        <td scope="row"><%= marketing_expense.item_name %></td>
+                        <td><%= number_to_currency(marketing_expense.cost, :unit => "₦") %></td>
+                      </tr>
+                    </tbody>
+                  <% end %>
+                </table>
+              </div>
+            </div>
+          </div>
 
           <h4 class="mb-0 mt-3" style="font-weight: bold;">Management Plan</h4>
           <p class="mt-2 mb-0">
@@ -155,7 +177,7 @@
                   <% @milestones.each do |milestone| %>
                     <tbody>
                       <tr>
-                        <th scope="row"><%= milestone.milestone %></th>
+                        <td scope="row"><%= milestone.milestone %></td>
                         <td><%= milestone.done_by %></td>
                         <td><%= number_to_currency(milestone.cost, :unit => "₦") %></td>
                         <td><%= local_time(milestone.date_schedule)%></td>

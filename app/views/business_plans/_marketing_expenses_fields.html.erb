@@ -10,14 +10,15 @@
         <div class="col-md-6 pb-3">
           <label for="exampleAccount">Expense Item</label>
           <%= form.select(:item_name, options_for_select([
-          ['SEO & PPC'],
-          ['Print Ads'],
-          ['Press Releases'],
-          ['Road Shows'],
-          ['TV & Radio Commercials'],
-          ['Seminars']
-          ]), {}, :class => 'form-control') %>
+          ['SEO & PPC', 'SEO & PPC'],
+          ['Print Ads', 'Print Ads'],
+          ['Press Releases', 'Press Releases'],
+          ['Road Shows', 'Road Shows'],
+          ['TV & Radio Commercials', 'TV & Radio Commercials'],
+          ['Seminars', 'Seminars']
+          ], selected: form.object.item_name), {}, class: 'form-control') %>
         </div>
+
         <div class="col-sm-6 pb-3">
           <label for="exampleCtrl">Cost</label> 
           <%= form.number_field :cost, class: "form-control", placeholder: "Enter price"  %>

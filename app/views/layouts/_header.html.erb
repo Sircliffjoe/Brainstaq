@@ -40,6 +40,11 @@
                 </li>
               </ul>
             </li>
+            <li class="nav-item @@about">
+              <%= link_to pricing_path, title: "Pricing", class: "text-decoration-none" do %>
+                <span class="nav-link">Pricing</span>
+              <% end %>
+            </li>
           </ul>
           <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do |form| %>
           <%= form.text_field :query, value: params[:query], class: 'form-control mr-sm-3 rounded', placeholder: 'Search' %>
@@ -132,7 +137,12 @@
                 </li>
               </ul>
             </li>
-          </ul>
+            <li class="nav-item @@about">
+              <%= link_to pricing_path, title: "Pricing", class: "text-decoration-none" do %>
+                <span class="nav-link">Pricing</span>
+              <% end %>
+            </li>
+         </ul>
         <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do |form| %>
           <%= form.text_field :query, value: params[:query], class: 'form-control search-fm mr-sm-3 rounded', placeholder: 'Search' %>
         <% end %>

@@ -1,0 +1,14 @@
+<h1>Edit Subscription</h1>
+
+<%= form_with(model: @subscription, url: subscription_path(@subscription), method: :patch) do |form| %>
+  <div>
+    <%= form.label :subscription_plan_id, "Select Plan:" %><br>
+    <%= form.collection_select :subscription_plan_id, @subscription_plans, :id, :name %>
+  </div>
+
+  <div>
+    <%= form.submit "Update Subscription" %>
+  </div>
+<% end %>
+
+<%= link_to "Cancel", subscription_path(@subscription) %>

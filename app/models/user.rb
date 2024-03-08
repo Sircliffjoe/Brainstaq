@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :login
+  after_create :subscribe_to_free_plan
   enum status: [:inactive, :active]
   
   devise :database_authenticatable, :registerable, :confirmable,
@@ -23,8 +24,8 @@ class User < ApplicationRecord
   
   #has_secure_password
 
-  # has_one :sub
-  #has_many :transactions, dependent: :destroy
+  has_many :subscriptions
+  has_many :subscription_plans, through: :subscriptions
 
   has_many :transactions, dependent: :destroy
   has_many :ideas, dependent: :destroy
@@ -111,8 +112,8 @@ class User < ApplicationRecord
     self.donations.includes(idea: :user)
   end
 
-  def subscribed?
-    # self.enterprises.subscription_plan
+  def subscribed_to?(subscription_plan)
+    self.subscription_plans.exists?(subscription_plan.id)
   end
 
   def can_create_enterprise?
@@ -130,6 +131,11 @@ class User < ApplicationRecord
   # def setup_subscription_plan
   #   SubscriptionPlan.create(user_id: self.id, plan: "free", active_until: 12.months.from_now)
   # end
+
+  def subscribe_to_free_plan
+    subscription_plan = SubscriptionPlan.find_by(plan_name: "FREE")
+    Subscription.create(user: self, subscription_plan: subscription_plan)
+  end  
 
   def image_size_validation
     #errors[:image] << "should be less than 1MB" if image.size > 1.megabytes

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_03_22_103605) do
+ActiveRecord::Schema.define(version: 2024_02_08_201501) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -760,6 +760,17 @@ ActiveRecord::Schema.define(version: 2023_03_22_103605) do
     t.index ["paystack_plan_code"], name: "index_subscription_plans_on_paystack_plan_code"
   end
 
+  create_table "subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "subscription_plan_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
+  end
+
   create_table "swots", force: :cascade do |t|
     t.string "swot_type"
     t.text "description"
@@ -913,6 +924,8 @@ ActiveRecord::Schema.define(version: 2023_03_22_103605) do
   add_foreign_key "positions", "business_plans"
   add_foreign_key "products_and_growth_rates", "business_plans"
   add_foreign_key "services", "business_plans"
+  add_foreign_key "subscriptions", "subscription_plans"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "swots", "business_plans"
   add_foreign_key "user_lessons", "lessons"
   add_foreign_key "user_lessons", "users"

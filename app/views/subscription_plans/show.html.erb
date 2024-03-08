@@ -12,10 +12,15 @@
     </tr>
     <tr>
       <th>Features:</th>
-      <td><%= @subscription_plan.features.name %></td>
+      <td>
+        <%= @subscription_plan.features.each do |feature| %>
+          <%= feature.name %>
+        <% end %>
+      </td>
     </tr>
   </tbody>
 </table>
+<%= link_to 'Edit', edit_subscription_plan_path(@subscription_plan) %>
 
 <!-- include a link to the subscription plans index page -->
 <%= link_to 'Back', subscription_plans_path %>

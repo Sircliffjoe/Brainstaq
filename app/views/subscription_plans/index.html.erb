@@ -45,12 +45,12 @@
       <div class="row text-center" style="padding-top: 50px;">
         <div class="col-lg-8 col-md-12 ml-auto mr-auto">
           <div class="section-title">
-            <div class="title-effect">
+            <%# <div class="title-effect">
               <div class="bar bar-top"></div>
               <div class="bar bar-right"></div>
               <div class="bar bar-bottom"></div>
               <div class="bar bar-left"></div>
-            </div>
+            </div> %>
             <h6 style="font-size: 20px; font-weight: bold;">Choose Your <span class="text-primary">Plan</span></h6>
             
             <p>
@@ -83,15 +83,11 @@
                         <h2><span>₦</span><%= subscription_plan.cost %></h2>
                         <h4><span><%= subscription_plan.duration %></span></h4>
                       </div>
-                      <h3 class="price-title"><%= subscription_plan.plan_name %></h3> 
+                      <h3 class="price-title"><%= subscription_plan.plan_name %></h3>
+                      <p class="mb-2"><%= subscription_plan.description %></p>
                     </div>
 
-                    <% if user_signed_in? %>
-                      <%#= button_to 'Get Started', plan_subscriptions_path(:code => post['plan_code'], :interval=> post['interval']), method: :post, class:"btn btn-success" %>
-                      <%= link_to "Choose Plan", "#", class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
-                    <% else %>
-                      <%= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
-                    <% end %>
+                    <h4> FEATURES </h4>
                     
                     <% subscription_plan.features.each do |feature| %>
                       <%# <div class="p-0 mb-0"> %>
@@ -102,6 +98,15 @@
                         <%# </div> %>
                       </div>
                       <hr>
+                    <% end %>
+                    <% if user_signed_in? %>
+                      <% if current_user.subscribed_to?(subscription_plan) %>
+                        <%= button_to "Subscribed", "#", class: "btn btn-success", disabled: true %>
+                      <% else %>
+                        <%= button_to "Choose Plan", subscribe_subscription_plan_path(subscription_plan), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
                     <% end %>
                   </div>
                 </div>

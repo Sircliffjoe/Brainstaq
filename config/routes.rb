@@ -54,9 +54,19 @@ Rails.application.routes.draw do
   end
   
   resources :subscription_plans
+  
+  resources :subscription_plans do
+    post 'subscribe', on: :member
+  end
+
   resources :donations
   resources :features
   # resources :contact, only: [:new, :create]
+
+  resources :subscriptions, only: [:new, :create, :show, :edit, :update]
+
+  post 'subscriptions/:id/subscribe', to: 'subscriptions#subscribe', as: 'subscribe'
+  post 'subscriptions/:id/upgrade', to: 'subscriptions#upgrade', as: 'upgrade_subscription'
   
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {
     registrations: 'registrations',
@@ -99,8 +109,8 @@ Rails.application.routes.draw do
   end
   post '/tinymce_assets' => 'tinymce_assets#create'
   # post "follow/user" => "users#follow_user", as: :follow_user
-  post  'check_recurring' => 'subscription_plans#check_recurring', as: :check_recurring
-  post  'check_selected_plan' => 'subscription_plans#check_selected_plan', as: :check_selected_plan
+  # post  'check_recurring' => 'subscription_plans#check_recurring', as: :check_recurring
+  # post  'check_selected_plan' => 'subscription_plans#check_selected_plan', as: :check_selected_plan
 
   post '/users/:username/follow', to: "users#follow", as: "follow_user"
   post '/users/:username/unfollow', to: "users#unfollow", as: "unfollow_user"

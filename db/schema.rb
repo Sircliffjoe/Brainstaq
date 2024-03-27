@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_02_08_201501) do
+ActiveRecord::Schema.define(version: 2024_03_26_231916) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -767,6 +767,9 @@ ActiveRecord::Schema.define(version: 2024_02_08_201501) do
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "transaction_reference"
+    t.string "plan_id"
+    t.string "status"
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
     t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
@@ -798,6 +801,7 @@ ActiveRecord::Schema.define(version: 2024_02_08_201501) do
     t.bigint "amount"
     t.date "expires_on"
     t.bigint "integer"
+    t.string "plan_code"
     t.index ["user_id"], name: "index_transactions_on_user_id"
   end
 

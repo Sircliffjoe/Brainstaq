@@ -4,7 +4,7 @@ class RetractsController < ApplicationController
   
   def show
     res = 0
-    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     transaction_reference = params[:trxref]
     transactions = PaystackTransactions.new(@paystackObj)
     result = transactions.verify(transaction_reference)
@@ -33,7 +33,7 @@ class RetractsController < ApplicationController
   end
   def web
     res = 0;
-    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     @res = params['data']
     @plan = params['data']['plan']['interval']
     @customer = params['data']['customer']

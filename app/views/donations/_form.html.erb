@@ -111,7 +111,8 @@
           // Hide or remove elements on the payment page
           document.getElementById('support-tag').style.display = 'block';
           document.getElementById('support-tag').innerHTML = '<h4 id="support-tag" class="mb-2 text-center">Donate again to <br>' + '<span class="text-primary">' +
-          '<%= link_to @idea.title, @idea %>' + '</span>' + ' Campaign 🎉' +  '</h4>';
+          '<%= link_to @idea.title, @idea %>' + '</span>' + ' Campaign 🎉 <br>' + 'or go back to <span class="text-primary">' +
+          '<%= link_to 'Projects', ideas_path %>' + '</span>' +  '</h4>';
         },
         
         onClose:  function(){

@@ -1,26 +1,102 @@
-<!-- display the details of the selected subscription plan -->
-<h1><%= @subscription_plan.plan_name %></h1>
-<table>
-  <tbody>
-    <tr>
-      <th>Price:</th>
-      <td><%= number_to_currency(@subscription_plan.cost, :unit => "₦") %></td>
-    </tr>
-    <tr>
-      <th>Duration:</th>
-      <td><%= @subscription_plan.duration %></td>
-    </tr>
-    <tr>
-      <th>Features:</th>
-      <td>
-        <%= @subscription_plan.features.each do |feature| %>
-          <%= feature.name %>
-        <% end %>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<%= link_to 'Edit', edit_subscription_plan_path(@subscription_plan) %>
+<% content_for :title, "Plan Details" %>
 
-<!-- include a link to the subscription plans index page -->
-<%= link_to 'Back', subscription_plans_path %>
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-50">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Plan Details</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Plans", subscription_plans_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Plan Details</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+
+
+
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1><%= @subscription_plan.plan_name %></h1>
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th scope="row">Price:</th>
+            <td><%= number_to_currency(@subscription_plan.cost, :unit => "₦") %></td>
+          </tr>
+          <tr>
+            <th>Description:</th>
+            <td><%= @subscription_plan.description %></td>
+          </tr>
+          <tr>
+            <th scope="row">Duration:</th>
+            <td><%= @subscription_plan.duration %></td>
+          </tr>
+          <tr>
+            <th scope="row">Features:</th>
+            <td>
+              <ul>
+                <% @subscription_plan.features.each do |feature| %>
+                  <li><%= feature.name %></li>
+                <% end %>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="d-flex justify-content-end mt-3">
+        <%= link_to 'Edit', edit_subscription_plan_path(@subscription_plan), class: "actions btn rounded btn-primary mr-2" %>
+        <%= link_to 'Back', subscription_plans_path, class: "btn btn-secondary rounded" %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<style>
+.save-stngs {
+	float: right;
+	width: 100%;
+	padding: 30px 20px 50px 20px;
+}
+.save-stngs.pd2 {
+	padding: 25px 20px 42px 20px;
+}
+.save-stngs ul li {
+	display: inline-block;
+	margin-right: 17px;
+  float: right;
+}
+.save-stngs ul li button {
+	display: inline-block;
+	color: #000000;
+	font-size: 16px;
+	border: 1px solid #e5e5e5;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 22px;
+	font-weight: 600;
+	background: none;
+	cursor: pointer;
+}
+.save-stngs ul li button:hover {
+	background-color: #e44d3a;
+	color: #fff;
+	border-color: transparent;
+}
+</style>

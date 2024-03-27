@@ -4,7 +4,7 @@ class PaystackController < ApplicationController
   before_action :check_allowed_ip, only: [:receive]
 
  
-  SECRET_KEY = ENV["PAYSTACK_PRIVATE_KEY"]
+  SECRET_KEY = ENV["PAYSTACK_SECRET_KEY"]
 
   def webhook
     if check_allowed_ip == true

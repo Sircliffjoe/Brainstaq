@@ -112,8 +112,8 @@ class User < ApplicationRecord
     self.donations.includes(idea: :user)
   end
 
-  def subscribed_to?(subscription_plan)
-    self.subscription_plans.exists?(subscription_plan.id)
+  def subscribed_to?(plan_code)
+    transactions.active.where(plan_code: plan_code).exists?
   end
 
   def can_create_enterprise?

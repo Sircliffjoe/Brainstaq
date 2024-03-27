@@ -6,7 +6,7 @@ class PlanSubscriptionsController < ApplicationController
 
   def success
     if params[:reference].present?
-      paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+      paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
       plan_subscriptions = PaystackSubscriptions.new(paystackObj)
       result = subscriptions.create(
         :customer => current_user.email,
@@ -34,7 +34,7 @@ class PlanSubscriptionsController < ApplicationController
 
   def show
     res = 0
-    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_PRIVATE_KEY'])
+    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     transaction_reference = params[:trxref]
     transactions = PaystackTransactions.new(@paystackObj)
     result = transactions.verify(transaction_reference)

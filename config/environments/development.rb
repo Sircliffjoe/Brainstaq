@@ -1,5 +1,7 @@
 require "active_support/core_ext/integer/time"
 
+require 'dotenv/rails'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
@@ -103,5 +105,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   #config.hosts << /[a-z0-9]+\.ngrok\.io/
-  config.hosts << "da7a-197-210-78-178.ngrok.io"
+  config.hosts << "6e8d-105-113-55-4.ngrok-free.app"
 end

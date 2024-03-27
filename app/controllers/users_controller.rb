@@ -53,7 +53,7 @@ class UsersController < ApplicationController
     @profile = User.find_by_username params[:username]
     @ideas = current_user.ideas.order(created_at: :desc)
     @enterprises = Enterprise.all.order(created_at: :desc).limit(15)
-    @user = User.find_by(username: params[:username])
+    # @user = User.find_by(username: params[:username])
 
     following_ids = current_user.followees.pluck(:id)
     following_ids << current_user.id

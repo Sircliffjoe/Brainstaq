@@ -53,11 +53,17 @@ Rails.application.routes.draw do
     resources :messages
   end
   
-  resources :subscription_plans
+  # resources :subscription_plans
   
-  resources :subscription_plans do
-    post 'subscribe', on: :member
-  end
+  # resources :subscription_plans do
+  #   post 'subscribe', on: :member
+  # end
+
+  # resources :subscription_plans do
+  #   member do
+  #     put :subscribe
+  #   end
+  # end
 
   resources :donations
   resources :features
@@ -67,6 +73,7 @@ Rails.application.routes.draw do
 
   post 'subscriptions/:id/subscribe', to: 'subscriptions#subscribe', as: 'subscribe'
   post 'subscriptions/:id/upgrade', to: 'subscriptions#upgrade', as: 'upgrade_subscription'
+  post '/complete_subscription', to: 'subscriptions#complete'
   
   devise_for :users, :path => '', :path_names => {:sign_in => 'login', :sign_out => 'logout'}, :controllers => {
     registrations: 'registrations',
@@ -90,14 +97,6 @@ Rails.application.routes.draw do
       get '/financial_plan/income_statement' => 'income_statement#show'
     end
   end
-  
-
-  # resources :subs do
-  #   member do
-  #     get 'activate_sub'
-  #     get 'deactivate_sub'
-  #   end
-  # end
 
   resources :ideas, :path => 'projects', only: [:show, :index, :new, :create, :edit, :update, :destroy] do
     resources :comments
@@ -116,7 +115,7 @@ Rails.application.routes.draw do
   post '/users/:username/unfollow', to: "users#unfollow", as: "unfollow_user"
 
   get '/about' => 'pages#about'
-  get '/pricing' => 'subscription_plans#index'
+  get '/pricing' => 'subscriptions#new'
   get '/career' => 'pages#career'
   get '/faqs' => 'pages#faqs'
   get '/all_features' => 'pages#features'
@@ -124,7 +123,6 @@ Rails.application.routes.draw do
   get '/contact' => 'pages#contact'
   get '/help' => 'pages#help'
   get '/the_academy' => 'courses#academy'
-  # get '/plans' => 'pages#plans'
   get '/terms' => 'pages#terms'
   get '/privacy' => 'pages#privacy'
 
@@ -144,6 +142,7 @@ Rails.application.routes.draw do
   end
   
   resources :users do
+    resources :transactions
     member do
       get 'followings' => 'follows#following'
       get 'followers' => 'follows#follower'
@@ -155,7 +154,6 @@ Rails.application.routes.draw do
   end
 
   resources :retracts
-  resources :transactions
   resources :transactions do
     member do
       get 'details'
@@ -163,11 +161,8 @@ Rails.application.routes.draw do
   end
   
   post 'web' => "retracts#web"
-  get 'callback' => "transactions#callback"
-  get 'upgrade' => "transactions#upgrade"  
-
-  # get 'plan_subscriptions/success'
-  # get 'transactions/success'
+  get '/subscribe' => "subscriptions#handle_payments"
+  get '/paystack_callback' => "subscriptions#paystack_callback"  
 
   post 'paystack/receive_webhooks', to: 'paystack#webhook'
 

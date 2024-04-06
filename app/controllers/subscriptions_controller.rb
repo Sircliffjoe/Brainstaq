@@ -141,107 +141,107 @@
 # end
 
 class SubscriptionsController < ApplicationController
-  before_action :initialize_paystack_service
-  rescue_from SocketError, with: :handle_offline
+  # before_action :initialize_paystack_service
+  # rescue_from SocketError, with: :handle_offline
 
-  def pricing
-    @plans = fetch_paystack_plans
-  end
+  # def pricing
+  #   @plans = fetch_paystack_plans
+  # end
   
-  def handle_payments
-    if customer_exists
-      initialize_transaction
-    else
-      create_customer
-    end
-  end
+  # def handle_payments
+  #   if customer_exists
+  #     initialize_transaction
+  #   else
+  #     create_customer
+  #   end
+  # end
 
-  def customer_exists
-    response = @paystack_service.fetch_customer_details(current_user)
-    response['status']
-  end
+  # def customer_exists
+  #   response = @paystack_service.fetch_customer_details(current_user)
+  #   response['status']
+  # end
 
-  def create_customer
-    response = @paystack_service.create_customer(current_user)
+  # def create_customer
+  #   response = @paystack_service.create_customer(current_user)
 
-    return unless response['status']
+  #   return unless response['status']
 
-    initialize_transaction
-  end
+  #   initialize_transaction
+  # end
 
-  def initialize_transaction
-    response = @paystack_service.initialize_transaction(current_user)
+  # def initialize_transaction
+  #   response = @paystack_service.initialize_transaction(current_user)
 
-    if response['status']
-      payment_link = response['data']['authorization_url']
-      redirect_to payment_link, allow_other_host: true
-    else
-      redirect_to user_path(current_user), alert: t('subscriptions.failed_to_initialize')
-    end
-  end
+  #   if response['status']
+  #     payment_link = response['data']['authorization_url']
+  #     redirect_to payment_link, allow_other_host: true
+  #   else
+  #     redirect_to user_path(current_user), alert: t('subscriptions.failed_to_initialize')
+  #   end
+  # end
 
-  def paystack_callback
-    response = @paystack_service.verify_transaction(params[:reference])
+  # def paystack_callback
+  #   response = @paystack_service.verify_transaction(params[:reference])
 
-    if response['status']
-      create_subscription
-    else
-      redirect_to user_path(current_user), alert: t('subscriptions.failed_verification')
-    end
-  end
+  #   if response['status']
+  #     create_subscription
+  #   else
+  #     redirect_to user_path(current_user), alert: t('subscriptions.failed_verification')
+  #   end
+  # end
 
-  def create_subscription
-    response = @paystack_service.create_subscription(current_user, ENV.fetch('PLAN_ID', nil))
+  # def create_subscription
+  #   response = @paystack_service.create_subscription(current_user, ENV.fetch('PLAN_ID', nil))
 
-    if response['status']
-      redirect_to user_path(current_user)
-    else
-      redirect_to user_path(current_user), alert: t('subscriptions.failed')
-    end
-  end
+  #   if response['status']
+  #     redirect_to user_path(current_user)
+  #   else
+  #     redirect_to user_path(current_user), alert: t('subscriptions.failed')
+  #   end
+  # end
 
-  def manage_subscription
-    response = @paystack_service.get_manage_subscription_link(current_user)
-    session[:manage_subscription_link] = response
-    redirect_to user_path(current_user)
-  end
+  # def manage_subscription
+  #   response = @paystack_service.get_manage_subscription_link(current_user)
+  #   session[:manage_subscription_link] = response
+  #   redirect_to user_path(current_user)
+  # end
 
-  private
+  # private
 
-  def initialize_paystack_service
-    @paystack_service = PaystackService.new(ENV.fetch('PAYSTACK_SECRET_KEY', nil))
-  end
+  # def initialize_paystack_service
+  #   @paystack_service = PaystackService.new(ENV.fetch('PAYSTACK_SECRET_KEY', nil))
+  # end
 
-  def get_plan_amount(plan_id)
-    # Implement logic to retrieve the plan amount based on the plan ID (e.g., from a pricing table)
-  end
+  # def get_plan_amount(plan_id)
+  #   # Implement logic to retrieve the plan amount based on the plan ID (e.g., from a pricing table)
+  # end
 
-  def fetch_paystack_plans
-    @paystack_service = PaystackService.new(ENV.fetch('PAYSTACK_SECRET_KEY', nil))
+  # def fetch_paystack_plans
+  #   @paystack_service = PaystackService.new(ENV.fetch('PAYSTACK_SECRET_KEY', nil))
   
-    response = @paystack_service.get('/plan')
-    if response['status']
-      plans_data = response['data']
+  #   response = @paystack_service.get('/plan')
+  #   if response['status']
+  #     plans_data = response['data']
 
-      plans_data.map do |plan_data|
-        {
-          id: plan_data['id'],
-          plan_name: plan_data['name'],
-          amount: plan_data['amount'],
-          interval: plan_data['interval'],
-          plan_code: plan_data['plan_code'],
-          description: plan_data['description']
-        }
-      end
-    else
-      raise StandardError, "Error fetching plans from Paystack: #{response['message']}"
-    end
-  end
+  #     plans_data.map do |plan_data|
+  #       {
+  #         id: plan_data['id'],
+  #         plan_name: plan_data['name'],
+  #         amount: plan_data['amount'],
+  #         interval: plan_data['interval'],
+  #         plan_code: plan_data['plan_code'],
+  #         description: plan_data['description']
+  #       }
+  #     end
+  #   else
+  #     raise StandardError, "Error fetching plans from Paystack: #{response['message']}"
+  #   end
+  # end
 
-  def handle_offline
-    # redirect_to user_path(current_user), alert: t('subscriptions.offline')
-    flash[:alert] = 'Network error. Please try again later.'
-    redirect_to pricing_path
-  end
+  # def handle_offline
+  #   # redirect_to user_path(current_user), alert: t('subscriptions.offline')
+  #   flash[:alert] = 'Network error. Please try again later.'
+  #   redirect_to pricing_path
+  # end
 end
 

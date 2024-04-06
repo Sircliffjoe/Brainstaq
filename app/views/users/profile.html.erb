@@ -162,13 +162,12 @@
                           <span style="font-style: italic;">= (@user.team_members.count)</span>
                         <%# </li> %>
   
-                        <%# <li data-tab="my-bidss"> %>
-												<li data-tab="feed-dd">
+                        <li data-tab="my-bidss">
                           <a href="#" title="">
                             <i class="fas fa-life-ring"></i>
                             <span>Campaigns</span>
                           </a>
-                          <span style="font-style: italic;"><%= (@user.ideas.count) %></span>
+                          <span style="font-style: italic;"><%= @active_campaigns.count %></span>
                         </li>
                         <hr>
                       </ul>
@@ -178,7 +177,7 @@
                   <%= render partial: "layouts/profile_ideas" %>
 									<%= render partial: "layouts/profile_brands" %>
 									<%#= render partial: "layouts/profile_teams" %>
-									<%#= render partial: "layouts/profile_campaigns" %>
+									<%= render partial: "layouts/profile_campaigns" %>
 
                 </div><!--main-ws-sec end-->
               </div>

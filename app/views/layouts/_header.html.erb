@@ -40,11 +40,32 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item @@about">
-              <%= link_to new_transaction_path, title: "Pricing", class: "text-decoration-none" do %>
-                <span class="nav-link">Pricing</span>
-              <% end %>
-            </li>
+            <% if current_user.admin? %>
+              <li class="nav-item dropdown @@pricing">
+                <a class="nav-link dropdown-toggle d-flex justify-content-between align-items-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-1">Pricing</span>
+                  <svg width="9" height="6" viewBox="0 0 9 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.06L7.94 0L4.5 3.44L1.06 0L0 1.06L4.5 5.56L9 1.06Z" fill="currentColor"/></svg>
+                </a>
+                <ul class="dropdown-menu">
+                  <li> 
+                    <%= link_to new_subscription_plan_path, title: "Add Plan", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingOne">Add Plan</span>
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to subscription_plans_path, title: "All Plans", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingTwo">All Plans</span>
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item @@about">
+                <%= link_to subscription_plans_path, title: "Pricing", class: "text-decoration-none" do %>
+                  <span class="nav-link">Pricing</span>
+                <% end %>
+              </li>
+            <% end %>
           </ul>
           <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do |form| %>
           <%= form.text_field :query, value: params[:query], class: 'form-control mr-sm-3 rounded', placeholder: 'Search' %>
@@ -56,6 +77,9 @@
             <div class="dropdown-menu create-dd dropdown-menu-right" aria-labelledby="dropdownMenuLink" style="font-size: 12px; background-color: white;">
               <%= link_to "New Brand", new_enterprise_path, class: "dropdown-item" %>
               <%= link_to "New Project", new_idea_path, class: "dropdown-item" %>
+              <% if current_user.admin? %>
+                <%= link_to "Add Course", new_course_path, class: "dropdown-item" %>
+              <% end %>
             </div>
           </div>   
           <div class="navbar-text ml-3 float-right">
@@ -138,7 +162,7 @@
               </ul>
             </li>
             <li class="nav-item @@about">
-              <%= link_to new_transaction_path, title: "Pricing", class: "text-decoration-none" do %>
+              <%= link_to subscription_plans_path, title: "Pricing", class: "text-decoration-none" do %>
                 <span class="nav-link">Pricing</span>
               <% end %>
             </li>
@@ -149,9 +173,6 @@
         <div class="navbar-button">
           <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-sm btn-outline-primary mr-1" %>
           <%= link_to "Log In", new_user_session_path, class: "btn btn-sm btn-primary ml-1" %>
-          <% if current_user == admin? %>
-            <%= link_to "Add Course", new_course_path, class: "btn btn-sm btn-primary ml-1" %>
-          <% end %>
         </div>
       <% end %>
       </div>

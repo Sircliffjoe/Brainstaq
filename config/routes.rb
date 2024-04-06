@@ -53,17 +53,17 @@ Rails.application.routes.draw do
     resources :messages
   end
   
-  # resources :subscription_plans
+  resources :subscription_plans
   
-  # resources :subscription_plans do
-  #   post 'subscribe', on: :member
-  # end
+  resources :subscription_plans do
+    post 'subscribe', on: :member
+  end
 
-  # resources :subscription_plans do
-  #   member do
-  #     put :subscribe
-  #   end
-  # end
+  resources :subscription_plans do
+    member do
+      put :subscribe
+    end
+  end
 
   resources :donations
   resources :features

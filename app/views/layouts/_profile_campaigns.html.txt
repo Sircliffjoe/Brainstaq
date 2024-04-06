@@ -1,0 +1,10 @@
+<div class="product-feed-tab" id="my-bidss">
+  <%# if @team_members.count < 1 %>
+    <%# <p class="text-center mb-5">No campaigns to display.  %>
+      <%#= link_to "Create one", new_team_member_path(@team_member) %>
+    <%# </p> %>
+  <%# end %>
+  <%# @user.team_members.each do |team_member| %>
+    
+  <%# end %>
+</div><!--product-feed-tab end-->

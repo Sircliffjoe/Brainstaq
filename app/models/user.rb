@@ -2,6 +2,7 @@ class User < ApplicationRecord
   attr_accessor :login
   after_create :subscribe_to_free_plan
   enum status: [:inactive, :active]
+
   
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable, :trackable,
@@ -112,9 +113,16 @@ class User < ApplicationRecord
     self.donations.includes(idea: :user)
   end
 
-  def subscribed_to?(plan_code)
-    transactions.active.where(plan_code: plan_code).exists?
+  def subscribed_to?(subscription_plan)
+    free_plan_id = SubscriptionPlan.find_by(plan_name: "FREE")&.id
+
+    if subscription_plan.paystack_plan_code.present?
+      transactions.active.where(plan_code: subscription_plan.paystack_plan_code).exists?
+    else
+      subscription_plan.id == free_plan_id
+    end
   end
+  
 
   def can_create_enterprise?
     enterprise_count < 2
@@ -124,17 +132,15 @@ class User < ApplicationRecord
     business_plan_count < 2
   end
 
-  # after_create :setup_subscription_plan
-
   private
-
-  # def setup_subscription_plan
-  #   SubscriptionPlan.create(user_id: self.id, plan: "free", active_until: 12.months.from_now)
-  # end
 
   def subscribe_to_free_plan
     subscription_plan = SubscriptionPlan.find_by(plan_name: "FREE")
-    Subscription.create(user: self, subscription_plan: subscription_plan)
+    if subscription_plan
+      Subscription.create(user: self, subscription_plan_id: subscription_plan_id)
+    else
+      Rails.logger.error "FREE subscription plan not found for automatic assignment."
+    end
   end  
 
   def image_size_validation

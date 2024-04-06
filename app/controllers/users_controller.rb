@@ -59,6 +59,7 @@ class UsersController < ApplicationController
     following_ids << current_user.id
 
     @follower_suggestions = User.where.not(id: following_ids).limit(10)
+    @active_campaigns = @user.ideas.select { |idea| idea.relevance_bar > 75 && !idea.expired? }
   end
 
   def ideas

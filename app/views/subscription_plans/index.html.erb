@@ -58,21 +58,20 @@
 						raise funds & manage business documents. <span style="font-weight: bold;">Simple pricing and no hidden fees.</span>
 					  </p>
           </div>
-					<%# <ul class="nav nav-pills nav-stacked d-flex justify-content-center mb-5" id="pills-tab" role="tablist">
+					<ul class="nav nav-pills nav-stacked d-flex justify-content-center mb-5" id="pills-tab" role="tablist">
             <li class="nav-item nav-blk">
-              <a class="nav-link" style="font-weight: bold;" id="pills-conversations-tab" data-toggle="pill" href="#pills-conversations" role="tab" aria-controls="pills-conversations" aria-selected="true">Monthly</a>
+              <%# <a class="nav-link" style="font-weight: bold;" id="pills-conversations-tab" data-toggle="pill" href="#pills-conversations" role="tab" aria-controls="pills-conversations" aria-selected="true">Monthly</a> %>
             </li>
             <li class="nav-item nav-blk">
-              <a class="nav-link" style="font-weight: bold;" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">Annually</a>
+              <%# <a class="nav-link" style="font-weight: bold;" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">Annually</a> %>
             </li>
-          </ul> %>
+          </ul>
         </div>
       </div>
 
 			<div class="tab-content" id="pills-tabContent">
         <div class="tab-pane show active fade" id="pills-conversations" role="tabpanel" aria-labelledby="pills-conversations-tab">  
-					<div id="mail" class="tab justify-content-center">
-            
+					<div id="mail" class="tab justify-content-center">     
             <div class="row align-items-center">
               <% @subscription_plans.each do |subscription_plan| %>
                 <div class="col-lg-4 col-md-12 md-mt-5">
@@ -80,14 +79,13 @@
                     <div class="price-inside"><%= subscription_plan.plan_name %></div>
                     <div class="price-header">
                       <div class="price-value">
-                        <h2><span>₦</span><%= subscription_plan.cost %></h2>
+                        <h2><%= number_to_currency(subscription_plan.cost, :unit => "₦", :precision => 0) %></h2>
                         <h4><span><%= subscription_plan.duration %></span></h4>
                       </div>
                       <h3 class="price-title"><%= subscription_plan.plan_name %></h3>
                       <p class="mb-2"><%= subscription_plan.description %></p>
+                      <h4 class="mt-2"> FEATURES </h4>
                     </div>
-
-                    <h4> FEATURES </h4>
                     
                     <% subscription_plan.features.each do |feature| %>
                       <%# <div class="p-0 mb-0"> %>
@@ -101,12 +99,15 @@
                     <% end %>
                     <% if user_signed_in? %>
                       <% if current_user.subscribed_to?(subscription_plan) %>
-                        <%= button_to "Subscribed", "#", class: "btn btn-success", disabled: true %>
+                        <%= button_to "Subscribed", "#", class: "btn btn-success mb-3", style: "font-size: 14px; font-weight: bold;", disabled: true %>
                       <% else %>
-                        <%= button_to "Choose Plan", subscribe_subscription_plan_path(subscription_plan), method: :put, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                        <%= button_to "Upgrade Plan", subscribe_subscription_plan_path(subscription_plan), method: :put, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
                       <% end %>
                     <% else %>
                       <%= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                    <% end %>
+                    <% if current_user.admin? %>
+                      <%= link_to "View Plan", subscription_plan_path(subscription_plan), class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
                     <% end %>
                   </div>
                 </div>

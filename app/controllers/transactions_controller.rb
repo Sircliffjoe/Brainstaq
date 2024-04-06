@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   
   def index
     @ress = Transaction.all
@@ -8,14 +8,6 @@ class TransactionsController < ApplicationController
   def details
     @res = Transaction.find(params[:id])
   end
-
-  # def index
-  #   @transactions = current_user.transactions.all
-  # end
-
-  # def details
-  #   @transaction = Transaction.find(params[:id])
-  # end
 
   def callback
     res = 0;
@@ -164,13 +156,14 @@ class TransactionsController < ApplicationController
     @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     page_number = 1
     plans = PaystackPlans.new(@paystackObj)
-    result = plans.list(page_number)  #Optional `page_number` parameter,  50 items per page
-
-    @plans_list = result['data']
-
+    result = plans.list(page_number)
+    
+    # Filter only the active plans where "is_deleted" is false
+    @plans_list = result['data'].select { |plan| plan['is_deleted'] == false }
+    
     @transaction = Transaction.new
   end
-
+  
   def upgrade
     @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     page_number = 1
@@ -189,6 +182,7 @@ class TransactionsController < ApplicationController
     transactions = PaystackTransactions.new(@paystackObj)
     
     result = transactions.initializeTransaction(
+      :reference => "user#{@user}#{Time.now.to_i}",
       :email => current_user.email,
       :plan => params[:code]
     )

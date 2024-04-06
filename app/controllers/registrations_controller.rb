@@ -1,6 +1,22 @@
 class RegistrationsController < Devise::RegistrationsController
 
   prepend_before_action :check_captcha, only: [:create]
+
+  def create
+    build_resource(sign_up_params)
+
+    resource_saved = resource.save
+    yield resource if block_given?
+    if resource_saved
+      sign_up(resource_name, resource)
+      resource.subscribe_to_free_plan # Add this line to subscribe the user to the FREE plan
+      respond_with resource, location: after_sign_up_path_for(resource)
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
   
   private
   
@@ -35,22 +51,6 @@ class RegistrationsController < Devise::RegistrationsController
       render :new
     end
   end
-
-  # def create
-  #   build_resource(sign_up_params)
-
-  #   resource_saved = resource.save
-  #   yield resource if block_given?
-  #   if resource_saved
-  #     sign_up(resource_name, resource)
-  #     resource.subscribe_to_free_plan # Add this line to subscribe the user to the FREE plan
-  #     respond_with resource, location: after_sign_up_path_for(resource)
-  #   else
-  #     clean_up_passwords resource
-  #     set_minimum_password_length
-  #     respond_with resource
-  #   end
-  # end
   
 end
    

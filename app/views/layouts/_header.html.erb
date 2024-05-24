@@ -48,24 +48,30 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li> 
-                    <%= link_to new_subscription_plan_path, title: "Add Plan", class: "text-decoration-none" do %>
-                      <span class="dropdown-item @@pricingOne">Add Plan</span>
+                    <%= link_to subscription_plans_path, title: "All Plans", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingOne">All Plans</span>
                     <% end %>
                   </li>
                   <li>
-                    <%= link_to subscription_plans_path, title: "All Plans", class: "text-decoration-none" do %>
-                      <span class="dropdown-item @@pricingTwo">All Plans</span>
+                    <%= link_to new_subscription_plan_path, title: "Add Plan", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingTwo">Add Plan</span>
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to new_transaction_path, title: "Upgrade Plan", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingTwo">Upgrade Plan</span>
                     <% end %>
                   </li>
                 </ul>
               </li>
             <% else %>
               <li class="nav-item @@about">
-                <%= link_to subscription_plans_path, title: "Pricing", class: "text-decoration-none" do %>
+                <%= link_to new_transaction_path, title: "Pricing", class: "text-decoration-none" do %>
                   <span class="nav-link">Pricing</span>
                 <% end %>
               </li>
             <% end %>
+          
           </ul>
           <%= form_with url: search_path, method: :get, local: true, class: 'form-inline' do |form| %>
           <%= form.text_field :query, value: params[:query], class: 'form-control mr-sm-3 rounded', placeholder: 'Search' %>
@@ -78,7 +84,7 @@
               <%= link_to "New Brand", new_enterprise_path, class: "dropdown-item" %>
               <%= link_to "New Project", new_idea_path, class: "dropdown-item" %>
               <% if current_user.admin? %>
-                <%= link_to "Add Course", new_course_path, class: "dropdown-item" %>
+                <%= link_to "Add Course", '#', class: "dropdown-item" %>
               <% end %>
             </div>
           </div>   
@@ -113,6 +119,12 @@
                 <li class= "dropdown-item" style="font-size: 14px;">  
                   <%= link_to conversations_path do %>
                     <i class="fa fa-comment-alt mr-3"></i> Messages
+                  <%end%>
+                </li>
+
+                <li class= "dropdown-item" style="font-size: 14px;">  
+                  <%= link_to transactions_path do %>
+                    <i class="fas fa-receipt mr-3"></i> Billing Details
                   <%end%>
                 </li>
 
@@ -162,7 +174,7 @@
               </ul>
             </li>
             <li class="nav-item @@about">
-              <%= link_to subscription_plans_path, title: "Pricing", class: "text-decoration-none" do %>
+              <%= link_to new_transaction_path, title: "Pricing", class: "text-decoration-none" do %>
                 <span class="nav-link">Pricing</span>
               <% end %>
             </li>

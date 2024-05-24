@@ -144,7 +144,7 @@
                             <i class="fa fa-building"></i>
                             <span>Brands</span>
                           </a>
-                          <span style="font-style: italic;"><%= (@user.enterprises.count) %></span>
+                          <span style="font-style: italic;"><%= current_user.enterprise.present? ? 1 : 0 %></span>
                         </li>
                         
                         <li data-tab="feed-dd">

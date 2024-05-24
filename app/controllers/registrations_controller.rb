@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource_saved
       sign_up(resource_name, resource)
-      resource.subscribe_to_free_plan # Add this line to subscribe the user to the FREE plan
+      # resource.subscribe_to_free_plan # Add this line to subscribe the user to the FREE plan
       respond_with resource, location: after_sign_up_path_for(resource)
     else
       clean_up_passwords resource
@@ -54,5 +54,3 @@ class RegistrationsController < Devise::RegistrationsController
   
 end
    
-
-  

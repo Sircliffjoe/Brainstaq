@@ -49,11 +49,11 @@ class UsersController < ApplicationController
   end
 
   def profile
-    # @profile = User.find_by(username: params[:username])
     @profile = User.find_by_username params[:username]
+    @user = User.find_by_username params[:username]
     @ideas = current_user.ideas.order(created_at: :desc)
     @enterprises = Enterprise.all.order(created_at: :desc).limit(15)
-    # @user = User.find_by(username: params[:username])
+    # @user = current_user
 
     following_ids = current_user.followees.pluck(:id)
     following_ids << current_user.id
@@ -61,9 +61,9 @@ class UsersController < ApplicationController
     @follower_suggestions = User.where.not(id: following_ids).limit(10)
     @active_campaigns = @user.ideas.select { |idea| idea.relevance_bar > 75 && !idea.expired? }
   end
+  
 
   def ideas
-    # @user = User.find_by(username: params[:username])
     @user = User.find_by_username params[:username]
     @ideas = @user.ideas
   end

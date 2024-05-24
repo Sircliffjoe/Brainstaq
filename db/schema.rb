@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_03_26_231916) do
+ActiveRecord::Schema.define(version: 2024_05_16_195057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,9 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "member_status"
+    t.bigint "member_id"
+    t.index ["member_id"], name: "index_account_details_on_member_id"
     t.index ["user_id"], name: "index_account_details_on_user_id"
   end
 
@@ -384,6 +387,7 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
     t.string "twitter_url"
     t.string "instagram_url"
     t.string "website_url"
+    t.string "interval"
     t.index ["slug"], name: "index_enterprises_on_slug", unique: true
     t.index ["user_id"], name: "index_enterprises_on_user_id"
   end
@@ -573,6 +577,35 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
     t.index ["business_plan_id"], name: "index_marketing_expenses_on_business_plan_id"
   end
 
+  create_table "members", force: :cascade do |t|
+    t.integer "customer_code"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.integer "phone_number"
+    t.string "next_of_kin_email"
+    t.string "address"
+    t.date "date_of_birth"
+    t.string "referal_name"
+    t.bigint "payment_method_id"
+    t.string "voucher_code"
+    t.bigint "referring_customer_id"
+    t.string "paystack_subscription_code"
+    t.string "paystack_email_token"
+    t.string "paystack_auth_code"
+    t.string "paystack_cust_code"
+    t.bigint "subscription_plan_id"
+    t.text "image_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["customer_code"], name: "index_members_on_customer_code", unique: true
+    t.index ["email"], name: "index_members_on_email"
+    t.index ["payment_method_id"], name: "index_members_on_payment_method_id"
+    t.index ["phone_number"], name: "index_members_on_phone_number", unique: true
+    t.index ["referring_customer_id"], name: "index_members_on_referring_customer_id"
+    t.index ["subscription_plan_id"], name: "index_members_on_subscription_plan_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.text "body"
     t.bigint "conversation_id"
@@ -753,17 +786,17 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
     t.string "plan_name"
     t.integer "cost"
     t.string "description"
-    t.boolean "recurring"
+    t.boolean "recurring", default: false
     t.string "paystack_plan_code"
     t.integer "status", default: 0
     t.integer "duration"
-    t.index ["paystack_plan_code"], name: "index_subscription_plans_on_paystack_plan_code"
+    t.index ["paystack_plan_code"], name: "index_subscription_plans_on_paystack_plan_code", unique: true
   end
 
   create_table "subscriptions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "subscription_plan_id", null: false
-    t.date "start_date"
+    t.date "start_date", null: false
     t.date "end_date"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -789,7 +822,6 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "channel"
@@ -801,8 +833,7 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
     t.bigint "amount"
     t.date "expires_on"
     t.bigint "integer"
-    t.string "plan_code"
-    t.index ["user_id"], name: "index_transactions_on_user_id"
+    t.integer "enterprise_id"
   end
 
   create_table "user_lessons", force: :cascade do |t|
@@ -914,7 +945,6 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
   add_foreign_key "donors", "users"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"
-  add_foreign_key "features", "subscription_plans"
   add_foreign_key "financial_plans", "enterprises"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "enterprises"
@@ -928,10 +958,9 @@ ActiveRecord::Schema.define(version: 2024_03_26_231916) do
   add_foreign_key "positions", "business_plans"
   add_foreign_key "products_and_growth_rates", "business_plans"
   add_foreign_key "services", "business_plans"
-  add_foreign_key "subscriptions", "subscription_plans"
-  add_foreign_key "subscriptions", "users"
+  add_foreign_key "subscriptions", "subscription_plans", on_delete: :cascade
+  add_foreign_key "subscriptions", "users", on_delete: :cascade
   add_foreign_key "swots", "business_plans"
   add_foreign_key "user_lessons", "lessons"
   add_foreign_key "user_lessons", "users"
-  add_foreign_key "users", "subscription_plans"
 end

@@ -2,8 +2,7 @@ class PitchDecksController < ApplicationController
   before_action :authenticate_user!
   before_action :get_enterprise
   before_action :set_pitch_deck, only: %i[ show edit update destroy ]
-  #before_action :require_subscription, only: [:new]
-  # before_action :check_quota, only: [:new]
+  before_action :check_active
   
 
   def index
@@ -95,11 +94,11 @@ class PitchDecksController < ApplicationController
     @pitch_deck = @enterprise.pitch_decks.find(params[:id])
   end
 
-  # def check_quota
-  #   if @enterprise.pitch_decks.count >= 1
-  #     @quota_warning = "Maximum number of Pitch Decks reached!"
-  #   end
-  # end
+  def check_active
+    unless @enterprise.active?
+      redirect_to @enterprise, alert: "#{@enterprise.name} is inactive. You cannot view or create pitch decks."
+    end
+  end
 
   def pitch_deck_params
     params.require(:pitch_deck).permit(:elevator_pitch, :mission, :problem, :competitor_analysis, 

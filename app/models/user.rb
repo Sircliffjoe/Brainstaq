@@ -1,41 +1,21 @@
 class User < ApplicationRecord
   attr_accessor :login
-  after_create :subscribe_to_free_plan
-  enum status: [:inactive, :active]
 
-  
-  devise :database_authenticatable, :registerable, :confirmable,
-         :recoverable, :rememberable, :validatable, :trackable,
-         :omniauthable, omniauth_providers: %i[github google_oauth2]
+  devise :database_authenticatable, :registerable, :confirmable,:recoverable,
+    :rememberable, :validatable, :trackable,:omniauthable, 
+    omniauth_providers: %i[github google_oauth2]
 
   mount_uploader :image, ImageUploader
-
-  enum subscription_plan: [:free, :startup, :enterprise]
-  attribute :subscription_status, :integer, default: 0
-  attribute :subscription_expiration_date, :datetime
   
   validates :username, presence: true
   validate :image_size_validation
   validates :bio, length: { maximum: 180 }
 
-  # belongs_to :subscription_plan
-
-  # include PublicActivity::Model
-  # tracked only: [:create]
-  
-  #has_secure_password
-
-  has_many :subscriptions
-  has_many :subscription_plans, through: :subscriptions
-
-  has_many :transactions, dependent: :destroy
   has_many :ideas, dependent: :destroy
-  has_many :enterprises, dependent: :destroy
+  has_one  :enterprise, dependent: :destroy
   has_many :business_plans, through: :enterprises
   has_many :donations #through: :ideas
   has_many :comments, dependent: :destroy
-  # has_many :team_members, through: :enterprises
-
   has_many :conversations, foreign_key: :sender_id, dependent: :destroy
   has_many :visits, class_name: "Ahoy::Visit"
 
@@ -45,13 +25,6 @@ class User < ApplicationRecord
   has_many :followees, through: :followed_users
   has_many :following_users, foreign_key: :followee_id, class_name: 'Follow'
   has_many :followers, through: :following_users
-
-  # scope :with_subscription_plan_id, (lambda {|subscription_plan_id|
-  #   where(subscription_plan_id: [*subscription_plan_id])})
-
-  # scope :with_subscription_plan_name, (lambda {|subscription_plan_name|
-  #   where('subscription_plans.plan_name = ?', subscription_plan_name).joins(:subscription_plan)})
-
   
   def full_name
     "#{first_name} #{last_name}"
@@ -60,6 +33,28 @@ class User < ApplicationRecord
   def show
     @user = User.find(params[:id])
   end 
+  
+  def max_enterprises
+    plan = subscription_plans.first.plan_name
+    case plan
+    when 'Startup'
+      1
+    when 'Premium'
+      2
+    when 'Enterprise'
+      5
+    else
+      0
+    end
+  end
+  
+  def can_create_enterprise?
+    enterprises.count < max_enterprises
+  end
+
+  def can_create_business_plan?
+    business_plan_count < 2
+  end
   
   def total_following
     Follow.where(followee_id: self.id).count
@@ -83,15 +78,6 @@ class User < ApplicationRecord
     end
     user
   end
-  
-  # def user_rating
-  #   self.user_rating = (self.ideas.count + self.comments.count)
-  # end
-
-  # def country_name
-  #   country = ISO3166::Country[country_code]
-  #   country.translations[I18n.locale.to_s] || country.name
-  # end
 
   def self.search(query)  
     where("lower(ideas.title) LIKE :search OR lower(users.first_name) LIKE :search ", query: "%#{query.downcase}%").uniq   
@@ -113,38 +99,9 @@ class User < ApplicationRecord
     self.donations.includes(idea: :user)
   end
 
-  def subscribed_to?(subscription_plan)
-    free_plan_id = SubscriptionPlan.find_by(plan_name: "FREE")&.id
-
-    if subscription_plan.paystack_plan_code.present?
-      transactions.active.where(plan_code: subscription_plan.paystack_plan_code).exists?
-    else
-      subscription_plan.id == free_plan_id
-    end
-  end
-  
-
-  def can_create_enterprise?
-    enterprise_count < 2
-  end
-
-  def can_create_business_plan?
-    business_plan_count < 2
-  end
-
   private
-
-  def subscribe_to_free_plan
-    subscription_plan = SubscriptionPlan.find_by(plan_name: "FREE")
-    if subscription_plan
-      Subscription.create(user: self, subscription_plan_id: subscription_plan_id)
-    else
-      Rails.logger.error "FREE subscription plan not found for automatic assignment."
-    end
-  end  
-
+    
   def image_size_validation
-    #errors[:image] << "should be less than 1MB" if image.size > 1.megabytes
     errors.add(:image, message: "should be less than 1MB") if image.size > 1.megabytes
   end
 end

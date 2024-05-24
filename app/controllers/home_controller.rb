@@ -20,6 +20,7 @@ class HomeController < ApplicationController
     @ideas = Idea.all.offset(@page*IDEAS_PER_PAGE).limit(IDEAS_PER_PAGE).sort_by { |idea| idea.impressions.size.to_i}.reverse
 
     @enterprises = Enterprise.all
+    @enterprises_count = Enterprise.count
     
     @users = User.all
   end

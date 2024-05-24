@@ -1,8 +1,8 @@
 <div class="product-feed-tab current" id="saved-jobs">
-  <% if @user.enterprises.count < 1 %>
+  <% unless @user.enterprise %>
     <p class="text-center mb-5">No brands to display. </p>
-  <% end %>
-  <% @user.enterprises.each do |enterprise| %>
+  <% else %>
+    <% enterprise = @user.enterprise %>
     <div class="posts-section">
       <div class="post-bar">
         <div class="post_topbar">

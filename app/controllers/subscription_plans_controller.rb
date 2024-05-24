@@ -6,6 +6,7 @@ class SubscriptionPlansController < ApplicationController
 
   def index
     @subscription_plans = SubscriptionPlan.order(cost: :asc)
+    @enterprises_count = Enterprise.count
   end
 
   def new
@@ -22,6 +23,7 @@ class SubscriptionPlansController < ApplicationController
         paystack_plan_code = result["data"]["plan_code"]
         @subscription_plan = SubscriptionPlan.create(subscription_plan_params)
         @subscription_plan.update_attribute(:paystack_plan_code, paystack_plan_code)
+        
         flash[:notice] = "New Plan Successfully Created in System & Paystack"
         redirect_to subscription_plan_path(@subscription_plan)
       else 
@@ -44,11 +46,11 @@ class SubscriptionPlansController < ApplicationController
     paystackObj = instantiate_paystack
     plans = PaystackPlans.new(paystackObj)
     data = {
-            :name => subscription_plan_params[:plan_name],
-            :description =>  subscription_plan_params[:description],
-            :amount => subscription_plan_params[:cost].to_i * 100,
-            :interval => subscription_plan_params[:duration],
-            :currency => "NGN"
+      :name => subscription_plan_params[:plan_name],
+      :description =>  subscription_plan_params[:description],
+      :amount => subscription_plan_params[:cost].to_i * 100,
+      :interval => subscription_plan_params[:duration],
+      :currency => "NGN"
     }
     result = plans.create(data)
     return result
@@ -92,23 +94,23 @@ class SubscriptionPlansController < ApplicationController
   end
 
   def update_plan_record
-      if @subscription_plan.update(subscription_plan_params)
-          flash[:notice] = "Plan Updated"
-          redirect_to subscription_plan_path(@subscription_plan)
-      else
-          flash[:notice] = "#{@subscription_plan.errors.full_messages.first}"
-          redirect_to edit_subscription_plan_path
-      end
+    if @subscription_plan.update(subscription_plan_params)
+      flash[:notice] = "Plan Updated"
+      redirect_to subscription_plan_path(@subscription_plan)
+    else
+      flash[:notice] = "#{@subscription_plan.errors.full_messages.first}"
+      redirect_to edit_subscription_plan_path
+    end
   end
 
   def failed_plan_fetch
-      flash[:notice] = "Couldn't retrieve plan from Paystack"
-      redirect_to edit_subscription_plan_path
+    flash[:notice] = "Couldn't retrieve plan from Paystack"
+    redirect_to edit_subscription_plan_path
   end
 
   def failed_paystack_update
-      flash[:notice] = "Plan was not succesfully updated on Paystack"
-      redirect_to edit_subscription_plan_path
+    flash[:notice] = "Plan was not succesfully updated on Paystack"
+    redirect_to edit_subscription_plan_path
   end
 
   def edit
@@ -122,18 +124,6 @@ class SubscriptionPlansController < ApplicationController
     @subscription_plan.destroy
     redirect_to subscription_plans_path, notice: 'Plan deleted successfully'
   end
-
-  # def update
-  #   @subscription_plan = SubscriptionPlan.find(params[:id])
-
-  #   if @subscription_plan.update(subscription_plan_params)
-  #     flash[:notice] = "Plan successfully updated."
-  #     redirect_to subscription_plan_path(@subscription_plan)
-  #   else
-  #     flash[:error] = "Error updating plan."
-  #     render :edit
-  #   end
-  # end
 
   def update
     if @subscription_plan.paystack_plan_code.nil?
@@ -152,57 +142,6 @@ class SubscriptionPlansController < ApplicationController
     end
   end
 
-  # def subscribe
-  #   plan = SubscriptionPlan.find(params[:id])
-  #   user = current_user
-    
-  #   paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
-  # 	transactions = PaystackTransactions.new(paystackObj)
-    
-  #   # Assuming you have a fixed price for each plan, you can set the amount here
-  #   amount = plan.cost * 100  # Paystack requires amount in kobo
-    
-  #   # Initialize the transaction with Paystack
-  #   transaction = transactions.initializeTransaction(
-  #     email: user.email,
-  #     amount: amount,
-  #     callback_url: complete_subscription_url
-  #   )
-    
-  #   if transaction.is_a?(Hash) && transaction["status"]
-  #     # Save the transaction reference in your database for later use
-  #     # This will help you identify the transaction when Paystack sends a callback
-  #     Subscription.create(user: user, subscription_plan: plan, transaction_reference: transaction["data"]["reference"])
-      
-  #     # Redirect the user to Paystack for payment
-  #     redirect_to transaction["data"]["authorization_url"]
-  #   else
-  #     flash[:error] = "Error initiating payment: #{transaction["message"]}"
-  #     redirect_to pricing_path
-  #   end
-  # end
-  
-  # def complete
-  #   # Retrieve the transaction reference from Paystack callback parameters
-  #   transaction_reference = params[:reference]
-    
-  #   # Find the subscription record associated with the transaction reference
-  #   subscription = Subscription.find_by(transaction_reference: transaction_reference)
-    
-  #   if subscription.present?
-  #     # Payment was successful
-  #     # Update the subscription status or perform any other necessary actions
-  #     subscription.update(status: 'active')  # Example: Update subscription status to 'active'
-  #     @username = current_user.username
-  #     # Redirect the user to a success page or perform any other post-payment actions
-  #     render "users/profile"
-  #   else
-  #     # Payment failed or subscription record not found
-  #     # Handle the error or redirect the user to an error page
-  #     redirect_to error_path
-  #   end
-  # end
- 
 
   private
 
@@ -211,8 +150,13 @@ class SubscriptionPlansController < ApplicationController
   end
 
   def find_plan
-    @subscription_plan = SubscriptionPlan.find(params[:id])
+    @subscription_plan = SubscriptionPlan.find_by(paystack_plan_code: params[:id])
+    unless @subscription_plan
+      flash[:alert] = "Subscription plan not found"
+      redirect_to root_path
+    end
   end
+  
 
   def subscription_plan_params
     params.require(:subscription_plan) 

@@ -1,0 +1,118 @@
+class RegistrationsController < Devise::RegistrationsController
+
+  prepend_before_action :check_captcha, only: [:create]
+
+  # def create
+  #   build_resource(sign_up_params)
+
+  #   resource_saved = resource.save
+  #   yield resource if block_given?
+  #   if resource_saved
+  #     sign_up(resource_name, resource)
+  #     respond_with resource, location: after_sign_up_path_for(resource)
+  #   else
+  #     clean_up_passwords resource
+  #     set_minimum_password_length
+  #     respond_with resource
+  #   end
+  # end
+
+  def new
+    # @subscription_plans = SubscriptionPlan.active.order(:cost) # Assuming active plans
+    @available_plans = SubscriptionPlan.active.order(:cost)
+    super # Call the Devise new action
+  end
+
+  def create
+    build_resource(sign_up_params)
+
+    resource_saved = resource.save
+    yield resource if block_given?
+
+    if resource_saved
+      sign_up(resource_name, resource)
+
+      @selected_plan_id = params[:user][:subscription_plan_id].to_i 
+
+      if SubscriptionPlan.find(@selected_plan_id).free?  # Check if selected plan is FREE
+        resource.subscribe_to_free_plan(@selected_plan_id)  # Subscribe to FREE plan automatically
+      else
+        begin
+          @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
+          plan = SubscriptionPlan.find(@selected_plan_id)
+         
+          charge = @paystackObj.charge(
+            customer: resource.email, 
+            email: resource.email,
+            amount: plan.cost * 100,
+            plan: plan.paystack_plan_code
+          )
+          
+          if charge.status == "success"
+            # Payment successful, create subscription
+            subscription = @paystackObj.subscriptions.create(
+              customer: resource.email,
+              plan: plan.paystack_plan_code
+            )
+  
+            if subscription.status == "success"  # Check subscription creation status
+              resource.subscriptions.create!(subscription_plan: plan)
+              flash[:notice] = "Subscribed to paid plan!"
+            else
+              flash[:error] = "Subscription creation failed: #{subscription.message}"  # Handle subscription creation errors
+            end
+          else
+            flash[:error] = "Payment failed: #{charge.message}"
+          end
+          
+        rescue StandardError => e
+          flash[:error] = "An error occurred: #{e.message}"
+        end
+      end
+
+      respond_with resource, location: after_sign_up_path_for(resource)
+    else
+      clean_up_passwords resource
+      set_minimum_password_length
+      respond_with resource
+    end
+  end
+  
+  private
+  
+  def sign_up_params
+    params.require(:user).permit(:email, :password, :last_name, :first_name, 
+      :username, :country, :password_confirmation, :subscription_plan_id)
+  end
+
+  def account_update_params
+    params.require(:user).permit(:id, :first_name, :last_name, :image, :image_url, :username, :country, :website, 
+      :phone, :gender, :bio, :email, :password, :password_confirmation, :current_password, 
+      :facebook_url, :twitter_url, :instagram_url, :linkedin_url)
+  end
+
+  def after_sign_up_path_for(resource)
+    edit_user_registration_path
+  end
+      
+  def after_update_path_for(resource)
+    profile_path(current_user.username)
+  end
+
+  def check_captcha
+    return if verify_recaptcha # verify_recaptcha(action: 'signup') for v3
+
+    self.resource = resource_class.new sign_up_params
+    resource.validate # Look for any other validation errors besides reCAPTCHA
+    set_minimum_password_length
+
+    respond_with_navigational(resource) do
+      flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
+      render :new
+    end
+  end
+  
+end
+   
+
+  

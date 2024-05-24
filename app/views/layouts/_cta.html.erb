@@ -2,8 +2,8 @@
   <div class="row justify-content-center">
     <div class="col-lg-7 col-md-12">
       <div class="text-center pb-40 mt-5">
-        <h3 class="section-title">Join 300+ businesses using <strong class="text-primary">Brainstaq.</strong></h3>
-        <%= link_to new_user_registration_path, class: "btn btn-primary has-icon" do %>Create Free Account
+        <h3 class="section-title">Join <%= "#{@enterprises_count}+" %> businesses using <strong class="text-primary">Brainstaq.</strong></h3>
+        <%= link_to new_user_registration_path, class: "btn btn-primary has-icon" do %>Get Started for Free
           <span class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.5522 6.66669L20.5522 14.6667C21.0329 15.1473 21.0699 15.9036 20.6632 16.4267L20.5522 16.5523L12.5522 24.5523L10.6666 22.6667L17.7228 15.6095L10.6666 8.55231L12.5522 6.66669Z" fill="currentColor"/></svg></span>
         <% end %>
       </div>

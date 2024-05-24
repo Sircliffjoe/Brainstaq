@@ -40,48 +40,95 @@
 </style>
 
 <section class="section-padding" data-aos="fade-in" data-aos-delay="150">
-  <section id="pricing" class="pos-r">
+	<section id="pricing" class="pos-r">
     <div class="container">
       <div class="row text-center" style="padding-top: 50px;">
         <div class="col-lg-8 col-md-12 ml-auto mr-auto">
           <div class="section-title">
+            <%# <div class="title-effect">
+              <div class="bar bar-top"></div>
+              <div class="bar bar-right"></div>
+              <div class="bar bar-bottom"></div>
+              <div class="bar bar-left"></div>
+            </div> %>
             <h6 style="font-size: 20px; font-weight: bold;">Choose Your <span class="text-primary">Plan</span></h6>
             
             <p>
-            Join <span style="font-weight: bold;">300+</span> businesses using <span class="text-primary" style="font-weight: bold;">Brainstaq</span> to validate ideas, 
-            raise funds & manage business documents. <span style="font-weight: bold;">Simple pricing and no hidden fees.</span>
-            </p>
+					  Join <span style="font-weight: bold;">300+</span> businesses using <span class="text-primary" style="font-weight: bold;">Brainstaq</span> to validate ideas, 
+						raise funds & manage business documents. <span style="font-weight: bold;">Simple pricing and no hidden fees.</span>
+					  </p>
           </div>
+					<ul class="nav nav-pills nav-stacked d-flex justify-content-center mb-5" id="pills-tab" role="tablist">
+            <li class="nav-item nav-blk">
+              <%# <a class="nav-link" style="font-weight: bold;" id="pills-conversations-tab" data-toggle="pill" href="#pills-conversations" role="tab" aria-controls="pills-conversations" aria-selected="true">Monthly</a> %>
+            </li>
+            <li class="nav-item nav-blk">
+              <%# <a class="nav-link" style="font-weight: bold;" id="pills-message-tab" data-toggle="pill" href="#pills-message" role="tab" aria-controls="pills-message" aria-selected="false">Annually</a> %>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div class="row align-items-center">
-        <% @plans_list.each do |post| %>
-          <div class="col-lg-4 col-md-12 md-mt-5">
-            <div class="price-table">
-              <div class="price-inside"><%= post['name'] %></div>
-              <div class="price-header">
-                <div class="price-value">
-                  <h2><span>₦</span><%= post['amount'] / 100 %></h2>  
-                  <h4><span><%= post['interval'] %></span></h4>
-                </div>
-                <h3 class="price-title"><%= post['name'] %></h3>
-                <p class="mb-2"><%= post['description'] || "No description provided" %></p> 
-              </div>
+			<div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane show active fade" id="pills-conversations" role="tabpanel" aria-labelledby="pills-conversations-tab">  
+					<div id="mail" class="tab justify-content-center">     
+            <div class="row align-items-center">
+              <% @plans_list.each do |post| %>
+                <div class="col-lg-4 col-md-12 md-mt-5">
+                  <div class="price-table">
+                    <div class="price-inside"><%= post['name'] %></div>
+                    <div class="price-header">
+                      <div class="price-value">
+                        <h2><%= number_to_currency(post['amount'] / 100, unit: "₦", precision: 0) %></h2>
+                        <h4><span><%= post['interval'] %></span></h4>
+                      </div>
+                      <h3 class="price-title"><%= post['name'] %></h3>
+                      <p class="mb-2"><%= post['description'] %></p>
+                      <h4 class="mt-2"> FEATURES </h4>
+                    </div>
+                    
+                    <div class="price-list">
+                      <ul class="list-unstyled">
+                        <% local_plan = @local_plans.find { |plan| plan.plan_name == post['name'] } %>
+                        <% if local_plan %>
+                          <% local_plan.features.each do |feature| %>
+                            <li><%= feature.name %></li>
+                          <% end %>
+                        <% else %>
+                          <li>No features available</li>
+                        <% end %>
+                      </ul>
+                    </div>
+                    <hr>
 
-              <% if user_signed_in? %>
-                <% if current_user.subscribed_to?(post['plan_code']) %>  
-                  <%= button_to "Subscribed", "#", class: "btn btn-success", disabled: true %>
-                <% else %>
-                  <%= button_to "Choose Plan", transactions_path(:code => post['plan_code'], :interval=> post['interval']), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
-                <% end %>
-              <% else %>
-                <%= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                    <% if user_signed_in? %>
+                      <% if current_user.admin? %>
+                        <%= link_to "View Plan", subscription_plan_path(post['plan_code']), class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                      <% end %>
+                      <% if current_user.enterprise.present? %>
+                        <% if current_user.enterprise.status == "active" %>
+                          <% if current_user.enterprise.transactions.where(amount: post['amount']).exists? %>
+                            <%= button_to "Subscribed", "#", class: "btn btn-success mb-3", style: "font-size: 14px; font-weight: bold;", disabled: true %>
+                          <% else %>
+                            <%= button_to "Upgrade Plan", transactions_path(code: post['plan_code'], interval: post['interval']), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                          <% end %>
+                        <% else %>
+                          <%= button_to "Upgrade Plan", transactions_path(code: post['plan_code'], interval: post['interval']), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                        <% end %>
+                      <% else %>
+                        <%= button_to "Choose Plan", transactions_path(code: post['plan_code'], interval: post['interval']), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                      <% end %>
+                    <% else %>
+                      <%#= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                    <% end %>               
+                  </div>
+                </div>
               <% end %>
             </div>
           </div>
-        <% end %>
+        </div><!-- End of conversation tab-->
       </div>
+      <%= render partial: "layouts/cta" %>
     </div>
   </section>
 </section>

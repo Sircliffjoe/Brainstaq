@@ -3,14 +3,8 @@ require "active_support/core_ext/integer/time"
 require 'dotenv/rails'
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
-
-  # In the development environment your application's code is reloaded any time
-  # it changes. This slows down response time but is perfect for development
-  # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
-  # Do not eager load code on boot.
   config.eager_load = false
 
   # Show full error reports.
@@ -46,16 +40,6 @@ Rails.application.configure do
 
   # config.action_mailer.default_url_options = { host: 'https://691c-197-210-226-44.ngrok.io' }
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
- 
-  # config.action_mailer.smtp_settings = {
-  #   user_name: 'brainstaq@gmail.com',
-  #   password:  'tfbwhmmhvjwpaqpc',
-  #   domain:    'gmail.com',
-  #   address:   'smtp.gmail.com',
-  #   port:      '587', #'465'
-  #   authentication: :plain,
-  #   enable_starttls_auto: true
-  # }
 
   config.action_mailer.smtp_settings = {
     user_name: ENV['GMAIL_USERNAME'],
@@ -105,5 +89,5 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   #config.hosts << /[a-z0-9]+\.ngrok\.io/
-  config.hosts << "5cb9-197-210-227-13.ngrok-free.app"
+  config.hosts << "597f-102-90-66-28.ngrok-free.app"
 end

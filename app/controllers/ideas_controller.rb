@@ -19,6 +19,7 @@ class IdeasController < ApplicationController
       @prev_page = @page - 1 if @page < 0
       @ideas = Idea.where(category_id: @category_id).offset(@page*IDEAS_PER_PAGE).limit(IDEAS_PER_PAGE).order(created_at: :desc)
     end
+    @enterprises_count = Enterprise.count
   end
 
   def donation_history
@@ -47,6 +48,7 @@ class IdeasController < ApplicationController
     @donors = @idea.donations
     @donated_amount = @idea.donations.sum(:amount)
     @idea = Idea.includes(:perks).find(params[:id])
+    @enterprises_count = Enterprise.count
     render :show
   end
 

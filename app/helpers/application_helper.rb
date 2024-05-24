@@ -40,4 +40,9 @@ module ApplicationHelper
   def admin?
     user_signed_in? && current_user.admin?
   end
+
+  def available_plans
+    SubscriptionPlan.active.order(:cost) # Assuming active plans
+  end
+  
 end

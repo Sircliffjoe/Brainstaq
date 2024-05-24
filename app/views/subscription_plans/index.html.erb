@@ -98,17 +98,17 @@
                       <hr>
                     <% end %>
                     <% if user_signed_in? %>
-                      <% if current_user.subscribed_to?(subscription_plan) %>
-                        <%= button_to "Subscribed", "#", class: "btn btn-success mb-3", style: "font-size: 14px; font-weight: bold;", disabled: true %>
-                      <% else %>
-                        <%= button_to "Upgrade Plan", subscribe_subscription_plan_path(subscription_plan), method: :put, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                      <% if current_user.admin? %>
+                        <%= link_to "View Plan", subscription_plan_path(subscription_plan.paystack_plan_code), class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
                       <% end %>
+                      <%# if current_user.subscribed_to?(subscription_plan) %>
+                        <%#= button_to "Subscribed", "#", class: "btn btn-success mb-3", style: "font-size: 14px; font-weight: bold;", disabled: true %>
+                      <%# else %>
+                        <%#= button_to "Upgrade Plan", subscribe_subscription_plan_path(subscription_plan), method: :post, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                      <%# end %>
                     <% else %>
-                      <%= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
-                    <% end %>
-                    <% if current_user.admin? %>
-                      <%= link_to "View Plan", subscription_plan_path(subscription_plan), class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
-                    <% end %>
+                      <%#= link_to "Get Started", new_user_registration_path, class: "btn btn2 rounded text-white mb-3", style: "font-size: 14px; font-weight: bold;" %>
+                    <% end %>               
                   </div>
                 </div>
               <% end %>
@@ -116,6 +116,7 @@
           </div>
         </div><!-- End of conversation tab-->
       </div>
+      <%= render partial: "layouts/cta" %>
     </div>
   </section>
 </section>

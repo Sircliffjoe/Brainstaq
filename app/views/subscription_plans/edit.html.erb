@@ -55,13 +55,19 @@
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Plan Duration</label>
-						<%= f.select(:duration, options_for_select(SubscriptionPlan.durations.keys.map { |duration| [duration.titleize, duration]}), {include_blank: true}, { :class =>  "form-control" } ) %>
+						<%= f.select(:duration, options_for_select(
+							SubscriptionPlan.durations.keys.map { |duration| [duration.titleize, duration]},
+							selected: f.object.duration), {include_blank: "Monthly or Annually"}, 
+							{ :class =>  "form-control" } ) %>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="form-group">
 						<label>Recurring Plan?</label>
-						<%= f.select(:recurring, options_for_select([['Yes', :true], ['No', :false]]), {include_blank: "Choose Yes or No"}, { :class =>  'form-control' } ) %>
+						<%= f.select(:recurring, options_for_select(
+							[['Yes', :true], ['No', :false]], selected: f.object.recurring ), 
+							{include_blank: "Choose Yes or No"}, 
+							{ :class =>  'form-control' } ) %>
 					</div>
 				</div>
 			</div>

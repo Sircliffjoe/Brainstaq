@@ -5,11 +5,11 @@
   <div class="container h-100">
     <div class="row d-flex align-items-center h-100">
       <div class="col-md-12 text-center">
-        <h2 class="h1 font-weight-bold">Pricing</h2>
+        <h2 class="h1 font-weight-bold">Transaction History</h2>
         <nav class="mt-15" aria-label="breadcrumb">
           <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
             <li class="breadcrumb-item"><%= link_to "Home", root_path, class: "text-black-300" %></li>
-            <li class="breadcrumb-item text-primary" aria-current="page">Pricing</li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Payment Receipt</li>
           </ol>
         </nav>
       </div>
@@ -27,80 +27,76 @@
 </section>
 <!-- end of page-header -->
  
-  
-  <div class="forms">      
-    <div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
-      <div class="form-title">
-        <h4>Payment Reciept</h4>
-      </div>
-      <div class="form-body">
-        <div class="card-body card-body">
-          <div class="card-header">
-            <% if !current_user.admin? %>
-              <h5 class="card-title"><strong>Status - <%= @res.status %></strong></h5>
-              <div class="text-center py-20">
-                <div data-provide="peity" data-type="donut" data-size="150" data-inner-radius="55" data-fill="#efb3e6,#ffdf7c,#b2def7"></div>
+<section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="forms">      
+        <div class="form-grids row widget-shadow" data-example-id="basic-forms"> 
+          <div class="form-body">
+            <div class="card-body card-body">
+              <div class="card-header">
+                <h5 class="card-title"><strong>Status - <%= @res.status %></strong></h5>
+                <div class="text-center py-20">
+                  <div data-provide="peity" data-type="donut" data-size="150" data-inner-radius="55" data-fill="#efb3e6,#ffdf7c,#b2def7"></div>
+                </div>
+                
+                <div class="card-body card-body">
+                  <table class="table table-user-information">
+                    <tbody>
+                      <tr>
+                        <td> <strong>Reference:</strong></td>
+                        <td><%= @res.reference %></td>
+                      </tr>
+
+                      <tr>
+                        <td> <strong>Brand:</strong></td>
+                        <td><%= link_to @res.enterprise.name, enterprise_path(@res.enterprise) %></td>
+                      </tr>
+                      
+                      <tr>
+                        <td><strong>Amount:</strong></td>
+                        <td><%= number_to_currency(@res.amount, unit: "₦", precision: 0) %></td>
+                      </tr>
+
+                      <tr>
+                        <td><strong>Expires On:</strong></td>
+                        <td><%= @res.expires_on %></td>
+                      </tr>
+
+                      <tr>
+                        <td><strong>Channel:</strong></td>
+                        <td><%= @res.channel%></td>
+                      </tr>
+
+                      <tr>
+                        <td><strong>Gateway Response:</strong></td>
+                        <td><%= @res.gateway_response %></td>
+                      </tr>
+
+                      <tr>
+                        <td><strong>Currency:</strong></td>
+                        <td><%= @res.currency%></td>
+                      </tr>
+
+                      <%if @res.created_at%>
+                        <tr>
+                          <td><strong>Paid At:</strong></td>
+                          <td><%= @res.created_at%></td>
+                        </tr>
+                      <% end %>
+                    </tbody>
+                  </table>
+                </div>  
               </div>
-            <% else %>
-          </div>
-            <h5 class="card-title"><strong>Status - <%= @res['status'] %></strong></h5>
-            <div class="text-center py-20">
-              <div data-provide="peity" data-type="donut" data-size="150" data-inner-radius="55" data-fill="#efb3e6,#ffdf7c,#b2def7">User Email - <%= @res.user.email %></div>
+              
             </div>
+            <%= link_to 'Back to Dashboard', dashboard_path(current_user.full_name), class:"btn btn-info ml-3" %> |
+            <%= link_to "Back", :back, class:"btn btn-secondary"%>
           </div>
-        <% end %>
-
-        <div class="card-body card-body">
-          <table class="table table-user-information">
-            <tbody>
-              <tr>
-                <td> <strong>Reference:</strong></td>
-                <td><%= @res.reference %></td>
-              </tr>
-              <% if current_user.admin? %>
-                <td> <strong>User:</strong></td>
-                  <td><%= @res.user.full_name %> <%= link_to "view profile", profile_path(@res.user.username)%></td>
-                </tr>
-              <% end %>
-              <tr>
-              <td>
-                <strong>Amount:</strong></td>
-                <td><%= @res.amount %></td>
-              </tr>
-
-              <tr>
-              <td>
-                <strong>Expires On:</strong></td>
-                <td><%= @res.expires_on %></td>
-              </tr>
-
-              <tr>
-                <td><strong>Channel:</strong></td>
-                <td><%= @res.channel%></td>
-              </tr>
-
-              <tr>
-                <td><strong>Gateway Response:</strong></td>
-                <td><%= @res.gateway_response %></td>
-              </tr>
-
-              <tr>
-                <td><strong>Currency:</strong></td>
-                <td><%= @res.currency%></td>
-              </tr>
-
-              <%if @res.created_at%>
-              <tr>
-                <td><strong>Paid At:</strong></td>
-                <td><%= @res.created_at%></td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
         </div>
       </div>
     </div>
-  </div>
-  <%= link_to 'Back to Dashboard', dashboard_path(current_user.full_name), class:"btn btn-info" %> |
-  <%= link_to "Back", :back, class:"btn btn-warning"%> 
 
+  </div>
+</section>
+  

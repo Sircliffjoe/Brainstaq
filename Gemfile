@@ -19,7 +19,6 @@ gem 'font_awesome5_rails'
 gem "font-ionicons-rails"
 gem 'carrierwave'
 gem 'cloudinary'
-gem 'receipts'
 gem 'mini_magick'
 gem 'friendly_id', '~> 5.3'
 gem 'local_time', '~> 2.1'
@@ -46,6 +45,7 @@ gem 'spreadsheet'
 gem 'tapir-reports', git: 'https://github.com/jnicho02/tapir-reports'
 gem 'trix-rails', require: 'trix'
 gem 'sablon'
+gem 'gon', '~> 6.4'
 gem 'wicked_pdf'
 gem 'stimulus-rails', '~> 1.2', '>= 1.2.1'
 gem 'wicked', '~> 2.0'
@@ -57,6 +57,7 @@ gem 'inherited_resources', '~> 1.13', '>= 1.13.1'
 gem 'figaro', '~> 1.2'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'paystack'
+gem 'filterrific', '~> 5.2', '>= 5.2.5'
 gem 'omniauth', '~> 1.9', '>= 1.9.1'
 gem 'pg'
 gem 'shufflejs-rails'
@@ -67,6 +68,8 @@ gem 'ahoy_matey'
 gem 'pagy', '~> 4.10', '>= 4.10.1'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'sidekiq', '~> 6.2', '>= 6.2.1'
+gem 'sidekiq-cron', '~> 1.12'
+gem 'receipts', '~> 2.4'
 
 # gem 'intro', '~> 0.3.0'
 # gem 'tel_to_helper'
@@ -117,3 +120,5 @@ group :test do
   gem 'selenium-webdriver'
   gem 'webdrivers'
 end
+
+gem "shrine", "~> 3.5"

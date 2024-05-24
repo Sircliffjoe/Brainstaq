@@ -2,6 +2,7 @@ class InvoicesController < ApplicationController
   before_action :authenticate_user!
   before_action :get_enterprise
   before_action :set_invoice, only: %i[ show edit update destroy ]
+  before_action :check_active
   
 
   def index
@@ -87,6 +88,12 @@ class InvoicesController < ApplicationController
 
   def set_invoice
     @invoice = @enterprise.invoices.find(params[:id])
+  end
+
+  def check_active
+    unless @enterprise.active?
+      redirect_to @enterprise, alert: "#{@enterprise.name} is inactive. You cannot view or create invoices."
+    end
   end
 
   def invoice_params

@@ -1,8 +1,29 @@
 class TransactionsController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:new]
+
+  def new
+    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
+    page_number = 1
+    plans = PaystackPlans.new(@paystackObj)
+    result = plans.list(page_number)
+    @plans_list = result['data']
+                .select { |plan| !plan['is_deleted'] && !plan['is_archived'] }
+                .sort_by { |plan| plan['amount'] }
+    @transaction = Transaction.new
+    @enterprises_count = Enterprise.count
   
+    # Fetch local subscription plans and features
+    @local_plans = SubscriptionPlan.includes(:features).all
+    @plan = SubscriptionPlan.first
+  end
+  
+
+  # def index
+  #   @ress = Transaction.all
+  # end
+
   def index
-    @ress = Transaction.all
+    @ress = current_user.enterprise.transactions if current_user.enterprise
   end
 
   def details
@@ -16,42 +37,48 @@ class TransactionsController < ApplicationController
     transaction_reference = params[:trxref]
     transactions = PaystackTransactions.new(@paystackObj)
     result = transactions.verify(transaction_reference)
-
+    
     if result['data']['status'] == "success"
       @res = result['data']
       @customer = result['data']['customer']
 
-      current_user.update(status: 1 )
-      res = 365
+      # Retrieve user from session (assuming you have user ID in session)
+      # user_id = session[:user_id]
+      # current_user = User.find_by(id: user_id)
       
-      if current_user.transactions.any?
-        if current_user.transactions.last.expires_on > Date.today
-          rem = (current_user.transactions.last.expires_on - Date.today).to_s.split('/')
-          offset = rem[0].to_i + res
+      current_user.enterprise.update(status: 1 )
+      if current_user.enterprise.interval == "monthly"
+        res = 30
+      elsif current_user.enterprise.interval == "annually"
+        res = 365
+      end
 
-          @transaction = current_user.transactions.create(
-              amount: (@res['amount'].to_f) / 100,
-              channel: @res['channel'],
-              reference: @res['reference'],
-              status: "success",
-              gateway_response: @res['gateway_response'],
-              currency: @res['currency'],
-              expires_on: Date.today + offset.days,
-              created_at: Time.now,
-              updated_at: Time.now
+      if current_user.enterprise.transactions.any?
+        if current_user.enterprise.transactions.last.expires_on > Date.today
+          rem = (current_user.enterprise.transactions.last.expires_on - Date.today).to_s.split('/')
+          offset = rem[0].to_i + res
+          
+          @transaction = current_user.enterprise.transactions.create(
+            amount: (@res['amount'].to_f)/100,
+            channel: @res['channel'], 
+            reference: @res['reference'], 
+            gateway_response: @res['gateway_response'],
+            currency: @res['currency'], 
+            status: @res['status'], 
+            expires_on: Date.today + offset.days,
+            created_at: Time.now, 
+            updated_at: Time.now
           )
 
           redirect_to details_transaction_path(@transaction), notice: 'Your Subscription Upgrade was successful.'
-
         else
-          @transaction = current_user.transactions.create(
+          @transaction = current_user.enterprise.transactions.create(
             amount: (@res['amount'].to_f)/100,
             channel: @res['channel'], 
-            reference: @res['reference'],
-            status: "success", 
+            reference: @res['reference'], 
             gateway_response: @res['gateway_response'],
             currency: @res['currency'], 
-            # status: @res['status'], 
+            status: @res['status'], 
             expires_on: Date.today + res.days,
             created_at: Time.now, 
             updated_at: Time.now
@@ -60,22 +87,19 @@ class TransactionsController < ApplicationController
           redirect_to details_transaction_path(@transaction), notice: 'Your Subscription was successful.'
         end
       else
-        @transaction =  current_user.transactions.create(
+        @transaction =  current_user.enterprise.transactions.create(
           amount: (@res['amount'].to_f)/100,
           channel: @res['channel'], 
           reference: @res['reference'], 
-          status: "success", 
           gateway_response: @res['gateway_response'],
           currency: @res['currency'], 
-          # status: @res['status'], 
+          status: @res['status'], 
           expires_on: Date.today + res.days,
           created_at: Time.now, 
           updated_at: Time.now
         )
-
         redirect_to details_transaction_path(@transaction), notice: 'Your Subscription was successful.'
       end
-  
     else
       redirect_to new_transaction_path, notice: 'Payment Failed. Please try again'
     end
@@ -92,36 +116,38 @@ class TransactionsController < ApplicationController
     if result['data']['status'] == "success"
       @res = result['data']
       @customer = result['data']['customer']
-      current_user.update(status: 1 )
-      res = 365
+      current_user.enterprise.update(status: 1 )
+      if current_user.enterprise.interval == "monthly"
+        res = 30
+      elsif current_user.enterprise.interval == "annually"
+        res = 365
+      end
 
-      if current_user.transactions.any?
-        if current_user.transactions.last.expires_on > Date.today
-          rem = (current_user.transactions.last.expires_on - Date.today).to_s.split('/')
+      if current_user.enterprise.transactions.any?
+        if current_user.enterprise.transactions.last.expires_on > Date.today
+          rem = (current_user.enterprise.transactions.last.expires_on - Date.today).to_s.split('/')
           offset = rem[0].to_i + res
           
-          @transaction = current_user.transactions.create(
+          @transaction = current_user.enterprise.transactions.create(
             amount: (@res['amount'].to_f)/100,
             channel: @res['channel'], 
             reference: @res['reference'], 
-            status: "success", 
             gateway_response: @res['gateway_response'],
             currency: @res['currency'], 
-            # status: @res['status'], 
+            status: @res['status'], 
             expires_on: Date.today + offset.days,
             created_at: Time.now, 
             updated_at: Time.now
           )
-          
+
           redirect_to details_transaction_path(@transaction), notice: 'Your Subscription Upgrade was successful.'
           else
-            @transaction = current_user.transactions.create(amount: (@res['amount'].to_f)/100,
+            @transaction = current_user.enterprise.transactions.create(amount: (@res['amount'].to_f)/100,
             channel: @res['channel'], 
             reference: @res['reference'], 
-            status: "success", 
             gateway_response: @res['gateway_response'],
             currency: @res['currency'], 
-            # status: @res['status'], 
+            status: @res['status'], 
             expires_on: Date.today + res.days,
             created_at: Time.now, 
             updated_at: Time.now
@@ -129,22 +155,18 @@ class TransactionsController < ApplicationController
 
           redirect_to details_transaction_path(@transaction), notice: 'Your Subscription was successful.'
         end
-
       else
-
-        @transaction =  current_user.transactions.create(
+        @transaction =  current_user.enterprise.transactions.create(
           amount: (@res['amount'].to_f)/100,
           channel: @res['channel'], 
           reference: @res['reference'], 
-          status: "success", 
           gateway_response: @res['gateway_response'],
           currency: @res['currency'], 
-          # status: @res['status'], 
+          status: @res['status'], 
           expires_on: Date.today + res.days,
           created_at: Time.now, 
           updated_at: Time.now
         )
-
         redirect_to details_transaction_path(@transaction), notice: 'Your Subscription was successful.'
       end
     else
@@ -152,24 +174,12 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def new
-    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
-    page_number = 1
-    plans = PaystackPlans.new(@paystackObj)
-    result = plans.list(page_number)
-    
-    # Filter only the active plans where "is_deleted" is false
-    @plans_list = result['data'].select { |plan| plan['is_deleted'] == false }
-    
-    @transaction = Transaction.new
-  end
-  
   def upgrade
     @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     page_number = 1
     plans = PaystackPlans.new(@paystackObj)
     result = plans.list(page_number)  #Optional `page_number` parameter,  50 items per page
-    @plans_list = result['data']
+    @plans_list = result['data'].select { |plan| !plan['is_deleted'] && !plan['is_archived'] }
     @transaction = Transaction.new
   end
 
@@ -177,19 +187,29 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    current_user.update(interval: params[:interval] )
-    new
-    transactions = PaystackTransactions.new(@paystackObj)
+    @paystackObj = Paystack.new(ENV['PAYSTACK_PUBLIC_KEY'], ENV['PAYSTACK_SECRET_KEY'])
     
-    result = transactions.initializeTransaction(
-      :reference => "user#{@user}#{Time.now.to_i}",
-      :email => current_user.email,
-      :plan => params[:code]
-    )
+    if current_user.enterprise
+      current_user.enterprise.update(interval: params[:interval])
+    end
   
-    auth_url = result['data']['authorization_url']
+    transactions = PaystackTransactions.new(@paystackObj)
+  
+    begin
+      result = transactions.initializeTransaction(
+        reference: "brainer#{current_user.id}#{Time.now.to_i}",
+        email: current_user.email,
+        amount: params[:amount],
+        plan: params[:code]
+      )
+  
+      auth_url = result['data']['authorization_url']
+      redirect_to auth_url
 
-    redirect_to auth_url
+    rescue RestClient::BadRequest => e
+      flash[:alert] = "Error initializing transaction: #{e.message}"
+      redirect_to new_transaction_path
+    end
   end
 
   def update

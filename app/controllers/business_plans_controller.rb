@@ -3,8 +3,7 @@ class BusinessPlansController < ApplicationController
   before_action :get_enterprise
   before_action :set_business_plan, only: %i[ show edit update destroy ]
   before_action :find_business_plan, only: [:show, :edit, :update, :destroy]
-  # before_action :require_subscription, only: [:new]
-  # before_action :check_quota, only: [:new]
+  before_action :check_active
   
 
   def index
@@ -343,11 +342,11 @@ class BusinessPlansController < ApplicationController
     @business_plan = BusinessPlan.find(params[:id])
   end
 
-  # def check_quota
-  #   if @enterprise.business_plans.count >= 1
-  #     @quota_warning = "Maximum number of Business Plans reached!"
-  #   end
-  # end
+  def check_active
+    unless @enterprise.active?
+      redirect_to @enterprise, alert: "#{@enterprise.name} is inactive. You cannot view or create business plans."
+    end
+  end
 
   def business_plan_params
     params.require(:business_plan).permit(

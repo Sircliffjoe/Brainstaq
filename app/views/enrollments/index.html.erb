@@ -1,0 +1,85 @@
+<% content_for :title do %>
+  Brainstaq 
+  |
+  <%= controller_name.humanize %>
+  <%= action_name.humanize %>
+<% end %>
+
+<h3 class="text-center">
+  <span class="fa fa-lock-open"></span>
+  <%= controller_name.humanize %>:
+  <%= action_name.humanize %>
+  <span class="badge badge-info"><%= @enrollments.count %></span>
+</h3>
+
+<%= search_form_for @q, url: @ransack_path do |f| %>
+  <%= f.search_field :user_email_cont, placeholder: 'user email' %>
+  <%= f.search_field :course_title_cont, placeholder: 'course title' %>
+  <%= f.search_field :course_user_email_cont, placeholder: 'teacher' %>
+  <%#= f.search_field :price_eq, placeholder: 'price' %>
+  <%= f.search_field :rating_eq, placeholder: 'rating' %>
+  <%= f.submit %>
+<% end %>
+<%= link_to 'refresh', @ransack_path %>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-striped table-sm table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Created At</th>
+        <th>Course</th>
+        <th>Teacher</th>
+        <th>Price</th>
+        <th>Reviewed On</th>
+        <th>Rating</th>
+        <th>Review</th>
+        <th>Progress</th>
+        <th>Certificate</th>
+        <th>See Review</th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @enrollments.each do |enrollment| %>
+        <tr>
+          <td><%= enrollment.id %></td>
+          <td>
+            <% if enrollment.user.present? %>
+              <%= link_to enrollment.user.email, user_path(enrollment.user) %>
+            <% end %>
+          </td>
+          <td><%= enrollment.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
+          <td><%= link_to enrollment.course, course_path(enrollment.course) %></td>
+          <td><%= link_to enrollment.course.user, user_path(enrollment.course.user) %></td>
+          <td><%= number_to_currency(enrollment.price) %></td>
+          <td>
+            <% if enrollment.rating.present? %>
+              <%= enrollment.updated_at.strftime("%d/%m/%Y, %H:%M") %>
+            <% end %>
+          </td>
+          <td><%= enrollment.rating %></td>
+          <td><%= enrollment.review %></td>
+          <td><%= number_to_percentage(enrollment.course.progress(enrollment.user), precision: 0) %></td>
+          <td><%= link_to 'PDF', certificate_enrollment_path(enrollment, format: :pdf) %></td>
+          <td><%= link_to 'See Review', enrollment %></td>
+          <td>
+            <% if policy(enrollment).edit? %>
+              <%= link_to 'Add Review', edit_enrollment_path(enrollment) %>
+            <% end %>
+          </td>
+          <td>
+            <% if policy(enrollment).destroy? %>
+              <%= link_to 'Delete Enrollment', enrollment, method: :delete, data: { confirm: 'Are you sure?' } %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= pagy_bootstrap_nav(@pagy) %>
+<br>

@@ -4,6 +4,7 @@ class HomeController < ApplicationController
 
   IDEAS_PER_PAGE = 3
   ENTERPRISES_PER_PAGE = 3
+  COURSE_CATEGORIES_PER_PAGE = 4
 
   def active?
     status == "active"
@@ -21,8 +22,10 @@ class HomeController < ApplicationController
 
     @enterprises = Enterprise.all
     @enterprises_count = Enterprise.count
-    
+    @courses = Course.all
     @users = User.all
+    @course_categories = CourseCategory.all
+    @course_categories_count = CourseCategory.count
   end
 
   def impressionist_count

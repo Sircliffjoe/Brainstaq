@@ -1,0 +1,61 @@
+<% @courses.in_groups_of(3) do |group| %>
+  <!-- <div> -->
+    <div class="container mb-3">
+      <div class="row">
+        <%# group.compact.each do |course| %>
+
+          <div class="card shadow">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <% if course.image.present? %>
+                    <%= link_to course_path(course) do %>
+                      <%= image_tag course.image, loading: "lazy", height: "auto", width: "100%" %>
+                    <% end %>
+                  <% end %>
+                </div>
+                
+                <div class="col-md-5">
+                  <h3><%= link_to course.title, course_path(course) %></h3>
+                  <p><%= simple_format(course.marketing_description) %></p>
+                  <div class="text-warning">
+                    <i class="fa fa-star"></i>
+                    <b><%= course.average_rating %></b>
+                  </div>
+                  (<i class="fa fa-user-graduate"></i> <%= course.enrollments_count %>)
+                  <i class="fa fa-tasks"></i>
+                  <%= course.lessons_count %>
+                  <br/>
+                  <% if course.tags.any? %>
+                    <% course.tags.each do |tag| %>
+                      <span class="badge badge-info">
+                        <%= tag.name %>
+                      </span>
+                    <% end %>
+                  <% end %>
+                  <br/>
+                  <% if course.user %>
+                    <% if course.user.image_url %>
+                      <%= image_tag course.user.image_url, size: '40x40', alt: "#{course.user.email}", class: 'rounded-circle mr-2' %>
+                    <% end %>
+                    <%= link_to course.user.full_name, profile_path(course.user.username) %>  <p><small>Course Instructor</small></p>
+                  <% end %>
+                </div>
+                <div class="col-md-3">
+                  <div class="text-center">
+                    <%= enrollment_button(course) %>
+                    <div class="row">
+                      <%= review_button(course) %>
+                    </div>
+                    <div class="row">
+                      <small><%= certificate_button(course) %></small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <%# end %>
+      </div>
+    </div>
+  <% end %>

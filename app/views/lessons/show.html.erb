@@ -1,0 +1,173 @@
+<% content_for :title do %>
+  <%= @course.title %>
+<% end %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="margin-bottom:50px; background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+      <div class="row d-flex align-items-center h-100">
+          <div class="col-md-12 text-center">
+              <h2 class="h1 font-weight-bold">Course Details</h2>
+              <nav class="mt-15" aria-label="breadcrumb">
+                  <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+                      <li class="breadcrumb-item"><%= link_to "Courses", courses_path, class: "text-black-300" %></li>
+                      <li class="breadcrumb-item text-primary" aria-current="page"><%= @course.title %></li>
+                  </ol>
+              </nav>
+          </div>
+      </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+<div class="row col-lg-12">
+  <div class="col-lg-8">
+    <div class="card shadow">
+      <div class="card-header">
+        <div class="text-success">
+          <i class="fa fa-check-square"></i>
+          <%= link_to course_lesson_path(@course, @lesson, anchor: "current_lesson") do %>
+            <b>
+              <%= @lesson.chapter.row_order_rank + 1 %>.
+              <%= @lesson.row_order_rank + 1 %>.
+            </b>
+            <%= @lesson.title %>
+          <% end %>
+        </div>
+      </div>
+      
+      <div class="card-body">
+        <% if @lesson.vimeo.present? %>
+          <div class="video-container mb-5">
+            <% if @lesson.vimeo.include?("youtube.com") || @lesson.vimeo.include?("youtu.be") %>
+              <% youtube_id = if @lesson.vimeo.include?("youtube.com")
+                                @lesson.vimeo.split('v=').last.split('&').first
+                              else
+                                @lesson.vimeo.split('/').last
+                              end %>
+              <iframe class="embed-responsive embed-responsive-16by9" src="https://www.youtube.com/embed/<%= youtube_id %>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <% elsif @lesson.vimeo.include?("vimeo.com") %>
+              <% vimeo_id = @lesson.vimeo.split('/').last.split('?').first %>
+              <iframe class="embed-responsive embed-responsive-16by9" src="https://player.vimeo.com/video/<%= vimeo_id %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            <% else %>
+              <p>Invalid video URL</p>
+            <% end %>
+          </div>
+        <% end %>
+        <%= @lesson.content %>
+      </div>
+      
+      <% if current_user.admin? %>
+        <div class="card-footer">
+          <%= link_to edit_course_lesson_path(@course, @lesson), class: 'btn btn-sm btn-warning mr-1' do %>
+            <i class="fa fa-edit"></i>
+          <% end %>
+          <%= link_to [@course, @lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' do %>
+            <i class="fa fa-trash"></i>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="card-footer">
+        <% unless @lesson.prev.nil? %>
+          <div class="float-left">
+            <%= link_to course_lesson_path(@course, @lesson.prev, anchor: "current_lesson"), class: 'btn btn-sm btn-info' do %>
+              <i class="fa fa-arrow-left"></i>
+              Previous
+            <% end %>
+          </div>
+        <% end %>
+        <% unless @lesson.next.nil? %>
+          <div class="float-right">
+            <%= link_to course_lesson_path(@course, @lesson.next, anchor: "current_lesson"), class: 'btn btn-sm btn-info' do %>
+              <i class="fa fa-arrow-right"></i>
+              Next
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <p></p>
+    <h4>
+      <i class="fa fa-comment"></i>
+      Comments:
+      <%= @lesson.comments_count %>
+    </h4>
+    <div class="card shadow">
+      <div class="card-header">
+        New comment
+      </div>
+      <div class="card-body">
+        <%= render 'lessons/comments/form' %>
+      </div>
+    </div>
+    <div class="list-group">
+      <% @comments.each do |comment| %>
+        <div class="list-group-item">
+          <%= render 'lessons/comments/comment', comment: comment %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="list-group shadow">
+      <div class="list-group-item">
+        <i class="fa fa-graduation-cap"></i>
+        <%= link_to course_path(@lesson.course) do %>
+          <%= @lesson.course.title %>
+        <% end %>
+        <div class="row">
+          <%= render 'courses/progress', course: @lesson.course %>
+        </div>
+      </div>
+    </div>
+    <div class="list-group" id="scrollable">
+      <% @chapters.each do |chapter| %>
+        <div class="list-group-item shadow" data-offset="0" data-spy="scroll" data-target="#scrollable">
+          <%= render 'chapters/chapter', chapter: chapter %>
+          <% chapter.lessons.rank(:row_order).each do |lesson| %>
+            <% if lesson.eql?(@lesson) %>
+              <li class="list-group-item list-group-item-success" id="current_lesson">
+                <%= render 'lessons/lesson', lesson: lesson %>
+              </li>
+            <% else %>
+              <li class="list-group-item list-group-item-secondary">
+                <%= render 'lessons/lesson', lesson: lesson %>
+              </li>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br>
+
+<style>
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+  background: #000;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

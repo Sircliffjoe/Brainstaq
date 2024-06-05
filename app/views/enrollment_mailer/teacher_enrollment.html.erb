@@ -1,0 +1,41 @@
+<b>
+  You have a new student in the course
+</b>
+<%= link_to @enrollment.course, @enrollment.course %>
+<div class="row">
+  <b>
+    Enrollment date:
+  </b>
+  <%= @enrollment.created_at %>
+</div>
+<div class="row">
+  <b>
+    Enrollment ID:
+  </b>
+  <%= @enrollment.slug %>
+</div>
+<div class="row">
+  <b>
+    Course price:
+  </b>
+  <%= number_to_currency(@enrollment.course.price) %>
+</div>
+<div class="row">
+  <b>
+    Price paid:
+  </b>
+  <%= number_to_currency(@enrollment.price) %>
+</div>
+<div class="row">
+  <b>
+    Student:
+  </b>
+  <%= @enrollment.user.username %>
+  <%= mail_to @enrollment.user.email, @enrollment.user.email %>
+</div>
+<p>
+  Regards,
+</p>
+<div class="row">
+  <%= link_to 'The Brainstaq team', root_url %>
+</div>

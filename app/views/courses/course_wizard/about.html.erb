@@ -1,0 +1,19 @@
+<%= render layout: 'courses/course_wizard/step' do %>
+  <%= simple_form_for @course, url: course_course_wizard_path, method: :put do |f| %>
+    <%= f.input :title, input_html: { autocomplete: 'off' } %>
+    <div class="row">
+      <% if @course.image.present? %>
+        <%= image_tag @course.image, width: "200px" %>
+        <div class="row">
+          <%= @course.image.filename %>
+        </div>
+      <% end %>
+    </div>
+    <div class="row">
+      <%= f.input :image %>
+    </div>
+    <%= f.input :marketing_description, placeholder: "Enter marketing description" %>
+    <%= f.input :description, as: :rich_text_area, placeholder: "Enter Curriculim" %>
+    <%= f.button :submit, "Save & Continue", class: "actions btn btn-primary rounded mt-3" %>
+  <% end %>
+<% end %>

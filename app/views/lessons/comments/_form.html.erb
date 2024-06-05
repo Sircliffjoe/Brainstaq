@@ -1,0 +1,6 @@
+<%= simple_form_for([@course, @lesson, @comment]) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <%= f.input :body, as: :rich_text_area, label: false %>
+  <%= f.button :submit, class: "actions btn btn-primary rounded mt-3" %>
+<% end %>

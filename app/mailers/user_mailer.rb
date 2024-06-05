@@ -3,7 +3,7 @@ class UserMailer < ApplicationMailer
 
 	def send_welcome_email(user)
 		@user = user
-		@url  = 'https://brainstaq-app.onrender.com' 
+		@url  = 'https://brainstaq.com' 
 		mail(:to => @user.email, :subject => "Welcome to Brainstaq!")
 	end
 

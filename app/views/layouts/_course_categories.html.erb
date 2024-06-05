@@ -1,0 +1,13 @@
+<div class="dropright">
+  <button class="btn btn-primary" style="font-size: 14px;" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Sort by Category
+  </button>
+  
+	<div class="dropdown-menu dropdown-menu cat-bg" aria-labelledby="dropdownMenu2">
+	  <% CourseCategory.all.each do |course_category| %>
+	    <li>
+	      <%= link_to course_category.name, courses_path(course_category: course_category.name), class: "dropdown-item" %>
+	    </li>
+	  <% end %>      
+	</div>
+</div>

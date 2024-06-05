@@ -40,8 +40,9 @@ class IdeasController < ApplicationController
   def show
     @idea = Idea.find(params[:id]) 
     @comment = Comment.new
-    @comments = @idea.comments
-    @comment.idea_id = @idea.id
+    # @comments = @idea.comments
+    @commentable = @idea
+    # @comment.idea_id = @idea.id
     donation = Donation.includes(:idea).where(idea_id: params[:id])
     @donation = Donation.new
     @donors_count = donation.count

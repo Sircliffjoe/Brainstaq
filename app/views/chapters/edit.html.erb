@@ -1,0 +1,28 @@
+<% content_for :title do %>
+  <%= @course.title %> | Edit Chapter
+<% end %>
+
+<span class="fa fa-graduation-cap"></span>
+<%= link_to course_path(@course) do %>
+  <%= @course.title %>
+<% end %>
+|
+<span class="far fa-bookmark"></span>
+<%= link_to edit_course_chapter_path(@course, @chapter) do %>
+  Edit Chapter
+<% end %>
+
+<div class="card shadow">
+  <div class="card-header">
+    <h3>
+      <span class="far fa-bookmark"></span>
+      Edit chapter
+    </h3>
+  </div>
+  <div class="card-body">
+    <%= render 'form' %>
+  </div>
+  <div class="card-footer">
+    <%= link_to 'Back to course', course_path(@course) %>
+  </div>
+</div>

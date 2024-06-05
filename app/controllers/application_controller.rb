@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
+  include CommentsHelper
   
   protect_from_forgery with: :exception
   before_action :set_cache_headers
@@ -7,13 +8,11 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
-  after_action :user_activity
+  after_action :user_activity, if: :user_signed_in?
 
   include Pundit::Authorization
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   include PublicActivity::StoreController
-
-  # before_action :set_global_variables
   
   def resource_name
     :user

@@ -1,0 +1,12 @@
+<div class="card shadow">
+  <div class="card-header">
+    Add comment to lesson:
+    <%= @lesson %>
+  </div>
+  <div class="card-body">
+    <%= render 'lessons/comments/form' %>
+  </div>
+  <div class="card-footer">
+    <%= link_to 'Back to lesson', course_lesson_path(@course, @lesson, anchor: "current_lesson") %>
+  </div>
+</div>

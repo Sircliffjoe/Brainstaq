@@ -38,6 +38,11 @@
                     <span class="dropdown-item @@pricingTwo">Projects</span>
                   <% end %>
                 </li>
+                <li> 
+                  <%= link_to courses_path, title: "Courses", class: "text-decoration-none" do %>
+                    <span class="dropdown-item @@pricingOne">Courses</span>
+                  <% end %>
+                </li>
               </ul>
             </li>
             <% if current_user.admin? %>
@@ -84,7 +89,7 @@
               <%= link_to "New Brand", new_enterprise_path, class: "dropdown-item" %>
               <%= link_to "New Project", new_idea_path, class: "dropdown-item" %>
               <% if current_user.admin? %>
-                <%= link_to "Add Course", '#', class: "dropdown-item" %>
+                <%= link_to "Add Course", new_course_path, class: "dropdown-item" %>
               <% end %>
             </div>
           </div>   
@@ -169,6 +174,11 @@
                 <li>
                   <%= link_to ideas_path, title: "Projects", class: "text-decoration-none" do %>
                     <span class="nav-link dropdown-item @@pricingTwo">Projects</span>
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to courses_path, title: "Courses", class: "text-decoration-none" do %>
+                    <span class="nav-link dropdown-item @@pricingTwo">Courses</span>
                   <% end %>
                 </li>
               </ul>

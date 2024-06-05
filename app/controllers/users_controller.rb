@@ -8,10 +8,7 @@ class UsersController < ApplicationController
 
   def dashboard
     @ideas = Idea.all.order(created_at: :desc).limit(15)
-    # @users = User.find_by_username params[:username]
     @enterprises = Enterprise.all.order(created_at: :desc).limit(15)
-  
-    # following_ids = current_user.followees.pluck(:id)
     following_ids = Follow.where(follower_id: current_user.id).map(&:followee_id)
     following_ids << current_user.id
   
@@ -19,14 +16,12 @@ class UsersController < ApplicationController
   end
   
   def follow
-    # @user = User.find_by(username: params[:username])
     @user = User.find_by_username params[:username]
     current_user.followees << @user
     redirect_back(fallback_location: profile_path(@user.username))
   end
   
   def unfollow
-    # @user = User.find_by(username: params[:username])
     @user = User.find_by_username params[:username]
     current_user.followed_users.find_by(followee_id: @user.id).destroy
     redirect_back(fallback_location: profile_path(@user.username))
@@ -37,7 +32,6 @@ class UsersController < ApplicationController
 
     if verify_recaptcha(model: @user) && @user.save
       session[:user_id] = @user.id
-      # redirect_to root_path
       format.html { redirect_to root_path, notice: 'Confirmation required. Check your email!' }
     else
       render :new
@@ -53,13 +47,17 @@ class UsersController < ApplicationController
     @user = User.find_by_username params[:username]
     @ideas = current_user.ideas.order(created_at: :desc)
     @enterprises = Enterprise.all.order(created_at: :desc).limit(15)
-    # @user = current_user
+    @courses_teaching = @user.courses
+    @courses_learning = @user.enrollments.includes(:course)
 
     following_ids = current_user.followees.pluck(:id)
     following_ids << current_user.id
 
     @follower_suggestions = User.where.not(id: following_ids).limit(10)
     @active_campaigns = @user.ideas.select { |idea| idea.relevance_bar > 75 && !idea.expired? }
+
+    @courses_teaching = @user.courses
+    @courses_learning = @user.enrollments.includes(:course)
   end
   
 
@@ -93,7 +91,6 @@ class UsersController < ApplicationController
   end
 
   def set_user
-    # @user = User.find_by(username: params[:username])
     @user = User.find_by_username(params[:username])
   end
 end

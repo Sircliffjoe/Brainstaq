@@ -5,11 +5,21 @@ class User < ApplicationRecord
     :rememberable, :validatable, :trackable,:omniauthable, 
     omniauth_providers: %i[github google_oauth2]
 
+  rolify
+
   mount_uploader :image, ImageUploader
   
   validates :username, presence: true
   validate :image_size_validation
   validates :bio, length: { maximum: 180 }
+
+  has_many :courses, dependent: :nullify
+  has_many :enrollments, dependent: :nullify
+  has_many :user_lessons, dependent: :nullify
+  has_many :students, through: :courses, source: :enrollments
+  has_many :lessons, through: :user_lessons # lessons viewed by the user
+
+  has_many :enrolled_courses, through: :enrollments, source: :course
 
   has_many :ideas, dependent: :destroy
   has_one  :enterprise, dependent: :destroy
@@ -25,14 +35,50 @@ class User < ApplicationRecord
   has_many :followees, through: :followed_users
   has_many :following_users, foreign_key: :followee_id, class_name: 'Follow'
   has_many :followers, through: :following_users
+
+  include PublicActivity::Model
+  tracked only: %i[create destroy], owner: :itself
   
   def full_name
     "#{first_name} #{last_name}"
   end
 
+  def admin?
+    self.admin
+  end
+
   def show
     @user = User.find(params[:id])
-  end 
+  end
+  
+  def online?
+    updated_at > 2.minutes.ago
+  end
+
+  def buy_course(course)
+    enrollments.create(course: course, price: course.price)
+  end
+
+  def take_course(course)
+    enrollments.create(course: course)
+  end
+
+  def view_lesson(lesson)
+    view = user_lessons.find_or_create_by(lesson: lesson)
+    view.increment!(:impressions)
+  end
+
+  def bought?(course)
+    enrolled_courses.include?(course)
+  end
+
+  def enrolled_in?(course)
+    enrollments.exists?(course: course)
+  end
+
+  def viewed?(lesson)
+    lessons.include?(lesson)
+  end
   
   def max_enterprises
     plan = subscription_plans.first.plan_name
@@ -99,9 +145,23 @@ class User < ApplicationRecord
     self.donations.includes(idea: :user)
   end
 
+  def calculate_course_income
+    update_column :course_income, courses.map(&:income).sum
+    update_column :balance, (course_income - enrollment_expenses)
+  end
+
+  def calculate_enrollment_expenses
+    update_column :enrollment_expenses, enrollments.map(&:price).sum
+    update_column :balance, (course_income - enrollment_expenses)
+  end
+
   private
     
   def image_size_validation
     errors.add(:image, message: "should be less than 1MB") if image.size > 1.megabytes
+  end
+
+  def must_have_a_role
+    errors.add(:roles, 'must have at least one role') unless roles.any?
   end
 end

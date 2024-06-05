@@ -1,0 +1,26 @@
+<% if current_user.admin? %>
+  <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+    <i class="fa fa-edit"></i>
+  <% end %>
+  <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+    <i class="fa fa-trash"></i>
+  <% end %>
+<% elsif current_user.viewed?(lesson) %>
+  <div class="text-success"><i class="fa fa-check-square"></i></div>
+<% else %>
+  <div class="text-danger"><i class="fa fa-check-square"></i></div>
+<% end %>
+
+<%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %> 
+  <b>
+    <%= lesson.row_order_rank + 1 %>.
+  </b>
+  <%= lesson.title %>
+<% end %>
+
+<div class="row">
+  <% unless lesson.comments_count.zero? %>
+    <i class="fa fa-comment"></i>
+    <%= lesson.comments_count %>
+  <% end %>
+</div>

@@ -19,7 +19,7 @@ class Idea < ApplicationRecord
   belongs_to :user
   belongs_to :category
   
-  has_many :comments
+  has_many :comments, as: :commentable
   has_many :donors
   has_many :donations
   has_many :users, through: :donations

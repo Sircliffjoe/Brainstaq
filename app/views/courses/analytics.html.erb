@@ -1,0 +1,53 @@
+<% content_for :title do %>
+  Corsego 
+  | 
+  <%= @course.title %>
+  | 
+  Analytics
+<% end %>
+
+<%= link_to 'Courses', courses_path %> |
+<%= link_to course_path(@course) do %>
+  <i class="fa fa-graduation-cap"></i>
+  <%= @course.title %>
+<% end %> |
+<%= link_to analytics_course_path(@course) do %>
+  <i class="fa fa-chart-bar"></i>
+  Analytics
+<% end %>
+
+<h4 class="text-center">
+  Enrollments per day, quantity
+</h4>
+<div class="card">
+  <div class="card-body">
+    <%= line_chart @course.enrollments.group_by_day(:created_at).count %>
+  </div>
+</div>
+
+<h4 class="text-center">
+  Enrollments per day, revenue
+</h4>
+<div class="card">
+  <div class="card-body">
+    <%= line_chart @course.enrollments.group_by_day(:created_at).sum(:price) %>
+  </div>
+</div>
+
+<h4 class="text-center">
+  Unique user views (how many unique users viewed the lesson)
+</h4>
+<div class="card">
+  <div class="card-body">
+    <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').count %>
+  </div>
+</div>
+
+<h4 class="text-center">
+  Impressions per lesson (how many times the lesson was opened)
+</h4>
+<div class="card">
+  <div class="card-body">
+    <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').sum(:impressions) %>
+  </div>
+</div>

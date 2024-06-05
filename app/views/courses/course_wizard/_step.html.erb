@@ -1,0 +1,60 @@
+<% content_for :title do %>
+  Brainstaq | Editing course <%= @course.title %>
+<% end %>
+
+<%= link_to 'Courses', courses_path %> |
+<span class="fa fa-graduation-cap"></span>
+<%= link_to course_path(@course) do %>
+  <%= @course.title %>
+<% end %> |
+<%= link_to course_course_wizard_path(@course, step) do %>
+  Edit <%= step.to_s.humanize %>
+<% end %>
+
+<div class="card shadow">
+  <div class="progress">
+    <div class="progress-bar" style="width: <%= @progress %>%">
+      <%= number_to_percentage(@progress, precision: 0) %>
+    </div>
+  </div>
+  <div class="progress">
+    <% wizard_steps.each do |s| %>
+      <% @color = current_page?(course_course_wizard_path(@course, s)) ? "bg-success" : "bg-secondary" %>
+      <%= link_to course_course_wizard_path(@course, s), class: "progress-bar #{@color}", style: "width: #{@progress}%" do %>
+        <%= wizard_steps.index(s) + 1 %> <%= s.to_s.humanize %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="card-header">
+    <h5>
+      <%= wizard_steps.index(step) + 1 %> / <%= wizard_steps.count %> <%= step.to_s.humanize %>
+    </h5>
+  </div>
+  <div class="card-body">
+    <% if @course.errors.any? %>
+      <div class="container text-danger">
+        <% @course.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </div>
+      <p></p>
+    <% end %>
+    <%= yield %>
+  </div>
+  <div class="card-footer">
+    <div class="float-left">
+      <%= link_to previous_wizard_path, class: 'btn btn-sm btn-info' do %>
+        <span class="fa fa-arrow-left"></span>
+        Previous
+      <% end %>
+    </div>
+    <div class="float-right">
+      <%= link_to next_wizard_path, class: 'btn btn-sm btn-info' do %>
+        <span class="fa fa-arrow-right"></span>
+        Skip
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

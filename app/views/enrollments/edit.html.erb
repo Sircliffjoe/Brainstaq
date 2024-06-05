@@ -1,0 +1,32 @@
+<% content_for :title do %>
+  Brainstaq 
+  |
+  Review
+  <%= @enrollment.course %>
+<% end %>
+
+<%= link_to 'Courses', courses_path %>
+|
+<%= link_to course_path(@enrollment.course) do %>
+  <i class="fa fa-graduation-cap"></i>
+  <%= @enrollment.course.title %>
+<% end %>
+|
+<%= link_to 'Add Review', edit_enrollment_path(@enrollment) %>
+
+<div class="card shadow">
+  <div class="card-header">
+    <h3>
+      <span class="text-warning fa fa-star"></span>
+      Add a Review
+    </h3>
+  </div>
+  <div class="card-body">
+    <%= render 'form' %>
+  </div>
+  <div class="card-footer">
+    <%= link_to 'Show Review', @enrollment %>
+    |
+    <%= link_to 'Back to course', course_path(@enrollment.course) %>
+  </div>
+</div>

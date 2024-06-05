@@ -1,0 +1,26 @@
+<h3 class="text-center">
+  Tags
+  <span class="badge badge-info">
+    <%= @tags.count %>
+  </span>
+</h3>
+
+<div class="card shadow">
+  <div class="card-body">
+    <% @tags.each do |tag| %>
+      <div class="row">
+        <div class="btn-group">
+          <%= link_to courses_path(courses_search: { course_tags_tag_id_eq: tag.id }), class: "btn btn-lg btn-info mt-1" do %>
+            <%= tag.name %>
+            <span class="badge badge-light">
+              <%= tag.course_tags_count %>
+            </span>
+          <% end %>
+          <% if policy(tag).destroy? %>
+            <%= link_to 'Destory', tag, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-lg btn-danger mt-1" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

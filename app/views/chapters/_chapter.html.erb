@@ -1,0 +1,16 @@
+<% if @course.user == current_user %>
+  <%= link_to edit_course_chapter_path(@course, chapter), class: 'badge badge-warning mr-1' do %>
+    <i class="fa fa-edit"></i>
+  <% end %>
+  <%= link_to [@course, chapter], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-1' do %>
+    <i class="fa fa-trash"></i>
+  <% end %>
+<% end %>
+<i class="far fa-bookmark"></i>
+Chapter
+<%= chapter.row_order_rank + 1 %>.
+<%= chapter.title %>
+<div class="text-center">
+  <i class="fa fa-tasks"></i>
+  <%= pluralize(chapter.lessons_count, 'lesson') %>
+</div>

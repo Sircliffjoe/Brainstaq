@@ -1,0 +1,11 @@
+<i class="fa fa-lock"></i>
+<b>
+  <%= lesson.row_order_rank + 1 %>.
+</b>
+<%= lesson.title %>
+<div class="row">
+  <% unless lesson.comments_count.zero? %>
+    <i class="fa fa-comment"></i>
+    <%= lesson.comments_count %>
+  <% end %>
+</div>

@@ -110,7 +110,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem "dockerfile-rails", ">= 1.0"
   gem 'rails-erd'
-  # gem "better_errors"
+  # gem 'better_errors', '~> 2.10', '>= 2.10.1'
   # gem "binding_of_caller"
   # gem 'webpacker-pwa'
 end

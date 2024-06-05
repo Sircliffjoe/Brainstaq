@@ -1,0 +1,73 @@
+<% content_for :title, "Create Course" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Create Course</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to 'Courses', courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Create Course</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+<div class="row justify-content-center mt-5">
+	<div class="form-wrap col-md-6">	
+    <div class="mx-auto md:w-2/3 w-full">
+      <h1 class="font-bold text-4xl">New course</h1>
+
+      <div class="card shadow">
+        <div class="card-header">
+          <h3>
+            <i class="fa fa-graduation-cap"></i>
+            New course
+          </h3>
+        </div>
+
+        <div class="card-body">
+          <%= simple_form_for(@course) do |f| %>
+            <% if @course.errors.any? %>
+              <div class="container text-danger">
+                <% @course.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                <% end %>
+              </div>
+            <% end %>
+            
+            <div class="form-inputs">
+              <%= f.collection_select(:course_category_id, CourseCategory.all, :id, :name, {prompt: 'Select course category'}, class: "form-control") %>
+            </div>
+
+            <div class="form-inputs mt-3">
+              <%= f.input :title, input_html: { autocomplete: 'off' } %>
+            </div>
+
+            <div class="form-actions">
+              <%= f.button :submit, class: 'action btn btn-sm btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="card-footer">
+          <%= link_to "Back to courses", courses_path, class: "ml-2 rounded-lg py-3 bg-gray-100 inline-block font-medium" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

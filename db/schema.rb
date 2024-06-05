@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_16_195057) do
+ActiveRecord::Schema.define(version: 2024_06_02_180938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -263,6 +263,18 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "chapters", force: :cascade do |t|
+    t.integer "row_order"
+    t.bigint "course_id", null: false
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
+    t.integer "lessons_count", default: 0, null: false
+    t.index ["course_id"], name: "index_chapters_on_course_id"
+    t.index ["slug"], name: "index_chapters_on_slug", unique: true
+  end
+
   create_table "charges", force: :cascade do |t|
     t.string "service_plan"
     t.integer "amount"
@@ -282,6 +294,9 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "idea_id"
     t.integer "user_id"
+    t.integer "commentable_id"
+    t.string "commentable_type"
+    t.bigint "lesson_id"
     t.index ["idea_id"], name: "index_comments_on_idea_id"
   end
 
@@ -292,6 +307,12 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "course_categories", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
+  end
+
   create_table "course_tags", force: :cascade do |t|
     t.bigint "course_id", null: false
     t.bigint "tag_id", null: false
@@ -299,14 +320,21 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.index ["tag_id"], name: "index_course_tags_on_tag_id"
   end
 
+  create_table "course_users", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_users_on_course_id"
+    t.index ["user_id"], name: "index_course_users_on_user_id"
+  end
+
   create_table "courses", force: :cascade do |t|
-    t.string "name"
     t.text "description"
     t.string "slug"
     t.string "image"
     t.string "handout"
     t.boolean "released", default: false
-    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "marketing_description"
@@ -315,10 +343,17 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.integer "enrollments_count", default: 0, null: false
     t.integer "lessons_count", default: 0, null: false
     t.boolean "published", default: false
-    t.boolean "approved", default: false
+    t.boolean "approved", default: true
     t.integer "income", default: 0, null: false
-    t.string "level", default: "Beginner", null: false
     t.integer "price", default: 0, null: false
+    t.string "title"
+    t.boolean "paid", default: false
+    t.text "premium_description"
+    t.integer "category_id"
+    t.bigint "user_id", null: false
+    t.string "level", default: "All levels", null: false
+    t.integer "chapters_count", default: 0, null: false
+    t.integer "course_category_id"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["user_id"], name: "index_courses_on_user_id"
   end
@@ -554,6 +589,16 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.index ["enterprise_id"], name: "index_invoices_on_enterprise_id"
   end
 
+  create_table "lesson_users", force: :cascade do |t|
+    t.bigint "lesson_id", null: false
+    t.bigint "user_id", null: false
+    t.boolean "completed", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lesson_id"], name: "index_lesson_users_on_lesson_id"
+    t.index ["user_id"], name: "index_lesson_users_on_user_id"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.string "title"
     t.text "content"
@@ -564,6 +609,9 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.integer "row_order"
     t.integer "comments_count", default: 0, null: false
     t.integer "user_lessons_count", default: 0, null: false
+    t.bigint "chapter_id"
+    t.string "vimeo"
+    t.index ["chapter_id"], name: "index_lessons_on_chapter_id"
     t.index ["course_id"], name: "index_lessons_on_course_id"
     t.index ["slug"], name: "index_lessons_on_slug", unique: true
   end
@@ -902,9 +950,21 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
     t.bigint "customer_code"
     t.bigint "subscription_plan_id"
     t.string "unconfirmed_email"
+    t.string "invitation_token"
+    t.datetime "invitation_created_at"
+    t.datetime "invitation_sent_at"
+    t.datetime "invitation_accepted_at"
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
+    t.string "stripe_customer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["customer_code"], name: "index_users_on_customer_code", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["slug"], name: "index_users_on_slug", unique: true
     t.index ["subscription_plan_id"], name: "index_users_on_subscription_plan_id"
@@ -940,7 +1000,6 @@ ActiveRecord::Schema.define(version: 2024_05_16_195057) do
   add_foreign_key "charges", "users"
   add_foreign_key "course_tags", "courses"
   add_foreign_key "course_tags", "tags"
-  add_foreign_key "courses", "users"
   add_foreign_key "donations", "perks"
   add_foreign_key "donors", "users"
   add_foreign_key "enrollments", "courses"

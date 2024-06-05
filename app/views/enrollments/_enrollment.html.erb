@@ -1,0 +1,28 @@
+<div class="card">
+  <div class="card-header">
+    <h5 class="card-title">
+      <span class="text-warning fa fa-star"></span>
+      <b><%= enrollment.rating %></b>
+    </h5>
+    <h6 class="card-subtitle mb-2 text-muted">
+      <span class="fa fa-user"></span>
+      <%= link_to enrollment.user.username, profile_path(enrollment.user.username) %>
+    </h6>
+  </div>
+  <div class="card-body">
+    <p class="card-text"></p>
+    <span class="fa fa-comment"></span>
+    <b><%= enrollment.review %></b>
+  </div>
+  <div class="card-footer text-muted">
+    <p class="card-text">
+      <span class="fa fa-clock"></span>
+      Reviewed <%= time_ago_in_words(enrollment.updated_at) %> ago
+    </p>
+    <% if policy(enrollment).edit? %>
+      <p class="card-text">
+        <%= link_to 'Edit Review', edit_enrollment_path(enrollment) %>
+      </p>
+    <% end %>
+  </div>
+</div>

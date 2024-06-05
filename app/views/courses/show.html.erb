@@ -1,0 +1,159 @@
+<% content_for :title, "Course Details" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Course Details</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to 'Courses', courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page"><%= @course.title %></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+<div class="row col-lg-12 mt-5">
+  <div class="col-lg-8 order-1 order-lg-1">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3>
+          <div class="fa fa-graduation-cap"></div>
+          <%= @course.title %>
+        </h3>
+        <hr>
+        <div class="far fa-bookmark"></div> <%= pluralize(@course.chapters_count, 'Chapter') %>
+        <div class="row"></div>
+        <div class="fa fa-tasks"></div> <%= pluralize(@course.lessons_count, 'Lesson') %>
+        <div class="row"></div>
+        <div class="far fa-clock"></div> Created <%= @course.created_at.strftime("%m/%Y") %>
+        <div class="row"></div>
+        <div class="far fa-clock"></div> Last updated <%= @course.updated_at.strftime("%m/%Y") %>
+        <div class="row"></div>
+        <div class="fa fa-globe-africa"></div> <%= @course.language %>
+        <div class="row"></div> 
+        <div class="fa fa-signal"></div> <%= @course.level %>
+        <div class="row"></div>
+        <div class="fa fa-file-pdf"></div> Certificate of Completion
+        <div class="row"></div>
+        <div class="far fa-comment"></div> Access to Member-Only Q&A
+        <div class="row"></div>
+        <div class="fa fa-download"></div> Access to Member-Only Resources
+        <div class="row"></div>
+        <div class="fa fa-infinity"></div> Full Lifetime Access & Updates
+        <hr>
+        <%= @course.description %>
+      </div>
+    </div>
+    <br>
+    <h4 class="text-center">
+      <div class="far fa-bookmark"></div>
+      <%= pluralize(@course.chapters_count, 'chapter') %>
+      <div class="fa fa-tasks"></div>
+      <%= pluralize(@course.lessons_count, 'lesson') %>
+    </h4>
+    <% if current_user %>
+      <% if @course.user == current_user %>
+        <div class="list-group shadow chapter-sortable" style="cursor: grab;">
+          <% @chapters.each do |chapter| %>
+            <%= content_tag "div", id: "chapter-#{chapter.id}", data: { id: chapter.id, model_name: chapter.class.name.underscore, update_url: course_chapter_sort_path(@course, chapter)} do %>
+              <div class="list-group-item list-group-item-secondary">
+                <%= render 'chapters/chapter', chapter: chapter %>
+                <div class="list-group lesson-sortable" style="cursor: grab; min-height: 10px;">
+                  <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                    <%= content_tag "div", id: "lesson-#{lesson.id}", data: { model_name: lesson.class.name.underscore, update_url: course_lesson_sort_path(@course, lesson)} do %>
+                      <div class="list-group-item">
+                        <%= render 'lessons/lesson', lesson: lesson %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% elsif current_user.has_role?(:admin) || current_user.bought?(@course) %>
+        <div class="list-group shadow">
+          <% @chapters.each do |chapter| %>
+            <div class="list-group-item list-group-item-secondary">
+              <%= render 'chapters/chapter', chapter: chapter %>
+              <div class="list-group">
+                <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                  <div class="list-group-item">
+                    <%= render 'lessons/lesson', lesson: lesson %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="list-group shadow">
+          <% @chapters.each do |chapter| %>
+            <div class="list-group-item list-group-item-secondary">
+              <%= render 'chapters/chapter', chapter: chapter %>
+              <div class="list-group">
+                <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                  <div class="list-group-item">
+                    <%= render 'lessons/lesson_preview', lesson: lesson %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="list-group shadow">
+        <% @chapters.each do |chapter| %>
+          <div class="list-group-item list-group-item-secondary">
+            <%= render 'chapters/chapter', chapter: chapter %>
+            <div class="list-group">
+              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                <div class="list-group-item">
+                  <%= render 'lessons/lesson_preview', lesson: lesson %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @reviews.any? %>
+      <br>
+      <h4>
+        <div class="far fa-comment"></div>
+        <%= pluralize(@reviews.count, 'review') %>
+      </h4>
+      <div class="list-group">
+        <% @reviews.each do |enrollment| %>
+          <div class="list-group-item">
+            <%= render 'enrollments/enrollment', enrollment: enrollment %>
+          </div>
+        <% end %>
+      </div>
+      <p></p>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4 order-0 order-lg-1">
+    <div class="sticky-top">
+      <%= render 'courses/course', course: @course %>
+    </div>
+    <p></p>
+  </div>
+</div>

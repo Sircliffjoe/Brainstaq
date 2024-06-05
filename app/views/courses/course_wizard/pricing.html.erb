@@ -1,0 +1,11 @@
+<%= render layout: 'courses/course_wizard/step' do %>
+  <%= simple_form_for @course, url: course_course_wizard_path, method: :put do |f| %>
+    <h2>Pricing</h2>
+    <p>Select a price for your course:</p>
+    <%#= f.input :price, collection: [0, 9, 19, 49, 99, 149, 199, 499, 999, 1999], as: :radio_buttons do |price| %>
+      <label for="course_price_<%#= price %>"><%#= price %></label>
+    <%# end %>
+    <br/>
+    <%= f.button :submit, "Save & Continue", class: "actions btn btn-primary rounded mt-3" %>
+  <% end %>
+<% end %>

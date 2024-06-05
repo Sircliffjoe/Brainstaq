@@ -34,7 +34,7 @@
         <div class="col-lg-6 col-md-9 text-center mb-40">
           <h2 class="section-title">Search <strong><span class="text-primary">Results</span></strong></h2>
           <p style="font-size: 18px;">
-            Discover and follow creative and innovative business ideas and projects across Africa
+            Discover business and entrepreneurship courses, creative and innovative business ideas and projects across Africa
           </p>
         </div>
       </div>
@@ -49,7 +49,7 @@
             <section class="search-result-item">
               <a class="image-link" href="<%= idea_url(idea) %>">
                 <% if idea.image.present? %>
-                  <%=image_tag idea.image_url, class: "image search-img", style: "width: 200px; height: 200px;" %>
+                  <%=image_tag idea.image_url, class: "image search-img", style: "width: 240px; height: 200px;" %>
                 <% end %>
               </a>
               <div class="search-result-item-body">
@@ -88,7 +88,7 @@
             <section class="search-result-item">
               <a class="image-link" href="<%= enterprise_url(enterprise) %>">
                 <% if enterprise.image.present? %>
-                  <%=image_tag enterprise.image_url, class: "image search-img", style: "width: 200px; height: 200px;" %>
+                  <%=image_tag enterprise.image_url, class: "image search-img", style: "width: auto; height: 100%;" %>
                 <% end %>
               </a>
               <div class="search-result-item-body">
@@ -105,6 +105,34 @@
                   </div>
                   <div class="col-sm-3 text-align-center">
                     <%= link_to 'View More', enterprise, class: 'btn btn-primary btn-info btn-sm' %>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <% c = c + 1 %>
+          <% end %>
+
+          <% @courses.each do |course| %>
+            <section class="search-result-item">
+              <a class="image-link" href="<%= course_url(course) %>">
+                <% if course.image.present? %>
+                  <%=image_tag course.image, class: "image search-img", style: "width: auto; height: 100%;" %>
+                <% end %>
+              </a>
+              <div class="search-result-item-body">
+                <div class="row">
+                  <div class="col-sm-9">
+                    <h4 class="search-result-item-heading">
+                      <%= link_to course.title, course, class: 'text-dark', style: "font-weight: bold;" %>
+                    </h4>
+                    <p class="info usr-cnt"><%= course.course_category.name %></p>
+                  
+                    <a class="text-dark description" href="<%= course_url(course) %>">
+                      <%= course.description.to_plain_text.truncate(300) %>
+                    </a>
+                  </div>
+                  <div class="col-sm-3 text-align-center">
+                    <%= link_to 'View More', course, class: 'btn btn-primary btn-info btn-sm' %>
                   </div>
                 </div>
               </div>

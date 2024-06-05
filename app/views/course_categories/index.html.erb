@@ -1,0 +1,109 @@
+<% content_for :title, "Course Details" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Course Categories</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Courses", courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Course Categories</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+
+<main id="main">
+  <section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+    <div class="container">  
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-9 text-center mb-40">
+          <h2 class="section-title">Explore <strong><span class="text-primary">All</span></strong></h2>
+          <p style="font-size: 16px;">
+            Grow your entrepreneurial skills with the most reliable online courses and certifications
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="site-section ideas-entry-wrap mt-0" style="margin-top: 0px;" data-aos="fade" data-aos-delay="100">
+      <div class="container">
+
+        <%= render partial: "layouts/course_categories_grid" %>
+    </div>
+  </section>
+  <div class="justify-content-center">
+  </div>
+
+  <%= render partial: "layouts/cta" %>
+</main>
+
+<style>
+  .card {
+    border-radius: 5px; /* Rounded borders */
+    transition: transform 0.3s ease; /* Animation on hover */
+  }
+
+  .icon-background {
+        color: #ffffff; /* Set the background color to white */
+    }
+
+  .card:hover {
+    transform: scale(1.05); /* Enlarge the card on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  }
+
+  /* Customize background colors for different categories */
+  .bg-category1, .bg-category3, .bg-category5, .bg-category7 {
+  background-color: #B6D0E2; /* Gold */
+}
+
+.bg-category2, .bg-category4, .bg-category6 {
+  background-color: #9FE2BF; /* Sky Blue */
+}
+
+.bg-category8, .bg-category10, .bg-category12, .bg-category14 {
+  background-color: #F0FFFF; /* Sky Blue */
+}
+
+.bg-category9, .bg-category11, .bg-category13 {
+  background-color: #FFF5EE; /* Light Salmon */
+}
+
+.bg-category15, .bg-category17, .bg-category19, .bg-category21 {
+  background-color: #eaebfe; /* Light Salmon */
+}
+
+.bg-category16, .bg-category18, .bg-category20 {
+  background-color: #EEF2F8; /* Sky Blue */
+}
+
+.bg-category22, .bg-category24, .bg-category26, .bg-category28 {
+  background-color: #B7C9E2; /* Sky Blue */
+}
+
+.bg-category23, .bg-category25, .bg-category27 {
+  background-color: #E5E4E2; /* Light Salmon */
+}
+
+.bg-category29, .bg-category31, .bg-category33, .bg-category35 {
+  background-color: #D3D3D3; /* Light Salmon */
+}
+
+.bg-category30, .bg-category32, .bg-category34 {
+  background-color: #F2D2BD; /* Sky Blue */
+}
+</style>

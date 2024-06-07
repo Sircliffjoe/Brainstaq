@@ -1,0 +1,314 @@
+<% content_for :title, "Course Details" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Course Details</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to 'Courses', courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page"><%= @course.title %></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+<section class="bg-none py-0 py-sm-5">
+  <div class="container">
+    <div class="row py-2">
+      <div class="col-lg-8">
+        <!-- Badge -->
+        <h6 class="mb-3 font-base btn-primary btn-sm cat-sm text-white py-2 px-4 rounded-2 d-inline-block"><%= @course.course_category.name %></h6>
+        <!-- Title -->
+        <h1><%= @course.title %></h1>
+        <p><%= @course.description %></p>
+        <!-- Content -->
+        <ul class="list-inline mb-0 mt-2">
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="far fa-bookmark text-info mr-1"></i><%= pluralize(@course.chapters_count, 'chapter') %></li>
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fa fa-tasks text-danger mr-1"></i><%= pluralize(@course.lessons_count, 'lesson') %></li>
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal text-success mr-1"></i><%= @course.level %></li>
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate text-orange mr-1"></i><%= @course.enrollments_count %> Enrolled</li>
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fa fa-clock text-danger mr-1"></i>Updated on <%= @course.updated_at.strftime("%m/%Y") %></li>    
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-globe text-info mr-1"></i><%= @course.language %></li>
+          <li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star text-warning mr-1"></i><%= @course.average_rating.round %> Rating</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="row col-lg-12">
+  <div class="col-lg-8 order-1 order-lg-1">
+    <% if current_user %>
+      <% if @course.user == current_user %>
+        <div class="list-group shadow chapter-sortable" style="cursor: grab;">
+          <% @chapters.each do |chapter| %>
+            <%= content_tag "div", id: "chapter-#{chapter.id}", data: { id: chapter.id, model_name: chapter.class.name.underscore, update_url: course_chapter_sort_path(@course, chapter)} do %>
+              <div class="list-group-item list-group-item-secondary">
+                <%#= render 'chapters/chapter', chapter: chapter %>
+                <% if @course.user == current_user %>
+                  <%= link_to edit_course_chapter_path(@course, chapter), class: 'badge badge-warning mr-1' do %>
+                    <i class="fa fa-edit"></i>
+                  <% end %>
+                  <%= link_to [@course, chapter], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-1' do %>
+                    <i class="fa fa-trash"></i>
+                  <% end %>
+                <% end %>
+                <i class="far fa-bookmark"></i>Chapter
+                <%= chapter.row_order_rank + 1 %>.
+                <%= chapter.title %>
+                <div class="text-center">
+                  <i class="fa fa-tasks"></i>
+                  <%= pluralize(chapter.lessons_count, 'lesson') %>
+                </div>
+                
+                <div class="list-group lesson-sortable" style="cursor: grab; min-height: 10px;">
+                  <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                    <%= content_tag "div", id: "lesson-#{lesson.id}", data: { model_name: lesson.class.name.underscore, update_url: course_lesson_sort_path(@course, lesson)} do %>
+                      <div class="list-group-item">
+                        <%#= render 'lessons/lesson', lesson: lesson %>
+                        <% if current_user.admin? %>
+                          <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+                            <i class="fa fa-edit"></i>
+                          <% end %>
+                          <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+                            <i class="fa fa-trash"></i>
+                          <% end %>
+                        <% elsif current_user.viewed?(lesson) %>
+                          <div class="text-success"><i class="fa fa-check-square"></i></div>
+                        <% else %>
+                          <div class="text-danger"><i class="fa fa-check-square"></i></div>
+                        <% end %>
+
+                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %> 
+                          <b>
+                            <%= lesson.row_order_rank + 1 %>.
+                          </b>
+                          <%= lesson.title %>
+                        <% end %>
+
+                        <div class="row">
+                          <% unless lesson.comments_count.zero? %>
+                            <i class="fa fa-comment"></i>
+                            <%= lesson.comments_count %>
+                          <% end %>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% elsif current_user.has_role?(:admin) || current_user.bought?(@course) %>
+        <div class="list-group shadow">
+          <% @chapters.each do |chapter| %>
+            <div class="list-group-item list-group-item-secondary">
+              <%#= render 'chapters/chapter', chapter: chapter %>
+              <% if @course.user == current_user %>
+                  <%= link_to edit_course_chapter_path(@course, chapter), class: 'badge badge-warning mr-1' do %>
+                    <i class="fa fa-edit"></i>
+                  <% end %>
+                  <%= link_to [@course, chapter], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-1' do %>
+                    <i class="fa fa-trash"></i>
+                  <% end %>
+                <% end %>
+                <i class="far fa-bookmark"></i>Chapter
+                <%= chapter.row_order_rank + 1 %>.
+                <%= chapter.title %>
+                <div class="text-center">
+                  <i class="fa fa-tasks"></i>
+                  <%= pluralize(chapter.lessons_count, 'lesson') %>
+                </div>
+              <div class="list-group">
+                <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                  <div class="list-group-item">
+                    <%#= render 'lessons/lesson', lesson: lesson %>
+                    <% if current_user.admin? %>
+                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+                        <i class="fa fa-edit"></i>
+                      <% end %>
+                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                    <% elsif current_user.viewed?(lesson) %>
+                      <div class="text-success"><i class="fa fa-check-square"></i></div>
+                    <% else %>
+                      <div class="text-danger"><i class="fa fa-check-square"></i></div>
+                    <% end %>
+
+                    <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %> 
+                      <b>
+                        <%= lesson.row_order_rank + 1 %>.
+                      </b>
+                      <%= lesson.title %>
+                    <% end %>
+
+                    <div class="row">
+                      <% unless lesson.comments_count.zero? %>
+                        <i class="fa fa-comment"></i>
+                        <%= lesson.comments_count %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="list-group shadow">
+          <% @chapters.each do |chapter| %>
+            <div class="list-group-item list-group-item-secondary">
+              <%#= render 'chapters/chapter', chapter: chapter %>
+              <% if @course.user == current_user %>
+                  <%= link_to edit_course_chapter_path(@course, chapter), class: 'badge badge-warning mr-1' do %>
+                    <i class="fa fa-edit"></i>
+                  <% end %>
+                  <%= link_to [@course, chapter], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-1' do %>
+                    <i class="fa fa-trash"></i>
+                  <% end %>
+                <% end %>
+                <i class="far fa-bookmark"></i>Chapter
+                <%= chapter.row_order_rank + 1 %>.
+                <%= chapter.title %>
+                <div class="text-center">
+                  <i class="fa fa-tasks"></i>
+                  <%= pluralize(chapter.lessons_count, 'lesson') %>
+                </div>
+              <div class="list-group">
+                <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                  <div class="list-group-item">
+                    <%#= render 'lessons/lesson_preview', lesson: lesson %>
+                    <% if current_user.admin? %>
+                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+                        <i class="fa fa-edit"></i>
+                      <% end %>
+                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                    <% elsif current_user.viewed?(lesson) %>
+                      <div class="text-success"><i class="fa fa-check-square"></i></div>
+                    <% else %>
+                      <div class="text-danger"><i class="fa fa-check-square"></i></div>
+                    <% end %>
+
+                    <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %> 
+                      <b>
+                        <%= lesson.row_order_rank + 1 %>.
+                      </b>
+                      <%= lesson.title %>
+                    <% end %>
+
+                    <div class="row">
+                      <% unless lesson.comments_count.zero? %>
+                        <i class="fa fa-comment"></i>
+                        <%= lesson.comments_count %>
+                      <% end %>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    
+    <% else %>
+      <div class="list-group shadow">
+        <% @chapters.each do |chapter| %>
+          <div class="list-group-item list-group-item-secondary">
+            <%#= render 'chapters/chapter', chapter: chapter %>
+            <% if @course.user == current_user %>
+                  <%= link_to edit_course_chapter_path(@course, chapter), class: 'badge badge-warning mr-1' do %>
+                    <i class="fa fa-edit"></i>
+                  <% end %>
+                  <%= link_to [@course, chapter], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-1' do %>
+                    <i class="fa fa-trash"></i>
+                  <% end %>
+                <% end %>
+                <i class="far fa-bookmark"></i>Chapter
+                <%= chapter.row_order_rank + 1 %>.
+                <%= chapter.title %>
+                <div class="text-center">
+                  <i class="fa fa-tasks"></i>
+                  <%= pluralize(chapter.lessons_count, 'lesson') %>
+                </div>
+            <div class="list-group">
+              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                <div class="list-group-item">
+                  <%#= render 'lessons/lesson_preview', lesson: lesson %>
+                  <% if current_user.admin? %>
+                    <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+                      <i class="fa fa-edit"></i>
+                    <% end %>
+                    <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+                      <i class="fa fa-trash"></i>
+                    <% end %>
+                  <% elsif current_user.viewed?(lesson) %>
+                    <div class="text-success"><i class="fa fa-check-square"></i></div>
+                  <% else %>
+                    <div class="text-danger"><i class="fa fa-check-square"></i></div>
+                  <% end %>
+
+                  <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %> 
+                    <b>
+                      <%= lesson.row_order_rank + 1 %>.
+                    </b>
+                    <%= lesson.title %>
+                  <% end %>
+
+                  <div class="row">
+                    <% unless lesson.comments_count.zero? %>
+                      <i class="fa fa-comment"></i>
+                      <%= lesson.comments_count %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <% if @reviews.any? %>
+      <br>
+      <h4>
+        <div class="far fa-comment"></div>
+        <%= pluralize(@reviews.count, 'review') %>
+      </h4>
+      <div class="list-group">
+        <% @reviews.each do |enrollment| %>
+          <div class="list-group-item">
+            <%= render 'enrollments/enrollment', enrollment: enrollment %>
+          </div>
+        <% end %>
+      </div>
+      <p></p>
+    <% end %>
+  </div>
+
+  <div class="col-lg-4 order-0 order-lg-1">
+    <div class="sticky-top">
+      <%= render 'courses/course', course: @course %>
+    </div>
+    <p></p>
+  </div>
+</div>

@@ -26,134 +26,904 @@
   <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
 </section>
 <!-- end of page-header -->
-<div class="row col-lg-12 mt-5">
-  <div class="col-lg-8 order-1 order-lg-1">
-    <div class="card shadow">
-      <div class="card-body">
-        <h3>
-          <div class="fa fa-graduation-cap"></div>
-          <%= @course.title %>
-        </h3>
-        <hr>
-        <div class="far fa-bookmark"></div> <%= pluralize(@course.chapters_count, 'Chapter') %>
-        <div class="row"></div>
-        <div class="fa fa-tasks"></div> <%= pluralize(@course.lessons_count, 'Lesson') %>
-        <div class="row"></div>
-        <div class="far fa-clock"></div> Created <%= @course.created_at.strftime("%m/%Y") %>
-        <div class="row"></div>
-        <div class="far fa-clock"></div> Last updated <%= @course.updated_at.strftime("%m/%Y") %>
-        <div class="row"></div>
-        <div class="fa fa-globe-africa"></div> <%= @course.language %>
-        <div class="row"></div> 
-        <div class="fa fa-signal"></div> <%= @course.level %>
-        <div class="row"></div>
-        <div class="fa fa-file-pdf"></div> Certificate of Completion
-        <div class="row"></div>
-        <div class="far fa-comment"></div> Access to Member-Only Q&A
-        <div class="row"></div>
-        <div class="fa fa-download"></div> Access to Member-Only Resources
-        <div class="row"></div>
-        <div class="fa fa-infinity"></div> Full Lifetime Access & Updates
-        <hr>
-        <%= @course.description %>
-      </div>
-    </div>
-    <br>
-    <h4 class="text-center">
-      <div class="far fa-bookmark"></div>
-      <%= pluralize(@course.chapters_count, 'chapter') %>
-      <div class="fa fa-tasks"></div>
-      <%= pluralize(@course.lessons_count, 'lesson') %>
-    </h4>
+
+<section class="bg-none py-0 py-sm-5">
+	<div class="container">
+		<div class="row py-5">
+			<div class="col-lg-8">
+				<!-- Badge -->
+				<h6 class="mb-3 font-base btn-primary btn-sm cat-sm text-white py-2 px-4 rounded-2 d-inline-block"><%= @course.course_category.name %></h6>
+				<!-- Title -->
+				<h1><%= @course.title %></h1>
+				<p><%= simple_format(@course.marketing_description) %></p>
+				<!-- Content -->
+				<ul class="list-inline mb-0">
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star text-warning me-2"></i> <%= @course.average_rating.round %> Rating</li>
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate text-orange me-2"></i> <%= @course.enrollments_count %> Enrolled</li>
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal text-success me-2"></i> <%= @course.level %></li>
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fa fa-clock text-danger me-2"> </i> Last updated <%= @course.updated_at.strftime("%m/%Y") %></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="pb-0">
+	<div class="container">
+		<div class="row">
+			<!-- Main content START -->
+			<div class="col-lg-8">
+				<div class="card shadow rounded-2 p-0">
+					<div class="card-header border-bottom px-4 py-3">
+						<ul class="nav nav-pills nav-tabs-line py-0" id="myTab" role="tablist">
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0 active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+							</li>
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0" id="curriculum-tab" data-toggle="tab" href="#curriculum" role="tab" aria-controls="curriculum" aria-selected="true">Curriculum</button>
+							</li>
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0" id="instructor-tab" data-toggle="tab" href="#instructor" type="button" role="tab" aria-controls="instructor" aria-selected="false">Instructor</button>
+							</li>
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0" id="reviews-tab" data-toggle="tab" href="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+							</li>
+							<li class="nav-item me-2 me-sm-4" role="presentation">
+								<button class="nav-link mb-2 mb-md-0" id="faq-tab" data-toggle="tab" href="#faq" type="button" role="tab" aria-controls="faq" aria-selected="false">FAQs</button>
+							</li>
+						</ul>
+					</div>
+					<!-- Tabs END -->
+
+					<!-- Overview contents START -->
+					<div class="card-body p-4">
+						<div class="tab-content pt-2" id="myTabContent">
+							<!-- Content START -->
+							<div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+								<!-- Course detail START -->
+								<h5 class="mb-3">Course Description</h5>
+								<p class="mb-3"><%= @course.description %></p>
+                <!-- Course detail END -->
+							</div>
+							<!-- Content END -->
+
+              <!-- Curriculum Content START -->
+<div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum-tab">
+  <!-- Course accordion START -->
+  <div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
     <% if current_user %>
       <% if @course.user == current_user %>
-        <div class="list-group shadow chapter-sortable" style="cursor: grab;">
-          <% @chapters.each do |chapter| %>
-            <%= content_tag "div", id: "chapter-#{chapter.id}", data: { id: chapter.id, model_name: chapter.class.name.underscore, update_url: course_chapter_sort_path(@course, chapter)} do %>
-              <div class="list-group-item list-group-item-secondary">
-                <%= render 'chapters/chapter', chapter: chapter %>
-                <div class="list-group lesson-sortable" style="cursor: grab; min-height: 10px;">
-                  <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                    <%= content_tag "div", id: "lesson-#{lesson.id}", data: { model_name: lesson.class.name.underscore, update_url: course_lesson_sort_path(@course, lesson)} do %>
-                      <div class="list-group-item">
-                        <%= render 'lessons/lesson', lesson: lesson %>
-                      </div>
+        <% @chapters.each_with_index do |chapter, index| %>
+          <div class="accordion-item mb-3">
+            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+              </button>
+            </h6>
+            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+              <div class="accordion-body mt-3">
+                <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative d-flex align-items-center">
+                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                        <i class="fas fa-play me-0"></i>
+                      </a>
+                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                        <% end %>
+                      </span>
+                    </div>
+                    <% if current_user.admin? %>
+                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
+                        <i class="fa fa-edit"></i>
+                      <% end %>
+                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
+                        <i class="fa fa-trash"></i>
+                      <% end %>
+                    <% elsif current_user.viewed?(lesson) %>
+                      <div class="text-success"><i class="fa fa-check-square"></i></div>
+                    <% else %>
+                      <div class="text-danger"><i class="fa fa-check-square"></i></div>
                     <% end %>
-                  <% end %>
-                </div>
+                    <div class="row">
+                      <% unless lesson.comments_count.zero? %>
+                        <i class="fa fa-comment"></i> <%= lesson.comments_count %>
+                      <% end %>
+                    </div>
+                  </div>
+                  <hr> <!-- Divider -->
+                <% end %>
               </div>
-            <% end %>
-          <% end %>
-        </div>
+            </div>
+          </div>
+        <% end %>
       <% elsif current_user.has_role?(:admin) || current_user.bought?(@course) %>
-        <div class="list-group shadow">
-          <% @chapters.each do |chapter| %>
-            <div class="list-group-item list-group-item-secondary">
-              <%= render 'chapters/chapter', chapter: chapter %>
-              <div class="list-group">
+        <% @chapters.each_with_index do |chapter, index| %>
+          <div class="accordion-item mb-3">
+            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+              </button>
+            </h6>
+            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+              <div class="accordion-body mt-3">
                 <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                  <div class="list-group-item">
-                    <%= render 'lessons/lesson', lesson: lesson %>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative d-flex align-items-center">
+                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                        <i class="fas fa-play me-0"></i>
+                      </a>
+                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                        <% end %>
+                      </span>
+                    </div>
                   </div>
+                  <hr> <!-- Divider -->
                 <% end %>
               </div>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       <% else %>
-        <div class="list-group shadow">
-          <% @chapters.each do |chapter| %>
-            <div class="list-group-item list-group-item-secondary">
-              <%= render 'chapters/chapter', chapter: chapter %>
-              <div class="list-group">
+        <% @chapters.each_with_index do |chapter, index| %>
+          <div class="accordion-item mb-3">
+            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+              </button>
+            </h6>
+            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+              <div class="accordion-body mt-3">
                 <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                  <div class="list-group-item">
-                    <%= render 'lessons/lesson_preview', lesson: lesson %>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="position-relative d-flex align-items-center">
+                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                        <i class="fas fa-play me-0"></i>
+                      </a>
+                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                        <% end %>
+                      </span>
+                    </div>
                   </div>
+                  <hr> <!-- Divider -->
                 <% end %>
               </div>
             </div>
-          <% end %>
-        </div>
+          </div>
+        <% end %>
       <% end %>
     <% else %>
-      <div class="list-group shadow">
-        <% @chapters.each do |chapter| %>
-          <div class="list-group-item list-group-item-secondary">
-            <%= render 'chapters/chapter', chapter: chapter %>
-            <div class="list-group">
+      <% @chapters.each_with_index do |chapter, index| %>
+        <div class="accordion-item mb-3">
+          <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+            <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+              <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+            </button>
+          </h6>
+          <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+            <div class="accordion-body mt-3">
               <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                <div class="list-group-item">
-                  <%= render 'lessons/lesson_preview', lesson: lesson %>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="position-relative d-flex align-items-center">
+                    <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
+                      <i class="fas fa-play me-0"></i>
+                    </a>
+                    <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                      <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                        <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                      <% end %>
+                    </span>
+                  </div>
                 </div>
+                <hr> <!-- Divider -->
               <% end %>
             </div>
           </div>
-        <% end %>
-      </div>
-    <% end %>
-
-    <% if @reviews.any? %>
-      <br>
-      <h4>
-        <div class="far fa-comment"></div>
-        <%= pluralize(@reviews.count, 'review') %>
-      </h4>
-      <div class="list-group">
-        <% @reviews.each do |enrollment| %>
-          <div class="list-group-item">
-            <%= render 'enrollments/enrollment', enrollment: enrollment %>
-          </div>
-        <% end %>
-      </div>
-      <p></p>
+        </div>
+      <% end %>
     <% end %>
   </div>
+  <!-- Course accordion END -->
+</div
 
-  <div class="col-lg-4 order-0 order-lg-1">
-    <div class="sticky-top">
-      <%= render 'courses/course', course: @course %>
-    </div>
-    <p></p>
-  </div>
-</div>
+							<!-- Content START -->
+							<div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
+								<!-- Card START -->
+								<div class="card mb-0 mb-md-4">
+									<div class="row g-0 align-items-center">
+										<div class="col-md-5">
+											<!-- Image -->
+											<% if @course.user %>
+												<% if @course.user.image_url %>
+													<%= image_tag @course.user.image_url, size: '180x180', class: 'img-fluid rounded-3' %>
+												<% end %>
+											<% end %>
+										</div>
+										<div class="col-md-7">
+											<!-- Card body -->
+											<div class="card-body">
+												<!-- Title -->
+												<h3 class="card-title mb-0"><%= link_to @course.user.full_name, profile_path(@course.user.username) %></h3>
+												<p class="mb-2">Course Instructor</p>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Card END -->
+								
+								<!-- Instructor info -->
+								<h5 class="mb-3">About Instructor</h5>
+								<p class="mb-3">Fulfilled direction use continual set him propriety continued. Saw met applauded favorite deficient engrossed concealed and her. Concluded boy perpetual old supposing. Farther related bed and passage comfort civilly. Dashboard see frankness objection abilities. As hastened oh produced prospect formerly up am. Placing forming nay looking old married few has. Margaret disposed of add screened rendered six say his striking confined. </p>
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							
+							<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+								<!-- Review START -->
+								<div class="row mb-4">
+									<h5 class="mb-4">Our Student Reviews</h5>
+
+						
+								</div>
+								<!-- Review END -->
+
+								
+
+								
+							</div>
+							<!-- Content END -->
+
+							<!-- Content START -->
+							<div class="tab-pane fade" id="faq" role="tabpanel" aria-labelledby="faq-tab">
+								<!-- Title -->
+								<h5 class="mb-3">Frequently Asked Questions</h5>
+								<!-- Accordion START -->
+								<div class="accordion accordion-flush" id="accordionExample">
+									<!-- Item -->
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingOne">
+											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+												<span class="text-secondary fw-bold me-3">01</span>  
+												<span class="h6 mb-0">How Digital Marketing Work?</span> 
+											</button>
+										</h2>
+										<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+											<div class="accordion-body pt-0">
+												Comfort reached gay perhaps chamber his six detract besides add. Moonlight newspaper up its enjoyment agreeable depending. Timed voice share led him to widen noisy young. At weddings believed laughing although the material does the exercise of. Up attempt offered ye civilly so sitting to. She new course gets living within Elinor joy. She rapturous suffering concealed. 
+											</div>
+										</div>
+									</div>
+									<!-- Item -->
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingTwo">
+											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+												<span class="text-secondary fw-bold me-3">02</span>  
+												<span class="h6 mb-0">What is SEO?</span> 
+											</button>
+										</h2>
+										<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+											<div class="accordion-body pt-0">
+												Pleasure and so read the was hope entire first decided the so must have as on was want up of I will rival in came this touched got a physics to travelling so all especially refinement monstrous desk they was arrange the overall helplessly out of particularly ill are purer.
+												<p class="mt-2">Person she control of to beginnings view looked eyes Than continues its and because and given and shown creating curiously to more in are man were smaller by we instead the these sighed Avoid in the sufficient me real man longer of his how her for countries to brains warned notch important Finds be to the of on the increased explain noise of power deep asking contribution this live of suppliers goals bit separated poured sort several the was organization the if relations go work after mechanic But we've area wasn't everything needs of and doctor where would.</p>	
+												Go he prisoners And mountains in just switching city steps Might rung line what Mr Bulk; Was or between towards the have phase were its world my samples are the was royal he luxury the about trying And on he to my enough is was the remember a although lead in were through serving their assistant fame day have for its after would cheek dull have what in go feedback assignment Her of a any help if the a of semantics is rational overhauls following in from our hazardous and used more he themselves the parents up just regulatory.
+											</div>
+										</div>
+									</div>
+									<!-- Item -->
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingThree">
+											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+												<span class="text-secondary fw-bold me-3">03</span>  
+												<span class="h6 mb-0">Who should join this course?</span> 
+											</button>
+										</h2>
+										<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+											<div class="accordion-body pt-0">
+												Post no so what deal evil rent by real in. But her ready least set lived spite solid. September how men saw tolerably two behavior arranging. She offices for highest and replied one venture pasture. Applauded no discovery in newspaper allowance am northward. Frequently partiality possession resolution at or appearance unaffected me. Engaged its was the evident pleased husband. Ye goodness felicity do disposal dwelling no. First am plate jokes to began to cause a scale. <strong>Subjects he prospect elegance followed no overcame</strong> possible it on. 
+											</div>
+										</div>
+									</div>
+									<!-- Item -->
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingFour">
+											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+												<span class="text-secondary fw-bold me-3">04</span>  
+												<span class="h6 mb-0">What are the T&C for this program?</span> 
+											</button>
+										</h2>
+										<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+											<div class="accordion-body pt-0">
+												Night signs creeping yielding green Seasons together man green fruitful make fish behold earth unto you'll lights living moving sea open for fish day multiply tree good female god had fruitful of creature fill shall don't day fourth lesser he the isn't let multiply may Creeping earth under was You're without which image stars in Own creeping night of wherein Heaven years their he over doesn't whose won't kind seasons light Won't that fish him whose won't also it dominion heaven fruitful Whales created And likeness doesn't that Years without divided saying morning creeping hath you'll seas cattle in multiply under together in us said above dry tree herb saw living darkness without have won't for i behold meat brought winged Moving living second beast Over fish place beast image very him evening Thing they're fruit together forth day Seed lights Land creature together Multiply waters form brought.
+											</div>
+										</div>
+									</div>
+									<!-- Item -->
+									<div class="accordion-item">
+										<h2 class="accordion-header" id="headingFive">
+											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+												<span class="text-secondary fw-bold me-3">05</span>  
+												<span class="h6 mb-0">What certificates will I be received for this program?</span> 
+											</button>
+										</h2>
+										<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+											<div class="accordion-body pt-0">
+												Smile spoke total few great had never their too Amongst moments do in arrived at my replied Fat weddings servants but man believed prospect Companions understood is as especially pianoforte connection introduced Nay newspaper can sportsman are admitting gentleman belonging his Is oppose no he summer lovers twenty in Not his difficulty boisterous surrounded bed Seems folly if in given scale Sex contented dependent conveying advantage. 
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Accordion END -->
+							</div>
+							<!-- Content END -->
+
+						</div>
+					</div>
+					<!-- Tab contents END -->
+				</div>
+			</div>
+			<!-- Main content END -->
+
+			<!-- Right sidebar START -->
+			<div class="col-lg-4 pt-5 pt-lg-0">
+				<div class="row mb-5 mb-lg-0">
+					<div class="col-md-6 col-lg-12">
+						<!-- Video START -->
+						<div class="card shadow p-2 mb-4 z-index-9">
+							<div class="overflow-hidden rounded-3">
+								
+                <% if @course.image.present? %>
+                      <%= image_tag @course.image, loading: "lazy", class: "card-img", height: "240", width: "100%" %>
+                  <% end %>
+								<!-- Overlay -->
+								<div class="bg-overlay bg-dark opacity-6"></div>
+								<div class="card-img-overlay d-flex align-items-start flex-column p-3">
+									<!-- Video button and link -->
+									
+								</div>
+							</div>
+		
+							<!-- Card body -->
+							<div class="card-body px-3">
+								<!-- Info -->
+								<div class="d-flex justify-content-between align-items-center">
+									<!-- Price and time -->
+									<div>
+										<div class="d-flex align-items-center">
+											<h3 class="fw-bold mb-0 me-2">FREE</h3>
+										</div>
+									</div>
+								</div>
+
+								<!-- Buttons -->
+								<div class="mt-3 d-sm-flex justify-content-sm-between">
+									<a href="#" class="btn btn-outline-primary mb-0">Enroll</a>
+								</div>
+							</div>
+						</div>
+						<!-- Video END -->
+
+						<!-- Course info START -->
+						<div class="card card-body shadow p-4 mb-4">
+							<!-- Title -->
+							<h4 class="mb-3 text-center">This course includes</h4>
+							<ul class="list-group list-group-borderless">
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-book-open mr-2 text-primary"></i>Chapters</span>
+									<span><%= @course.chapters_count %></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-clock mr-2 text-primary"></i>Lessons</span>
+									<span><%= @course.lessons_count %></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-signal mr-2 text-primary"></i>Skills</span>
+									<span><%= @course.level %></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-globe  mr-2 text-primary"></i>Language</span>
+									<span><%= @course.language %></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-user-clock mr-2 text-primary"></i>Updated on</span>
+									<span><%= @course.updated_at.strftime("%m/%Y") %></span>
+								</li>
+								<li class="list-group-item d-flex justify-content-between align-items-center">
+									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-medal  mr-2 text-primary"></i>Certificate</span>
+									<span>Yes</span>
+								</li>
+							</ul>
+						</div>
+						<!-- Course info END -->
+					</div>
+					</div>
+				</div><!-- Row End -->
+			</div>
+			<!-- Right sidebar END -->
+
+		</div><!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Page content END -->
+
+<style>
+
+.card {
+  --bs-card-spacer-y: 1rem;
+  --bs-card-spacer-x: 1.25rem;
+  --bs-card-title-spacer-y: 0.5rem;
+  --bs-card-title-color: var(--bs-gray-800);
+  --bs-card-subtitle-color: ;
+  --bs-card-border-width: 0;
+  --bs-card-border-color: var(--bs-border-color);
+  --bs-card-border-radius: 0.5rem;
+  --bs-card-box-shadow: ;
+  --bs-card-inner-border-radius: 0.5rem;
+  --bs-card-cap-padding-y: 1rem;
+  --bs-card-cap-padding-x: 1rem;
+  --bs-card-cap-bg: var(--bs-white);
+  --bs-card-cap-color: ;
+  --bs-card-height: ;
+  --bs-card-color: ;
+  --bs-card-bg: var(--bs-body-bg);
+  --bs-card-img-overlay-padding: 1.25rem;
+  --bs-card-group-margin: 0.9375rem;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  min-width: 0;
+  height: var(--bs-card-height);
+  color: var(--bs-body-color);
+  word-wrap: break-word;
+  background-color: var(--bs-card-bg);
+  background-clip: border-box;
+  border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+  border-radius: var(--bs-card-border-radius);
+}
+.card > hr {
+  margin-right: 0;
+  margin-left: 0;
+}
+.card > .list-group {
+  border-top: inherit;
+  border-bottom: inherit;
+}
+.card > .list-group:first-child {
+  border-top-width: 0;
+  border-top-left-radius: var(--bs-card-inner-border-radius);
+  border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+.card > .list-group:last-child {
+  border-bottom-width: 0;
+  border-bottom-right-radius: var(--bs-card-inner-border-radius);
+  border-bottom-left-radius: var(--bs-card-inner-border-radius);
+}
+.card > .card-header + .list-group,
+.card > .list-group + .card-footer {
+  border-top: 0;
+}
+
+.card-body {
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  padding: var(--bs-card-spacer-y) var(--bs-card-spacer-x);
+  color: var(--bs-card-color);
+}
+
+.card-title {
+  margin-bottom: var(--bs-card-title-spacer-y);
+  color: var(--bs-card-title-color);
+}
+
+.card-subtitle {
+  margin-top: calc(-0.5 * var(--bs-card-title-spacer-y));
+  margin-bottom: 0;
+  color: var(--bs-card-subtitle-color);
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+.card-link + .card-link {
+  margin-left: var(--bs-card-spacer-x);
+}
+
+.card-header {
+  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  margin-bottom: 0;
+  color: var(--bs-card-cap-color);
+  background-color: var(--bs-card-cap-bg);
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+.card-header:first-child {
+  border-radius: var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius) 0 0;
+}
+
+.card-footer {
+  padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);
+  color: var(--bs-card-cap-color);
+  background-color: var(--bs-card-cap-bg);
+  border-top: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+.card-footer:last-child {
+  border-radius: 0 0 var(--bs-card-inner-border-radius) var(--bs-card-inner-border-radius);
+}
+
+.card-header-tabs {
+  margin-right: calc(-0.5 * var(--bs-card-cap-padding-x));
+  margin-bottom: calc(-1 * var(--bs-card-cap-padding-y));
+  margin-left: calc(-0.5 * var(--bs-card-cap-padding-x));
+  border-bottom: 0;
+}
+.card-header-tabs .nav-link.active {
+  background-color: var(--bs-card-bg);
+  border-bottom-color: var(--bs-card-bg);
+}
+
+.card-header-pills {
+  margin-right: calc(-0.5 * var(--bs-card-cap-padding-x));
+  margin-left: calc(-0.5 * var(--bs-card-cap-padding-x));
+}
+
+.card-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: var(--bs-card-img-overlay-padding);
+  border-radius: var(--bs-card-inner-border-radius);
+}
+
+.card-img,
+.card-img-top,
+.card-img-bottom {
+  width: 100%;
+}
+
+.card-img,
+.card-img-top {
+  border-top-left-radius: var(--bs-card-inner-border-radius);
+  border-top-right-radius: var(--bs-card-inner-border-radius);
+}
+
+.card-img,
+.card-img-bottom {
+  border-bottom-right-radius: var(--bs-card-inner-border-radius);
+  border-bottom-left-radius: var(--bs-card-inner-border-radius);
+}
+
+.card-group > .card {
+  margin-bottom: var(--bs-card-group-margin);
+}
+@media (min-width: 576px) {
+  .card-group {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+  }
+  .card-group > .card {
+    -webkit-box-flex: 1;
+        -ms-flex: 1 0 0%;
+            flex: 1 0 0%;
+    margin-bottom: 0;
+  }
+  .card-group > .card + .card {
+    margin-left: 0;
+    border-left: 0;
+  }
+  .card-group > .card:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  .card-group > .card:not(:last-child) .card-img-top,
+  .card-group > .card:not(:last-child) .card-header {
+    border-top-right-radius: 0;
+  }
+  .card-group > .card:not(:last-child) .card-img-bottom,
+  .card-group > .card:not(:last-child) .card-footer {
+    border-bottom-right-radius: 0;
+  }
+  .card-group > .card:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .card-group > .card:not(:first-child) .card-img-top,
+  .card-group > .card:not(:first-child) .card-header {
+    border-top-left-radius: 0;
+  }
+  .card-group > .card:not(:first-child) .card-img-bottom,
+  .card-group > .card:not(:first-child) .card-footer {
+    border-bottom-left-radius: 0;
+  }
+}
+
+.accordion {
+  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-bg: var(--bs-body-bg);
+  --bs-accordion-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, border-radius 0.15s ease;
+  --bs-accordion-border-color: var(--bs-border-color);
+  --bs-accordion-border-width: var(--bs-border-width);
+  --bs-accordion-border-radius: var(--bs-border-radius);
+  --bs-accordion-inner-border-radius: calc(var(--bs-border-radius) - (var(--bs-border-width)));
+  --bs-accordion-btn-padding-x: 1.25rem;
+  --bs-accordion-btn-padding-y: 1rem;
+  --bs-accordion-btn-color: var(--bs-body-color);
+  --bs-accordion-btn-bg: var(--bs-accordion-bg);
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23747579'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-icon-width: 1.25rem;
+  --bs-accordion-btn-icon-transform: rotate(-180deg);
+  --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23055fb5'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-focus-box-shadow: 0 0 0 0 rgba(6, 106, 201, 0.25);
+  --bs-accordion-body-padding-x: 1.25rem;
+  --bs-accordion-body-padding-y: 1rem;
+  --bs-accordion-active-color: #055fb5;
+  --bs-accordion-active-bg: var(--bs-primary-bg-subtle);
+}
+
+.accordion-button {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  padding: var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);
+  font-size: 0.9375rem;
+  color: var(--bs-accordion-btn-color);
+  text-align: left;
+  background-color: var(--bs-accordion-btn-bg);
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  -webkit-transition: var(--bs-accordion-transition);
+  transition: var(--bs-accordion-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion-button {
+    -webkit-transition: none;
+    transition: none;
+  }
+}
+.accordion-button:not(.collapsed) {
+  color: var(--bs-accordion-active-color);
+  background-color: var(--bs-accordion-active-bg);
+  -webkit-box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+          box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+}
+.accordion-button:not(.collapsed)::after {
+  background-image: var(--bs-accordion-btn-active-icon);
+  -webkit-transform: var(--bs-accordion-btn-icon-transform);
+          transform: var(--bs-accordion-btn-icon-transform);
+}
+.accordion-button::after {
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+  width: var(--bs-accordion-btn-icon-width);
+  height: var(--bs-accordion-btn-icon-width);
+  margin-left: auto;
+  content: "";
+  background-image: var(--bs-accordion-btn-icon);
+  background-repeat: no-repeat;
+  background-size: var(--bs-accordion-btn-icon-width);
+  -webkit-transition: var(--bs-accordion-btn-icon-transition);
+  transition: var(--bs-accordion-btn-icon-transition);
+}
+@media (prefers-reduced-motion: reduce) {
+  .accordion-button::after {
+    -webkit-transition: none;
+    transition: none;
+  }
+}
+.accordion-button:hover {
+  z-index: 2;
+}
+.accordion-button:focus {
+  z-index: 3;
+  outline: 0;
+  -webkit-box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+          box-shadow: var(--bs-accordion-btn-focus-box-shadow);
+}
+
+.accordion-header {
+  margin-bottom: 0;
+}
+
+.accordion-item {
+  color: var(--bs-accordion-color);
+  background-color: var(--bs-accordion-bg);
+  border: var(--bs-accordion-border-width) solid var(--bs-accordion-border-color);
+}
+.accordion-item:first-of-type {
+  border-top-left-radius: var(--bs-accordion-border-radius);
+  border-top-right-radius: var(--bs-accordion-border-radius);
+}
+.accordion-item:first-of-type > .accordion-header .accordion-button {
+  border-top-left-radius: var(--bs-accordion-inner-border-radius);
+  border-top-right-radius: var(--bs-accordion-inner-border-radius);
+}
+.accordion-item:not(:first-of-type) {
+  border-top: 0;
+}
+.accordion-item:last-of-type {
+  border-bottom-right-radius: var(--bs-accordion-border-radius);
+  border-bottom-left-radius: var(--bs-accordion-border-radius);
+}
+.accordion-item:last-of-type > .accordion-header .accordion-button.collapsed {
+  border-bottom-right-radius: var(--bs-accordion-inner-border-radius);
+  border-bottom-left-radius: var(--bs-accordion-inner-border-radius);
+}
+.accordion-item:last-of-type > .accordion-collapse {
+  border-bottom-right-radius: var(--bs-accordion-border-radius);
+  border-bottom-left-radius: var(--bs-accordion-border-radius);
+}
+
+.accordion-body {
+  padding: var(--bs-accordion-body-padding-y) var(--bs-accordion-body-padding-x);
+}
+
+.accordion-flush > .accordion-item {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0;
+}
+.accordion-flush > .accordion-item:first-child {
+  border-top: 0;
+}
+.accordion-flush > .accordion-item:last-child {
+  border-bottom: 0;
+}
+.accordion-flush > .accordion-item > .accordion-header .accordion-button, .accordion-flush > .accordion-item > .accordion-header .accordion-button.collapsed {
+  border-radius: 0;
+}
+.accordion-flush > .accordion-item > .accordion-collapse {
+  border-radius: 0;
+}
+
+[data-bs-theme=dark] .accordion-button::after {
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236ea8fe'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2324292d'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+hr {
+  margin: 1rem 0;
+  color: var(--bs-gray-500);
+  border: 0;
+  border-top: var(--bs-border-width) solid;
+  opacity: 0.25;
+}
+
+h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-family: "Heebo", sans-serif;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--bs-heading-color);
+}
+
+h1, .h1 {
+  font-size: calc(1.40625rem + 1.875vw);
+}
+@media (min-width: 1200px) {
+  h1, .h1 {
+    font-size: 2.8125rem;
+  }
+}
+
+h2, .h2 {
+  font-size: calc(1.359375rem + 1.3125vw);
+}
+@media (min-width: 1200px) {
+  h2, .h2 {
+    font-size: 2.34375rem;
+  }
+}
+
+h3, .h3 {
+  font-size: calc(1.3125rem + 0.75vw);
+}
+@media (min-width: 1200px) {
+  h3, .h3 {
+    font-size: 1.875rem;
+  }
+}
+
+h4, .h4 {
+  font-size: calc(1.2890625rem + 0.46875vw);
+}
+@media (min-width: 1200px) {
+  h4, .h4 {
+    font-size: 1.640625rem;
+  }
+}
+
+h5, .h5 {
+  font-size: calc(1.25625rem + 0.075vw);
+}
+@media (min-width: 1200px) {
+  h5, .h5 {
+    font-size: 1.3125rem;
+  }
+}
+
+h6, .h6 {
+  font-size: 0.9375rem;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ol,
+ul {
+  padding-left: 2rem;
+}
+
+ol,
+ul,
+dl {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ol ol,
+ul ul,
+ol ul,
+ul ol {
+  margin-bottom: 0;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin-bottom: 0.5rem;
+  margin-left: 0;
+}
+
+blockquote {
+  margin: 0 0 1rem;
+}
+
+b,
+strong {
+  font-weight: bolder;
+}
+
+small, .small {
+  font-size: 0.875em;
+}
+
+mark, .mark {
+  padding: 0.1875em;
+  color: var(--bs-highlight-color);
+  background-color: var(--bs-highlight-bg);
+}
+</style>
+
+<script>
+
+</script>

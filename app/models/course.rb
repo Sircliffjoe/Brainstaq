@@ -1,7 +1,7 @@
 class Course < ApplicationRecord
   validates :title, :description, :marketing_description, :language, :price, :level, presence: true
-  validates :description, length: { minimum: 5 }
-  validates :marketing_description, length: { maximum: 300 }
+  validates :description, length: { minimum: 150 }
+  validates :marketing_description, length: { maximum: 1300 }
 
   belongs_to :user
   has_many :chapters, dependent: :destroy, inverse_of: :course

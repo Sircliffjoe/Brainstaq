@@ -9,7 +9,7 @@ module CoursesHelper
         render 'courses/progress', course: course
       else
         form_with url: course_enrollments_path(course), method: :post, local: true do
-          submit_tag 'Enroll for free!', data: { disable_with: 'validating...' }, class: 'action btn btn-sm btn-primary'
+          submit_tag 'Enroll for free!', data: { disable_with: 'validating...' }, class: 'edu-btn btn-medium btn-white'
         end
       end
     else

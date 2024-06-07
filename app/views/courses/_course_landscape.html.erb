@@ -1,95 +1,102 @@
-<div class="container mb-3">
-  <div class="row g-4">
-    <% @courses.each do |course| %>
-      <div class="col-12 col-sm-12 col-md-6 col-xl-4" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-        <div class="edu-card card-type-3 radius-small">
-          <div class="inner">
-            <div class="thumbnail">
-              <% if course.image.present? %>
-                <%= link_to course_path(course) do %>
-                  <%= image_tag course.image, loading: "lazy", height: "240", width: "100%" %>
-                <% end %>
-              <% end %>
-              <div class="wishlist-top-right">
-                <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
-              </div>
-              <div class="top-position status-group left-bottom">
-                <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
-              </div>
-            </div>
-            <div class="content">
-              <div class="card-top">
-                <div class="author-meta">
-                  <div class="author-thumb">
-                    <% if course.user %>
-                      <% if course.user.image_url %>
-                        <%= image_tag course.user.image_url, size: '30x30', class: 'rounded-circle mr-2' %>
+<% @courses.in_groups_of(3) do |group| %>
+  <div class="container mb-3">
+    <div class="row">
+      <div class="container">
+        <div class="row g-4">
+          <% group.compact.each do |course| %>   
+            <div class="col-12 col-sm-12 col-xl-4 col-md-6" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
+              <div class="edu-card card-type-3 radius-small">
+                <div class="inner">
+                  <div class="thumbnail">        
+                    <% if course.image.present? %>
+                      <%= link_to course_path(course) do %>
+                        <%= image_tag course.image, loading: "lazy", height: "240", width: "100%" %>
                       <% end %>
-                      <span class="author-title"><%= link_to course.user.full_name, profile_path(course.user.username) %></span>
                     <% end %>
+                    <div class="wishlist-top-right">
+                      <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
+                    </div>
+                    <div class="top-position status-group left-bottom">
+                      <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
+                    </div>
+                  </div>
+                  <div class="content">
+                    <div class="card-top">
+                      <div class="author-meta">
+                        <div class="author-thumb">
+                          <% if course.user %>
+                            <% if course.user.image_url %>
+                              <%= image_tag course.user.image_url, size: '30x30', class: 'rounded-circle mr-2' %>
+                            <% end %>
+                            <span class="author-title"><%= link_to course.user.full_name, profile_path(course.user.username) %></span>
+                          <% end %>
+                        </div>
+                      </div>
+                      <ul class="edu-meta meta-02">
+                        <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
+                      </ul>
+                    </div>
+                    <strong><h4 class="title"><%= link_to course.title, course_path(course) %></h4></strong>
+                    <div class="card-bottom">
+                      <div class="price-list price-style-02">
+                        <div class="price current-price">FREE</div>
+                      </div>
+                      <div class="edu-rating rating-default">
+                        <div class="rating">
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                          <i class="fa fa-star"></i>
+                        </div>
+                        <span class="rating-count">(<%= course.average_rating.round %>)</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <ul class="edu-meta meta-02">
-                  <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
-                </ul>
-              </div>
-              <strong><h4 class="title"><%= link_to course.title, course_path(course) %></h4></strong>
-              <div class="card-bottom">
-                <div class="price-list price-style-02">
-                  <div class="price current-price">FREE</div>
-                </div>
-                <div class="edu-rating rating-default">
-                  <div class="rating">
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                    <i class="fa fa-star"></i>
-                  </div>
-                  <span class="rating-count">(<%= course.average_rating.round %>)</span>
+                <div class="card-hover-action">
+                  <div class="hover-content">
+                    <div class="content-top">
+                      <div class="top-status-bar">
+                        <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
+                      </div>
+                      <div class="top-wishlist-bar">
+                        <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
+                      </div>
+                    </div>
+                    <h6 class="title"><%= link_to course.title, course_path(course) %></h6>
+                    <p class="description">
+                      <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                        <%= simple_format(course.marketing_description.truncate_words(30), style: 'color: white;') %>
+                      </span>
+                    </p>
+                    <div class="price-list price-style-02">
+                      <div class="price current-price">FREE</div>
+                    </div>
+                    <div class="hover-bottom-content">
+                      <div class="author-meta">
+                        <div class="author-thumb" style="color:#fff;" title="Number of Students">
+                          <i class="fa fa-user-graduate"></i> <%= course.enrollments_count %>
+                        </div>
+                      </div>
+                      <ul class="edu-meta meta-02">
+                        <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
+                      </ul>
+                    </div>
+                    <div class="read-more-btn">
+                      <%= enrollment_button(course) %>
+                    </div>
+                  </div> 
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card-hover-action">
-            <div class="hover-content">
-              <div class="content-top">
-                <div class="top-status-bar">
-                  <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
-                </div>
-                <div class="top-wishlist-bar">
-                  <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
-                </div>
-              </div>
-              <h6 class="title"><%= link_to course.title, course_path(course) %></h6>
-              <p class="description">
-                <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                  <%= simple_format(course.marketing_description.truncate_words(30), style: 'color: white;') %>
-                </span>
-              </p>
-              <div class="price-list price-style-02">
-                <div class="price current-price">FREE</div>
-              </div>
-              <div class="hover-bottom-content">
-                <div class="author-meta">
-                  <div class="author-thumb" style="color:#fff;" title="Number of Students">
-                    (<i class="fa fa-user-graduate"></i> <%= course.enrollments_count %>)
-                  </div>
-                </div>
-                <ul class="edu-meta meta-02">
-                  <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
-                </ul>
-              </div>
-              <div class="read-more-btn">
-                <%= enrollment_button(course) %>
-              </div>
-            </div>
-          </div>
+            <!-- End Single Card  -->
+          <% end %>
         </div>
       </div>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
 
   
     <style>
@@ -131,7 +138,7 @@
 /*-- Variables --*/
 @import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&amp;display=swap");
 :root {
-  --color-primary: #525FE1;
+  --color-primary: #0070C0;
   --color-secondary: #F86F03;
   --color-secondary-alt: #FFF6F4;
   --color-tertiary: #FFA41B;

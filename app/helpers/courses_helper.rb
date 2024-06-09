@@ -2,14 +2,28 @@ module CoursesHelper
   def enrollment_button(course)
     if current_user
       if course.user == current_user
-        link_to course_path(course) do
-          "You created this course"
+        if controller_name == 'courses' && action_name == 'index'
+          link_to course_path(course), class: "text-white" do
+            "You created this course"
+          end
+        elsif controller_name == 'courses' && action_name == 'show'
+          link_to course_path(course), class: "text-dark" do
+            "You created this course"
+          end
         end
+
+        
       elsif current_user.enrolled_in?(course)
         render 'courses/progress', course: course
       else
-        form_with url: course_enrollments_path(course), method: :post, local: true do
-          submit_tag 'Enroll for free!', data: { disable_with: 'validating...' }, class: 'edu-btn btn-medium btn-white'
+        if controller_name == 'courses' && action_name == 'index'
+          form_with url: course_enrollments_path(course), method: :post, local: true do
+            submit_tag 'Enroll for free!', data: { disable_with: 'validating...' }, class: 'edu-btn btn-medium btn-white'
+          end
+        elsif controller_name == 'courses' && action_name == 'show'
+          form_with url: course_enrollments_path(course), method: :post, local: true do
+            submit_tag 'Enroll for free!', data: { disable_with: 'validating...' }, class: 'action btn btn-sm btn-primary'
+          end
         end
       end
     else

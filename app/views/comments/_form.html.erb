@@ -1,27 +1,11 @@
+
+
 <div class="form-group col-sm-12">
-  <%# <h6 style="font-weight: bold;">Your Comment</h6> %>
-
-<%#= form_with(model: @comment, url: commentable_path(@commentable), local: true) do |form| %>
-  <%= form_with(model: @comment, url: comment_path, local: true) do |form| %>
-  <% if comment.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
-
-      <ul>
-        <% comment.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul> 
-    </div>
+  <%#= simple_form_for([@commentable, @commentable.comments.new]) do |f| %>
+  <%= simple_form_for(comment, url: comment_path) do |f| %>
+    <%= f.error_notification %>
+    <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+    <%= f.input :body, as: :text, label: false %>
+    <%= f.button :submit, "Post", class: "actions btn btn-primary rounded mt-3" %>
   <% end %>
-
-  <%= form.hidden_field :commentable_id, value: @commentable.id %>
-  <%= form.hidden_field :commentable_type, value: @commentable.class.name %>
-  
-  <%= form.text_area :body, id: :comment_body, class: "form-control", placeholder: "Enter Comment" %>
-  <%#= form.hidden_field :idea_id %>
-  <div>
-    <%= form.submit 'Submit', class: "actions btn btn-primary rounded mt-3" %>
-  </div>
 </div>
-<% end %>

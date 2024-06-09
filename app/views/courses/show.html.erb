@@ -55,26 +55,26 @@
 			<!-- Main content START -->
 			<div class="col-lg-8">
 				<div class="card shadow rounded-2 p-0">
-					<div class="card-header border-bottom px-4 py-3">
-						<ul class="nav nav-pills nav-tabs-line py-0" id="myTab" role="tablist">
-							<li class="nav-item me-2 me-sm-4" role="presentation">
-								<button class="nav-link mb-2 mb-md-0 active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
-							</li>
-							<li class="nav-item me-2 me-sm-4" role="presentation">
-								<button class="nav-link mb-2 mb-md-0" id="curriculum-tab" data-toggle="tab" href="#curriculum" role="tab" aria-controls="curriculum" aria-selected="true">Curriculum</button>
-							</li>
-							<li class="nav-item me-2 me-sm-4" role="presentation">
-								<button class="nav-link mb-2 mb-md-0" id="instructor-tab" data-toggle="tab" href="#instructor" type="button" role="tab" aria-controls="instructor" aria-selected="false">Instructor</button>
-							</li>
-							<li class="nav-item me-2 me-sm-4" role="presentation">
-								<button class="nav-link mb-2 mb-md-0" id="reviews-tab" data-toggle="tab" href="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
-							</li>
-							<li class="nav-item me-2 me-sm-4" role="presentation">
-								<button class="nav-link mb-2 mb-md-0" id="faq-tab" data-toggle="tab" href="#faq" type="button" role="tab" aria-controls="faq" aria-selected="false">FAQs</button>
-							</li>
-						</ul>
-					</div>
-					<!-- Tabs END -->
+					<div class="card-header border-bottom px-4 py-3 bg-light">
+            <ul class="nav nav-pills nav-tabs-line py-0" id="myTab" role="tablist">
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button class="nav-link mb-2 mb-md-0 active" id="overview-tab" data-toggle="tab" href="#overview" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+              </li>
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button class="nav-link mb-2 mb-md-0" id="curriculum-tab" data-toggle="tab" href="#curriculum" role="tab" aria-controls="curriculum" aria-selected="false">Curriculum</button>
+              </li>
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button class="nav-link mb-2 mb-md-0" id="instructor-tab" data-toggle="tab" href="#instructor" type="button" role="tab" aria-controls="instructor" aria-selected="false">Instructor</button>
+              </li>
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button class="nav-link mb-2 mb-md-0" id="reviews-tab" data-toggle="tab" href="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Reviews</button>
+              </li>
+              <li class="nav-item me-2 me-sm-4" role="presentation">
+                <button class="nav-link mb-2 mb-md-0" id="faq-tab" data-toggle="tab" href="#faq" type="button" role="tab" aria-controls="faq" aria-selected="false">FAQs</button>
+              </li>
+            </ul>
+          </div>
+          <!-- Tabs END -->
 
 					<!-- Overview contents START -->
 					<div class="card-body p-4">
@@ -89,148 +89,188 @@
 							<!-- Content END -->
 
               <!-- Curriculum Content START -->
-<div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum-tab">
-  <!-- Course accordion START -->
-  <div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
-    <% if current_user %>
-      <% if @course.user == current_user %>
-        <% @chapters.each_with_index do |chapter, index| %>
-          <div class="accordion-item mb-3">
-            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
-              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
-                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
-              </button>
-            </h6>
-            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
-              <div class="accordion-body mt-3">
-                <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="position-relative d-flex align-items-center">
-                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                        <i class="fas fa-play me-0"></i>
-                      </a>
-                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
-                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
-                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
-                        <% end %>
-                      </span>
-                    </div>
-                    <% if current_user.admin? %>
-                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-1' do %>
-                        <i class="fa fa-edit"></i>
+              <div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum-tab">
+                <!-- Course accordion START -->
+                <div class="accordion accordion-icon accordion-bg-light" id="accordionExample2">
+                  <% if current_user %>
+                    <% if @course.user == current_user %>
+                      <% @chapters.each_with_index do |chapter, index| %>
+                        <div class="accordion-item mb-3">
+                          <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+                            <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                              <i class="far fa-bookmark mr-2"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+                            </button>
+                          </h6>
+                          <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+                            <div class="accordion-body mt-3">
+                              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <div class="position-relative d-flex align-items-center">
+                                    <a href="<%= course_lesson_path(@course, lesson) + '#current_lesson' %>" class="btn btn-danger-soft play-button-icon btn-round btn-sm mb-0 stretched-link position-static">
+                                      <i class="fas fa-play me-0"></i>
+                                    </a>
+                                    <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                                      <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                                        <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                                      <% end %>
+                                    </span>
+                                  </div>
+                                  <div class="icon-group d-flex align-items-center">
+                                    <% if current_user.admin? %>
+                                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-2' do %>
+                                        <i class="fa fa-edit"></i>
+                                      <% end %>
+                                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-2' do %>
+                                        <i class="fa fa-trash"></i>
+                                      <% end %>
+                                    <% elsif current_user.viewed?(lesson) %>
+                                      <div class="text-success mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% else %>
+                                      <div class="text-danger mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% end %>
+                                    <% unless lesson.comments_count.zero? %>
+                                      <div class="text-secondary">
+                                        <i class="fa fa-comment"></i> <%= lesson.comments_count %>
+                                      </div>
+                                    <% end %>
+                                  </div>
+                                </div>
+                                <hr> <!-- Divider -->
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
                       <% end %>
-                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger' do %>
-                        <i class="fa fa-trash"></i>
+                    <% elsif current_user.has_role?(:admin) || current_user.bought?(@course) %>
+                      <% @chapters.each_with_index do |chapter, index| %>
+                        <div class="accordion-item mb-3">
+                          <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+                            <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                              <i class="far fa-bookmark mr-2"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+                            </button>
+                          </h6>
+                          <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+                            <div class="accordion-body mt-3">
+                              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                                <div class="d-flex justify-content-between align-items-center">
+                                  <div class="position-relative d-flex align-items-center">
+                                    <a href="<%= course_lesson_path(@course, lesson) + '#current_lesson' %>" class="btn btn-danger-soft play-button-icon btn-round btn-sm mb-0 stretched-link position-static">
+                                      <i class="fas fa-play me-0"></i>
+                                    </a>
+                                    <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                                      <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                                        <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                                      <% end %>
+                                    </span>
+                                  </div>
+                                  <div class="icon-group d-flex align-items-center">
+                                    <% if current_user.admin? %>
+                                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-2' do %>
+                                        <i class="fa fa-edit"></i>
+                                      <% end %>
+                                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-2' do %>
+                                        <i class="fa fa-trash"></i>
+                                      <% end %>
+                                    <% elsif current_user.viewed?(lesson) %>
+                                      <div class="text-success mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% else %>
+                                      <div class="text-danger mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% end %>
+                                    <% unless lesson.comments_count.zero? %>
+                                      <div class="text-secondary">
+                                        <i class="fa fa-comment"></i> <%= lesson.comments_count %>
+                                      </div>
+                                    <% end %>
+                                  </div>
+                                </div>
+                                <hr> <!-- Divider -->
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
                       <% end %>
-                    <% elsif current_user.viewed?(lesson) %>
-                      <div class="text-success"><i class="fa fa-check-square"></i></div>
                     <% else %>
-                      <div class="text-danger"><i class="fa fa-check-square"></i></div>
+                      <% @chapters.each_with_index do |chapter, index| %>
+                        <div class="accordion-item mb-3">
+                          <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+                            <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                              <i class="far fa-bookmark mr-2"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+                            </button>
+                          </h6>
+                          <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+                            <div class="accordion-body mt-3">
+                              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                                <div class="d-flex justify-content-between align-items-center">
+
+                                  <div class="position-relative d-flex align-items-center">
+                                    <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
+                                      <a class="play-button-icon btn-danger-soft">
+                                        <i class="fas fa-play"></i>
+                                      </a>
+                                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                                        <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                                      </span>
+                                    <% end %>
+                                  </div>
+                                  <div class="icon-group d-flex align-items-center">
+                                    <% if current_user.admin? %>
+                                      <%= link_to edit_course_lesson_path(@course, lesson), class: 'badge badge-warning mr-2' do %>
+                                        <i class="fa fa-edit"></i>
+                                      <% end %>
+                                      <%= link_to [@course, lesson], method: :delete, data: { confirm: 'Are you sure?' }, class: 'badge badge-danger mr-2' do %>
+                                        <i class="fa fa-trash"></i>
+                                      <% end %>
+                                    <% elsif current_user.viewed?(lesson) %>
+                                      <div class="text-success mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% else %>
+                                      <div class="text-danger mr-2"><i class="fa fa-check-square"></i></div>
+                                    <% end %>
+                                    <% unless lesson.comments_count.zero? %>
+                                      <div class="text-secondary">
+                                        <i class="fa fa-comment"></i> <%= lesson.comments_count %>
+                                      </div>
+                                    <% end %>
+                                  </div>
+                                </div>
+                                <hr> <!-- Divider -->
+                              <% end %>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
                     <% end %>
-                    <div class="row">
-                      <% unless lesson.comments_count.zero? %>
-                        <i class="fa fa-comment"></i> <%= lesson.comments_count %>
-                      <% end %>
-                    </div>
-                  </div>
-                  <hr> <!-- Divider -->
-                <% end %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      <% elsif current_user.has_role?(:admin) || current_user.bought?(@course) %>
-        <% @chapters.each_with_index do |chapter, index| %>
-          <div class="accordion-item mb-3">
-            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
-              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
-                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
-              </button>
-            </h6>
-            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
-              <div class="accordion-body mt-3">
-                <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="position-relative d-flex align-items-center">
-                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                        <i class="fas fa-play me-0"></i>
-                      </a>
-                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
-                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
-                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
-                        <% end %>
-                      </span>
-                    </div>
-                  </div>
-                  <hr> <!-- Divider -->
-                <% end %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      <% else %>
-        <% @chapters.each_with_index do |chapter, index| %>
-          <div class="accordion-item mb-3">
-            <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
-              <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
-                <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
-              </button>
-            </h6>
-            <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
-              <div class="accordion-body mt-3">
-                <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="position-relative d-flex align-items-center">
-                      <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                        <i class="fas fa-play me-0"></i>
-                      </a>
-                      <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
-                        <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
-                          <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
-                        <% end %>
-                      </span>
-                    </div>
-                  </div>
-                  <hr> <!-- Divider -->
-                <% end %>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      <% end %>
-    <% else %>
-      <% @chapters.each_with_index do |chapter, index| %>
-        <div class="accordion-item mb-3">
-          <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
-            <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
-              <i class="far fa-bookmark"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
-            </button>
-          </h6>
-          <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
-            <div class="accordion-body mt-3">
-              <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="position-relative d-flex align-items-center">
-                    <a href="#" class="btn btn-danger-soft btn-round btn-sm mb-0 stretched-link position-static">
-                      <i class="fas fa-play me-0"></i>
-                    </a>
-                    <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
-                      <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
-                        <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
-                      <% end %>
-                    </span>
-                  </div>
+                  <% else %>
+                    <% @chapters.each_with_index do |chapter, index| %>
+                      <div class="accordion-item mb-3">
+                        <h6 class="accordion-header font-base" id="heading-<%= index + 1 %>">
+                          <button class="accordion-button fw-bold rounded d-sm-flex d-inline-block collapsed" type="button" data-toggle="collapse" data-target="#collapse-<%= index + 1 %>" aria-expanded="false" aria-controls="collapse-<%= index + 1 %>">
+                            <i class="far fa-bookmark mr-2"></i> Chapter <%= chapter.row_order_rank + 1 %>: <%= chapter.title %>
+                          </button>
+                        </h6>
+                        <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
+                          <div class="accordion-body mt-3">
+                            <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                              <div class="position-relative d-flex align-items-center">
+                                <%= link_to "#" do %>
+                                  <a class="play-button-icon disabled text-white">
+                                    <i class="fas fa-play"></i>
+                                  </a>
+                                  <span class="d-inline-block text-truncate ms-2 mb-0 h6 fw-light w-100px w-sm-200px w-md-400px">
+                                    <%= lesson.row_order_rank + 1 %>. <%= lesson.title %>
+                                  </span>
+                                <% end %>
+                              </div>
+                              
+                              <hr> <!-- Divider -->
+                            <% end %>
+                          </div>
+                        </div>
+                      </div>
+                    <% end %>
+                  <% end %>
                 </div>
-                <hr> <!-- Divider -->
-              <% end %>
-            </div>
-          </div>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-  <!-- Course accordion END -->
-</div
+                <!-- Course accordion END -->
+              </div
 
 							<!-- Content START -->
 							<div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
@@ -267,16 +307,24 @@
 							
 							<div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
 								<!-- Review START -->
-								<div class="row mb-4">
-									<h5 class="mb-4">Our Student Reviews</h5>
+									<h5 class="mb-3">Our Student Reviews</h5>
 
-						
-								</div>
+                  <% if @reviews.any? %>
+                  <br>
+                  <h4>
+                    <div class="far fa-comment"></div>
+                    <%= pluralize(@reviews.count, 'review') %>
+                  </h4>
+                  <div class="list-group">
+                    <% @reviews.each do |enrollment| %>
+                      <div class="list-group-item">
+                        <%= render 'enrollments/enrollment', enrollment: enrollment %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <p></p>
+                <% end %>
 								<!-- Review END -->
-
-								
-
-								
 							</div>
 							<!-- Content END -->
 
@@ -294,7 +342,7 @@
 												<span class="h6 mb-0">How Digital Marketing Work?</span> 
 											</button>
 										</h2>
-										<div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+										<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
 												Comfort reached gay perhaps chamber his six detract besides add. Moonlight newspaper up its enjoyment agreeable depending. Timed voice share led him to widen noisy young. At weddings believed laughing although the material does the exercise of. Up attempt offered ye civilly so sitting to. She new course gets living within Elinor joy. She rapturous suffering concealed. 
 											</div>
@@ -377,42 +425,112 @@
 						<!-- Video START -->
 						<div class="card shadow p-2 mb-4 z-index-9">
 							<div class="overflow-hidden rounded-3">
-								
                 <% if @course.image.present? %>
-                      <%= image_tag @course.image, loading: "lazy", class: "card-img", height: "240", width: "100%" %>
-                  <% end %>
-								<!-- Overlay -->
-								<div class="bg-overlay bg-dark opacity-6"></div>
-								<div class="card-img-overlay d-flex align-items-start flex-column p-3">
-									<!-- Video button and link -->
-									
-								</div>
+                  <%= image_tag @course.image, loading: "lazy", class: "card-img", height: "240", width: "100%" %>
+                <% end %>
 							</div>
-		
-							<!-- Card body -->
-							<div class="card-body px-3">
-								<!-- Info -->
-								<div class="d-flex justify-content-between align-items-center">
-									<!-- Price and time -->
-									<div>
-										<div class="d-flex align-items-center">
-											<h3 class="fw-bold mb-0 me-2">FREE</h3>
-										</div>
-									</div>
-								</div>
 
-								<!-- Buttons -->
-								<div class="mt-3 d-sm-flex justify-content-sm-between">
-									<a href="#" class="btn btn-outline-primary mb-0">Enroll</a>
-								</div>
-							</div>
+              <div class="card-footer text-center">
+                <%= enrollment_button(@course) %>
+                <div class="row">
+                  <%= review_button(@course) %>
+                </div>
+                <div class="row">
+                  <%= certificate_button(@course) %>
+                </div>
+              </div>
+
+              <div class="card-footer row">
+                <div class="col-md-6">
+                  <span class="text-warning fa fa-star"></span>
+                  <b><%= @course.average_rating %></b>
+                  (
+                  <i class="fa fa-user-graduate"></i>
+                  <%= @course.enrollments_count %>
+                  )
+                  <i class="fa fa-tasks"></i>
+                  <%= @course.lessons_count %>
+                </div>
+                <div class="col-md-6 text-right">
+                  <% if @course.user %>
+                    <% if @course.user.image_url %>
+                      <%= image_tag @course.user.image_url, size: '30x30', alt: "#{@course.user.email}", class: 'rounded-circle' %>
+                    <% end %>
+                    <%= link_to @course.user.full_name, profile_path(@course.user.username) %>
+                  <% end %>
+                </div>
+              </div>
+		
+							<div class="card-body px-3">
+                <% if current_user %>
+                  <% if policy(@course).admin_or_owner? %>
+                    <div class="card-footer text-center">
+                      <div class="btn-group">
+                        <%= link_to new_course_chapter_path(@course, @chapter), class: 'btn btn-sm btn-primary' do %>
+                          <i class="fa fa-plus"></i> Chapter
+                        <% end %>
+                        <%= link_to new_course_lesson_path(@course, @lesson), class: 'btn btn-sm btn-primary' do %>
+                          <i class="fa fa-plus"></i> Lesson
+                        <% end %>
+                        <%= link_to course_course_wizard_index_path(@course), class: 'btn btn-sm btn-warning' do %>
+                          <i class="fa fa-edit"></i> Editor
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+
+                  <% if policy(@course).admin_or_owner? %>
+                    <div class="card-footer">
+                      <%= link_to analytics_course_path(@course), class: 'btn btn-sm btn-info' do %>
+                        <i class="fa fa-chart-bar"></i> Analytics
+                      <% end %>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between align-items-center">
+                      <div class="custom-control custom-switch">
+                        <% if @course.published? %>
+                          <input id="customSwitch1" class="custom-control-input" disabled="disabled" checked="checked" type="checkbox" />
+                        <% else %>
+                          <input id="customSwitch2" class="custom-control-input" disabled="disabled" type="checkbox" />
+                        <% end %>
+                        <label class="custom-control-label" for="Published">Teacher Published</label>
+                      </div>
+                      <div class="custom-control custom-switch">
+                        <% if policy(@course).approve? %>
+                          <%= link_to approve_course_path(@course), method: :patch do %>
+                            <% if @course.approved? %>
+                              <input id="customSwitch1" class="custom-control-input" type="checkbox" checked="checked" />
+                            <% else %>
+                              <input id="customSwitch1" class="custom-control-input" type="checkbox" />
+                            <% end %>
+                            <label class="custom-control-label" for="customSwitch1">Admin Approved</label>
+                          <% end %>
+                        <% else %>
+                          <% if @course.approved? %>
+                            <input id="customSwitch1" class="custom-control-input" disabled="disabled" checked="checked" type="checkbox" />
+                          <% else %>
+                            <input id="customSwitch2" class="custom-control-input" disabled="disabled" type="checkbox" />
+                          <% end %>
+                          <label class="custom-control-label" for="Published">Admin Approved</label>
+                        <% end %>
+                      </div>
+                    </div>
+                    <% if policy(@course).admin_or_owner? || policy(@course).destroy? %>
+                      <div class="card-footer text-right">
+                        <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' }, class: 'actions btn btn-sm btn-danger' do %>
+                          <i class="fa fa-trash"></i>
+                        <% end %>
+                      </div>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              </div>
 						</div>
 						<!-- Video END -->
 
 						<!-- Course info START -->
 						<div class="card card-body shadow p-4 mb-4">
 							<!-- Title -->
-							<h4 class="mb-3 text-center">This course includes</h4>
+							<h5 class="mb-3 text-center">This course includes</h5>
 							<ul class="list-group list-group-borderless">
 								<li class="list-group-item d-flex justify-content-between align-items-center">
 									<span class="h6 fw-light mb-0"><i class="fas fa-fw fa-book-open mr-2 text-primary"></i>Chapters</span>
@@ -454,6 +572,84 @@
 Page content END -->
 
 <style>
+
+.btn-danger-soft {
+  color: #d6293e;
+  background-color: rgba(214, 41, 62, 0.1);
+}
+.btn-danger-soft:active, .btn-danger-soft:hover {
+  color: #fff !important;
+  background-color: #d6293e !important;
+  border-color: #d6293e !important;
+}
+.btn-danger-soft:focus {
+  color: #d6293e;
+  background-color: rgba(214, 41, 62, 0.1);
+  border-color: transparent;
+}
+
+/* Custom styles for the lesson icons */
+.icon-group .fa {
+  font-size: 1.2rem;
+}
+
+.icon-group .badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.5rem;
+}
+
+.icon-group .text-success .fa-check-square,
+.icon-group .text-danger .fa-check-square {
+  font-size: 1.2rem;
+}
+
+.icon-group .text-secondary .fa-comment {
+  font-size: 1.2rem;
+}
+
+.play-button-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 0px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 5%;
+  background-color: #e74c3c;
+  color: white;
+}
+
+.nav-tabs-line .nav-link {
+  color: #6c757d; /* Light gray */
+  border: 0;
+  border-bottom: 2px solid transparent; /* Border color for inactive state */
+  padding: 10px 15px;
+  font-weight: 600; /* Bold text */
+  transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.nav-tabs-line .nav-link:hover {
+  color: #495057; /* Darker gray on hover */
+}
+
+.nav-tabs-line .nav-link.active {
+  color: #007bff; /* Primary color */
+  border-bottom-color: #007bff; /* Border color for active state */
+  background-color: transparent;
+}
+
+.card-header {
+  background-color: #f8f9fa; /* Light background for card header */
+  border-bottom: 1px solid #dee2e6; /* Border color for card header */
+}
+
+@media (min-width: 576px) {
+  .nav-item {
+    margin-right: 2rem;
+  }
+}
+
 
 .card {
   --bs-card-spacer-y: 1rem;
@@ -921,7 +1117,7 @@ mark, .mark {
   padding: 0.1875em;
   color: var(--bs-highlight-color);
   background-color: var(--bs-highlight-bg);
-}
+} %>
 </style>
 
 <script>

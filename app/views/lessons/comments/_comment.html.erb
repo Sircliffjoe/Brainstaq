@@ -1,10 +1,22 @@
-<%= comment.created_at.strftime('%d-%m-%Y %H:%M') %>
-(<%= time_ago_in_words(comment.created_at) %> ago)
-<% if comment.user.present? %>
-  by
-  <i class="fa fa-user"></i>
-  <%= link_to comment.user.full_name, profile_path(comment.user.username) %>
-<% end %>
-<%= link_to [@course, @lesson, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' do %>
-    <i class="fa fa-trash"></i>  
-<% end %>
+
+
+<div class="d-flex justify-content-between align-items-center">
+    <div>
+      <span class="text-muted">
+        <%= comment.created_at.strftime('%d-%m-%Y %H:%M') %>
+        (<%= time_ago_in_words(comment.created_at) %> ago)
+      </span>
+      <% if comment.user.present? %>
+        <span class="ms-2">
+          by
+          <i class="fa fa-user"></i>
+          <%= link_to comment.user.full_name, profile_path(comment.user.username), class: "ms-1" %>
+        </span>
+      <% end %>
+    </div>
+    <div>
+      <%= link_to [@course, @lesson, comment], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' do %>
+        <i class="fa fa-trash"></i>  
+      <% end %>
+    </div>
+  </div>

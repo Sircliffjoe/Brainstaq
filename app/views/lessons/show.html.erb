@@ -106,7 +106,7 @@
         New comment
       </div>
       <div class="card-body">
-        <%= render 'lessons/comments/form' %>
+        <%= render partial: 'comments/form', locals: { comment: Comment.new, commentable: @lesson, comment_path: polymorphic_path([@course, @lesson, Comment.new]) } %>
       </div>
     </div>
     <div class="list-group">
@@ -117,33 +117,54 @@
       <% end %>
     </div>
   </div>
+
   <div class="col-lg-4">
     <div class="list-group shadow">
-      <div class="list-group-item">
-        <i class="fa fa-graduation-cap"></i>
-        <%= link_to course_path(@lesson.course) do %>
-          <%= @lesson.course.title %>
-        <% end %>
-        <div class="row">
-          <%= render 'courses/progress', course: @lesson.course %>
+    <div class="list-group-item">
+      <i class="fa fa-graduation-cap fa-2x"></i>
+      <%= link_to course_path(@lesson.course), style: "font-size: 18px;" do %>
+        <%= @lesson.course.title %>
+      <% end %>
+      <div class="row mt-2">
+        <div class="col-12">
+          <div class="progress">
+            <div class="progress-bar bg-secondary text-dark" role="progressbar" style="width: <%= @course.progress(current_user) %>%;" aria-valuenow="<%= @course.progress(current_user) %>" aria-valuemin="0" aria-valuemax="100">
+              <%= number_to_percentage(@course.progress(current_user), precision: 0) %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="list-group" id="scrollable">
-      <% @chapters.each do |chapter| %>
-        <div class="list-group-item shadow" data-offset="0" data-spy="scroll" data-target="#scrollable">
-          <%= render 'chapters/chapter', chapter: chapter %>
-          <% chapter.lessons.rank(:row_order).each do |lesson| %>
-            <% if lesson.eql?(@lesson) %>
-              <li class="list-group-item list-group-item-success" id="current_lesson">
-                <%= render 'lessons/lesson', lesson: lesson %>
-              </li>
-            <% else %>
-              <li class="list-group-item list-group-item-secondary">
-                <%= render 'lessons/lesson', lesson: lesson %>
-              </li>
-            <% end %>
-          <% end %>
+  </div>
+
+    <div id="accordion">
+      <% @chapters.each_with_index do |chapter, index| %>
+        <div class="card mb-1">
+          <div class="card-header" id="heading<%= index %>">
+            <h5 class="mb-0">
+              <button class="btn btn-link" data-toggle="collapse" data-target="#collapse<%= index %>" aria-expanded="<%= index == 0 %>" aria-controls="collapse<%= index %>">
+                <%= chapter.title %>
+              </button>
+            </h5>
+          </div>
+
+          <div id="collapse<%= index %>" class="collapse <%= 'show' if index == 0 %>" aria-labelledby="heading<%= index %>" data-parent="#accordion">
+            <div class="card-body">
+              <% chapter.lessons.rank(:row_order).each do |lesson| %>
+                <div class="list-group">
+                  <% if lesson.eql?(@lesson) %>
+                    <a href="#" class="list-group-item list-group-item-success">
+                      <%= render 'lessons/lesson', lesson: lesson %>
+                    </a>
+                  <% else %>
+                    <a href="#" class="list-group-item list-group-item-secondary">
+                      <%= render 'lessons/lesson', lesson: lesson %>
+                    </a>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
         </div>
       <% end %>
     </div>
@@ -152,6 +173,58 @@
 <br>
 
 <style>
+
+.progress {
+  height: 20px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+.progress-bar {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+/* Custom styles for accordion */
+.card-header {
+  background-color: #f8f9fa;
+}
+
+.card-header .btn-link {
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.card-header .btn-link:hover {
+  text-decoration: none;
+  color: #0056b3;
+}
+
+.card {
+  border-radius: 5px;
+}
+
+.list-group-item {
+  border-radius: 5px;
+  margin-bottom: 5px;
+  border: none;
+}
+
+.list-group-item-success {
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.list-group-item-secondary {
+  background-color: #f8f9fa;
+  border-color: #e2e6ea;
+}
+
+.list-group-item-success:hover,
+.list-group-item-secondary:hover {
+  background-color: #e9ecef;
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */

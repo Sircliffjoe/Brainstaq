@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_02_180938) do
+ActiveRecord::Schema.define(version: 2024_06_09_114824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,12 +292,10 @@ ActiveRecord::Schema.define(version: 2024_06_02_180938) do
     t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "idea_id"
     t.integer "user_id"
     t.integer "commentable_id"
     t.string "commentable_type"
-    t.bigint "lesson_id"
-    t.index ["idea_id"], name: "index_comments_on_idea_id"
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id"
   end
 
   create_table "conversations", force: :cascade do |t|

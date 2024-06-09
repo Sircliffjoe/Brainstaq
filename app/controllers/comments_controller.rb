@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  # before_action :set_comment, only: [:show, :edit, :update, :destroy]
   before_action :set_commentable, only: [:create, :destroy]
 
   def index
@@ -14,49 +13,63 @@ class CommentsController < ApplicationController
     @comment = Comment.new
   end
 
+  # def create
+  #   @comment = @commentable.comments.new(comment_params)
+  #   @comment.user = current_user
+  #   if @comment.save
+  #     redirect_to commentable_path(@commentable), notice: 'Your comment was successfully added.'
+  #   else
+  #     render 'new'
+  #   end
+  # end
+
+  # def create
+  #   @comment = @commentable.comments.new(comment_params)
+  #   @comment.user = current_user
+
+  #   if @comment.save
+  #     redirect_to [@commentable, anchor: "comment_#{@comment.id}"], notice: 'Comment was successfully created.'
+  #   else
+  #     redirect_to [@commentable, anchor: "new_comment"], alert: 'Failed to add comment.'
+  #   end
+  # end
+
   def create
-    @comment = @commentable.comments.build(comment_params)
-    # @comment = Comment.new(comment_params)
-    # @course = Course.find(params[:course_id])
-    # @lesson = Lesson.find(params[:lesson_id])
-    # @comment.lesson = @lesson
+    @comment = @commentable.comments.new(comment_params)
     @comment.user = current_user
 
     if @comment.save
-      # CommentMailer.new_comment(@comment).deliver_later if @comment.user_id != @commentable.user_id
-      redirect_to commentable_path(@commentable), notice: "Your comment was successfully added."
+      redirect_to commentable_path(@commentable, anchor: "comment_#{@comment.id}"), notice: 'Comment successfully added!'
     else
-      render 'new'
+      redirect_to commentable_path(@commentable, anchor: "new_comment"), alert: 'Error in adding comment'
     end
   end
 
 	def destroy
-    @course = Course.find(params[:course_id])
-    @lesson = Lesson.find(params[:lesson_id])
+    # @course = Course.find(params[:course_id])
+    # @lesson = Lesson.find(params[:lesson_id])
     @comment = @commentable.comments.find(params[:id])
     @comment.destroy
-    redirect_to commentable_path(@commentable), notice: "Comment was successfully destroyed."
+    redirect_to commentable_path(@commentable), notice: "Comment successfully deleted!"
   end
 
+  
   private
 
 
   def set_commentable
-    if params[:idea_id]
-      @commentable = Idea.find(params[:idea_id])
-    elsif params[:course_id] && params[:lesson_id]
+    if params[:lesson_id]
       @commentable = Lesson.find(params[:lesson_id])
-      @commentable = Course.find(params[:course_id])
+    elsif params[:idea_id]
+      @commentable = Idea.find(params[:idea_id])
     end
   end
 
-
-  def commentable_path(commentable)
-    case commentable.class.name
-    when "Idea"
-      idea_path(commentable)
-    when "Lesson"
-      course_lesson_path(commentable, params[:lesson_id], anchor: 'current_lesson')
+  def commentable_path(commentable, options = {})
+    if commentable.is_a?(Lesson)
+      course_lesson_path(commentable.course, commentable, options)
+    elsif commentable.is_a?(Idea)
+      idea_path(commentable, options)
     end
   end
 

@@ -307,7 +307,130 @@
 
   <div class="col-lg-4 order-0 order-lg-1">
     <div class="sticky-top">
-      <%= render 'courses/course', course: @course %>
+      <%#= render 'courses/course', course: @course %>
+      
+      <div class="card shadow">
+        <div class="card-header">
+          <i class="fa fa-graduation-cap"></i>
+          <%= link_to @course.title, @course_path %>
+        </div>
+
+        <% if @course.image.present? %>
+          <div class="card-img-top">
+            <%= link_to course_path(@course) do %>
+              <%= image_tag @course.image, loading: "lazy", height: "auto", width: "100%" %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <div class="card-footer">
+          <small><%= simple_format(@course.marketing_description) %></small>
+        </div>
+
+        <div class="card-footer text-center">
+          <%= enrollment_button(@course) %>
+          <div class="row">
+            <%= review_button(@course) %>
+          </div>
+          <div class="row">
+            <%= certificate_button(@course) %>
+          </div>
+        </div>
+
+        <div class="card-footer row">
+          <div class="col-md-6">
+            <span class="text-warning fa fa-star"></span>
+            <b><%= @course.average_rating %></b>
+            (
+            <i class="fa fa-user-graduate"></i>
+            <%= @course.enrollments_count %>
+            )
+            <i class="fa fa-tasks"></i>
+            <%= @course.lessons_count %>
+          </div>
+          <div class="col-md-6 text-right">
+            <% if @course.user %>
+              <% if @course.user.image_url %>
+                <%= image_tag @course.user.image_url, size: '30x30', alt: "#{@course.user.email}", class: 'rounded-circle' %>
+              <% end %>
+              <%= link_to @course.user.full_name, profile_path(@course.user.username) %>
+            <% end %>
+          </div>
+        </div>
+
+        <% if current_user %>
+          <% if policy(@course).admin_or_owner? %>
+            <div class="text-center">
+              <div class="btn-group">
+                <%= link_to new_course_chapter_path(@course, @chapter), class: 'btn btn-sm btn-primary' do %>
+                  <i class="fa fa-plus"></i> Chapter
+                <% end %>
+                <%= link_to new_course_lesson_path(@course, @lesson), class: 'btn btn-sm btn-primary' do %>
+                  <i class="fa fa-plus"></i> Lesson
+                <% end %>
+                <%= link_to course_course_wizard_index_path(@course), class: 'btn btn-sm btn-warning' do %>
+                  <i class="fa fa-edit"></i> Editor
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <% if policy(@course).admin_or_owner? %>
+            <div class="">
+              <%= link_to analytics_course_path(@course), class: 'btn btn-sm btn-info' do %>
+                <i class="fa fa-chart-bar"></i> Analytics
+              <% end %>
+            </div>
+            <div class="card-footer custom-control custom-switch">
+              <% if @course.published? %>
+                <input id="customSwitch1" class="custom-control-input" disabled="disabled" checked="checked" type="checkbox" />
+              <% else %>
+                <input id="customSwitch2" class="custom-control-input" disabled="disabled" type="checkbox" />
+              <% end %>
+              <label class="custom-control-label" for="Published">Teacher Published</label>
+            </div>
+            <div class="row">
+              <% if policy(@course).approve? %>
+                <div class="custom-control custom-switch">
+                  <%= link_to approve_course_path(@course), method: :patch do %>
+                    <% if @course.approved? %>
+                      <input id="customSwitch1" class="custom-control-input" type="checkbox" checked="checked" />
+                    <% else %>
+                      <input id="customSwitch1" class="custom-control-input" type="checkbox" />
+                    <% end %>
+                    <label class="custom-control-label" for="customSwitch1">Admin Approved</label>
+                  <% end %>
+                </div>
+              <% else %>
+                <div class="custom-control custom-switch">
+                  <% if @course.approved? %>
+                    <input id="customSwitch1" class="custom-control-input" disabled="disabled" checked="checked" type="checkbox" />
+                  <% else %>
+                    <input id="customSwitch2" class="custom-control-input" disabled="disabled" type="checkbox" />
+                  <% end %>
+                  <label class="custom-control-label" for="Published">Admin Approved</label>
+                </div>
+              <% end %>
+            </div>
+            <% if policy(@course).admin_or_owner? || policy(@course).destroy? %>
+              <div class="card-footer">
+                <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' }, class: 'actions btn up-acct rounded btn-danger btn btn-sm' do %>
+                  <i class="fa fa-trash"></i>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if @course.tags.any? %>
+          <div class="card-footer">
+            <% @course.tags.each do |tag| %>
+              <span class="badge badge-info"><%= tag.name %></span>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    
     </div>
     <p></p>
   </div>

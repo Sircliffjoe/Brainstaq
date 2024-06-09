@@ -80,6 +80,7 @@ Rails.application.routes.draw do
     end
   end
 
+  
   resources :enrollments do
     get :teaching, on: :collection
     member do

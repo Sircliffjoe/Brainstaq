@@ -231,9 +231,10 @@
               </h6>
             <% else %>
               <% if user_signed_in? %>
+                <%= render partial: 'comments/form', locals: { comment: Comment.new, commentable: @idea, comment_path: polymorphic_path([@idea, Comment.new]) } %>
                 <%= render partial: 'ideas/comment', collection: @idea.comments.reverse %>
                 <%#= render partial: 'comments/form', :locals => { comment: @comment, commentable: @idea } %>
-                <%= render partial: 'comments/form', locals: { comment: Comment.new, commentable: @idea, comment_path: polymorphic_path([@idea, Comment.new]) } %>
+                <%#= render 'comments/form', commentable: @idea %>
               <% end %>
             <% end %>
           </div>

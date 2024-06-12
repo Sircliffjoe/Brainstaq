@@ -27,4 +27,5 @@ Rails.application.config.assets.precompile += %w( dashboard/dashboard.js )
 Rails.application.config.assets.precompile += %w( dashboard/dash_styles.scss )
 Rails.application.config.assets.precompile += %w( dashboard/dash_styles.js )
 Rails.application.config.assets.precompile += %w( images )
+Rails.application.config.assets.precompile += %w[active_admin.js active_admin.css active_admin/print.css]
 

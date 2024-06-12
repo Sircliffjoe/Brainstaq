@@ -19,6 +19,8 @@ class Enrollment < ApplicationRecord
   include PublicActivity::Model
   tracked owner: proc { |controller, _model| controller.current_user }
 
+  before_create :generate_slug
+
 
   after_save do
     course.update_rating unless rating.nil? || rating.zero?
@@ -40,5 +42,9 @@ class Enrollment < ApplicationRecord
 
   def cant_subscribe_to_own_course
     errors.add(:base, 'You can not subscribe to your own course') if new_record? && user_id.present? && (user_id == course.user_id)
+  end
+
+  def generate_slug
+    self.slug = SecureRandom.uuid
   end
 end

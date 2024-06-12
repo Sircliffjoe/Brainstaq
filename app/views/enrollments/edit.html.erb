@@ -1,32 +1,83 @@
-<% content_for :title do %>
-  Brainstaq 
-  |
-  Review
-  <%= @enrollment.course %>
-<% end %>
+<% content_for :title, "Post Review" %>
 
-<%= link_to 'Courses', courses_path %>
-|
-<%= link_to course_path(@enrollment.course) do %>
-  <i class="fa fa-graduation-cap"></i>
-  <%= @enrollment.course.title %>
-<% end %>
-|
-<%= link_to 'Add Review', edit_enrollment_path(@enrollment) %>
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="margin-bottom:50px; background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Course Reviews</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to @enrollment.course.title, course_path(@enrollment.course), class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Post Review</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
 
-<div class="card shadow">
-  <div class="card-header">
-    <h3>
-      <span class="text-warning fa fa-star"></span>
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+<div class="card mb-3">
+  <div class="card-header d-flex justify-content-between align-items-center">
+    <h3 class="card-title m-0">
+      <span class="text-warning fa fa-star mr-2"></span>
       Add a Review
     </h3>
   </div>
   <div class="card-body">
     <%= render 'form' %>
   </div>
-  <div class="card-footer">
-    <%= link_to 'Show Review', @enrollment %>
-    |
-    <%= link_to 'Back to course', course_path(@enrollment.course) %>
+  <div class="card-footer d-flex justify-content-between align-items-center">
+    <%= link_to 'Show Review', @enrollment, class: "btn btn-outline-primary" %>
+    <%= link_to 'Back to Course', course_path(@enrollment.course), class: "btn btn-outline-secondary" %>
   </div>
 </div>
+
+
+<style>
+  .card {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .card-header .fa-star {
+    color: #ffc107; /* Adjust color as needed */
+  }
+  .card-header .fa-user {
+    margin-right: 5px;
+  }
+  .card-footer .fa-clock {
+    margin-right: 5px;
+  }
+  .rounded-circle {
+    border-radius: 50%;
+  }
+  .mr-3 {
+    margin-right: 1rem;
+  }
+  .mb-3 {
+    margin-bottom: 1rem;
+  }
+  .card-title .fa-star {
+    margin-right: 0.5rem;
+  }
+  .card-header.bg-primary {
+    background-color: #007bff; /* Bootstrap primary color */
+  }
+  .card-footer .btn {
+    margin: 0 0.5rem;
+  }
+  .card-footer .btn-outline-primary,
+  .card-footer .btn-outline-secondary {
+    border-width: 2px;
+  }
+</style>

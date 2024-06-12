@@ -1,0 +1,705 @@
+<% content_for :title, "Edit Settings" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Edit Account</h2>
+          <nav class="mt-15" aria-label="breadcrumb">
+            <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+              <li class="breadcrumb-item"><%= link_to "Profile", profile_path(current_user.username), class: "text-black-300" %></li>
+              <li class="breadcrumb-item text-primary" aria-current="page">Edit Account</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+		<div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+		<div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+		<div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+		<div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+		<div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+		<div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+		<div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+		<div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+	</div>
+</section>
+<!-- end of page-header -->
+
+<header class="section-header mb-5" style="padding-top: 50px;"></header>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+  <small><%= render "devise/shared/error_messages", resource: resource %></small>
+  <section class="profile-account-setting">
+		<div class="container">
+			<div class="account-tabs-setting">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="acc-leftbar">
+							<div class="nav nav-tabs" id="nav-tab" role="tablist">
+								<a class="nav-item nav-link active" id="nav-details-tab" data-toggle="tab" href="#nav-details" role="tab" aria-controls="nav-details" aria-selected="true">Personal Details</a>
+								<a class="nav-item nav-link" id="nav-profiles-tab" data-toggle="tab" href="#nav-profiles" role="tab" aria-controls="nav-profiles" aria-selected="false">Social Profiles</a>
+								<a class="nav-item nav-link" id="nav-password-tab" data-toggle="tab" href="#nav-password" role="tab" aria-controls="nav-password" aria-selected="false">Change Password</a>
+								<a class="nav-item nav-link" id="nav-photo-tab" data-toggle="tab" href="#nav-photo" role="tab" aria-controls="nav-photo" aria-selected="false">Upload Photo</a>
+								<% if @user.ideas.present? %>
+									<a class="nav-item nav-link" id="nav-payout-tab" data-toggle="tab" href="#nav-payout" role="tab" aria-controls="nav-payout" aria-selected="false">Payout</a>
+								<% end %>
+								<a class="nav-item nav-link" id="nav-deactivate-tab" data-toggle="tab" href="#nav-deactivate" role="tab" aria-controls="nav-deactivate" aria-selected="false">Delete Account</a>
+								</div>
+							</div><!--acc-leftbar end-->
+						</div>
+						<div class="col-lg-9">
+							<div class="tab-content" id="nav-tabContent">
+								<div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-details-tab">
+									<div class="acc-setting">
+										<h3>Personal Details</h3>
+											<div class="cp-field col-md-4">
+												<h5>Last Name</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :last_name, :readonly => f.object.persisted?, placeholder: "Last Name", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>First Name</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :first_name, :readonly => f.object.persisted?, placeholder: "First Name", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Username</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :username, :readonly => f.object.persisted?, placeholder: "Username", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+											  <h5>Gender</h5>
+												<div class="cpp-fiel">
+													<%= f.select :gender, %w{Male Female}, {}, :prompt => 'Select', class: 'form-control' %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Country</h5>
+												<div class="cpp-fiel">
+													<% if @user.country %>
+														<%= f.text_field :country, value: "#{@user.country}", :class => 'form-control' %>
+													<% else %>
+														<%= f.select :country, options_for_select([
+															['Algeria'],
+															['Angola'],
+															['Benin'],
+															['Botswana'],
+															['Burkina Faso'],
+															['Burundi'],
+															['Cape Verde'],
+															['Cameroon'],
+															['Central African Republic (CAR)'],
+															['Chad'],
+															['Comoros'],
+															['Republic of the Congo'],
+															['Democratic Republic of Congo'],
+															["Cote d'Ivoire"],
+															['Djibouti'],
+															['Egypt'],
+															['Equatorial Guinea'],
+															['Eritrea'],
+															['Eswatini (formerly Swaziland)'],
+															['Ethiopia'],
+															['Gabon'],
+															['Gambia'],
+															['Ghana'],
+															['Guinea'],
+															['Guinea-Bissau'],
+															['Kenya'],
+															['Lesotho'],
+															['Liberia'],
+															['Libya'],
+															['Madagascar'],
+															['Malawi'],
+															['Mali'],
+															['Mauritania'],
+															['Mauritius'],
+															['Morocco'],
+															['Mozambique'],
+															['Namibia'],
+															['Niger'],
+															['Nigeria'],
+															['Rwanda'],
+															['Sao Tome and Principe'],
+															['Senegal'],
+															['Seychelles'],
+															['Sierra Leone'],
+															['Somalia'],
+															['South Africa'],
+															['South Sudan'],
+															['Sudan'],
+															['Tanzania'],
+															['Togo'],
+															['Tunisia'],
+															['Uganda'],
+															['Zambia'],
+															['Zimbabwe']
+														]), {}, :class => 'form-control' %>
+													<% end %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Phone Number</h5>
+												<div class="cpp-fiel">
+													<%= f.number_field :phone, placeholder: "Phone Number", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field">
+												<h5>Bio</h5>
+												<div class="cpp-fiel">
+													<%= f.text_area :bio, placeholder: "Enter a brief description of yourself", class: "form-control" %>
+												</div>
+											</div>
+											<div class="save-stngs">
+												<ul>
+													<li><%= f.submit "Update Account", class: "btn btn-primary up-acct" %></li>
+													<li><%= link_to "Cancel", :back, class: "btn btn-secondary" %></li>
+												</ul>
+											</div><!--save-stngs end-->
+										
+									</div><!--acc-setting end-->
+								</div>
+
+							  	<div class="tab-pane fade" id="nav-profiles" role="tabpanel" aria-labelledby="nav-profiles-tab">
+							  		<div class="acc-setting">
+							  			<h3>Social Profiles</h3>
+							  			
+											<div class="cp-field col-md-4">
+												<h5>Website</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :website, placeholder: "Enter your website... e.g http://example.com", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Facebook</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :facebook_url, placeholder: "Enter your Facebook profile link... e.g https://facebook.com/profile", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Twitter</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :twitter_url, placeholder: "Enter your Twitter profile link... e.g https://twitter.com/profile", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-6">
+												<h5>Instagram</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :instagram_url, placeholder: "Enter your Instagram profile link... e.g https://instagram.com/profile", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-6">
+												<h5>Linkedin</h5>
+												<div class="cpp-fiel">
+													<%= f.text_field :linkedin_url, placeholder: "Enter your Linkedin profile link... e.g https://linkedin.com/profile", class: "form-control" %>
+												</div>
+											</div>
+											<div class="save-stngs pd2">
+												<ul>
+													<li><%= f.submit "Update Account", class: "btn btn-primary up-acct" %></li>
+													<li><%= link_to "Cancel", :back, class: "btn btn-secondary" %></li>
+												</ul>
+											</div><!--save-stngs end-->
+							  		</div><!--acc-setting end-->
+							  	</div>
+							  	
+									<div class="tab-pane fade" id="nav-password" role="tabpanel" aria-labelledby="nav-password-tab">
+							  		<div class="acc-setting">
+										<h3>Change Password</h3>
+										
+											<div class="cp-field col-md-4">
+												<h5>Current Password</h5>
+												<div class="cpp-fiel">
+													<%= f.password_field :current_password, placeholder: "Enter your current password to confirm your changes", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>New Password</h5>
+												<div class="cpp-fiel">
+													<%= f.password_field :password, placeholder: "Enter New Password", class: "form-control" %>
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Confirm New Password</h5>
+												<div class="cpp-fiel">
+													<%= f.password_field :password_confirmation, placeholder: "Confirm New Password", class: "form-control" %>
+												</div>
+											</div>
+											<div class="save-stngs pd2">
+												<ul>
+													<li><%= f.submit "Update Account", class: "btn btn-primary up-acct" %></li>
+													<li><%= link_to "Cancel", :back, class: "btn btn-secondary" %></li>
+												</ul>
+											</div><!--save-stngs end-->
+										</div><!--acc-setting end-->
+							  	</div>
+							  	
+							  	<div class="tab-pane fade" id="nav-photo" role="tabpanel" aria-labelledby="nav-photo-tab">
+							  		<div class="acc-setting">
+							  			<h3>Upload Photo</h3>
+							  			<div class="requests-list">
+							  				<div class="request-details">
+							  					<div class="noty-user-img">
+							  						<% if @user.image_url %>
+															<%= image_tag @user.image_url, style: "width: 32px;", class: "rounded-circle mr-2" %>
+														<% else %>
+															<%= image_tag 'avatar.png', style: "width: 32px;", class: "rounded-circle mr-2" %>
+														<% end %>
+							  					</div>
+							  					<div class="request-info">
+							  						<h3>Change Profile Photo</h3>
+							  						<span>100 x 100 pixels</span>
+							  					</div>
+							  					<div class="accept-feat">
+							  						<ul>
+							  							<li><%= f.file_field :image, onchange: "validateFiles(this);", data: { max_file_size: 1.megabytes } %></li>
+							  						</ul>
+							  					</div><!--accept-feat end-->
+													
+													<div class="save-stngs pd2">
+														<ul>
+													<li><%= f.submit "Update Account", class: "btn btn-primary up-acct" %></li>
+													<li><%= link_to "Cancel", :back, class: "btn btn-secondary" %></li>
+														</ul>
+													</div><!--save-stngs end-->
+							  				</div><!--request-detailse end-->
+							  			</div><!--requests-list end-->
+							  		</div><!--acc-setting end-->
+							  	</div>
+
+									<div class="tab-pane fade" id="nav-payout" role="tabpanel" aria-labelledby="nav-payout-tab">
+							  		<div class="acc-setting">
+										<h3>Payout</h3>
+										<%# <div class="cp-field">
+											  
+										</div>
+										<div class="cp-field">
+										</div> %>
+											<div class="cp-field col-md-4">
+												<h5>Account Name</h5>
+												<div class="cpp-fiel">
+													<input class="form-control" type="text" placeholder="Enter Account Name">
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Account Number</h5>
+												<div class="cpp-fiel">
+													<input class="form-control" type="text" placeholder="Enter Account Number">
+												</div>
+											</div>
+											<div class="cp-field col-md-4">
+												<h5>Bank Name</h5>
+												<div class="cpp-fiel">
+													<input class="form-control" type="text" placeholder="Enter Bank Name">
+												</div>
+											</div>
+											
+											<div class="save-stngs pd2">
+												<ul>
+													<li><%= f.submit "Update Account", class: "btn btn-primary up-acct" %></li>
+													<li><%= link_to "Cancel", :back, class: "btn btn-secondary" %></li>
+												</ul>
+											</div><!--save-stngs end-->
+										</div><!--acc-setting end-->
+									</div>
+
+							  	<div class="tab-pane fade" id="nav-deactivate" role="tabpanel" aria-labelledby="nav-deactivate-tab">
+							  		<div class="acc-setting">
+										<h3 class="text-danger">Delete Account</h3>
+										
+											<div class="cp-field">
+												<p>We are not happy to see you go. Deleting your account would delete all
+												of your conversations and also remove you of Brainstaq's mailing list and 
+												every other correspondences. This action cannot be reversed.</p>
+											</div>
+											<div class="save-stngs pd3">
+												<ul>
+													<%= link_to "Delete account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: "btn btn-danger rounded text-white" %>
+												</ul>
+											</div><!--save-stngs end-->	
+									</div><!--acc-setting end-->
+							  </div>
+
+								<div class="tab-pane fade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+									<div class="acc-setting">
+									<%# <h3>Select Roles</h3> %>
+										<%# <div class="cp-field"> %>
+											<%#= f.collection_check_boxes :role_ids, Role.all, :id, :name %>
+											<%#= f.error :roles, class: 'text-danger' %>
+										<%# </div> %>
+									
+										<div class="save-stngs pd3">
+											<ul>
+												<%= f.submit "Update Account", class: "btn btn-primary up-acct" %>
+											</ul>
+										</div><!--save-stngs end-->	
+									</div><!--acc-setting end-->
+							</div>
+						</div>
+					</div>
+				</div><!--account-tabs-setting end-->
+			</div>
+		</section>
+    <% end %>
+<style>
+.acc-leftbar {
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	border-left: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+}
+.acc-leftbar .nav-tabs > a {
+	float: left;
+	width: 100%;
+	background: none;
+	padding: 18px 20px;
+	border-bottom: 1px solid #e5e5e5;
+	border-top: 1px solid #e5e5e5;
+	border-left: 0;
+	border-right: 0;
+	color: #000000;
+	font-size: 16px;
+	font-weight: 600;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	-ms-border-radius: 0;
+	-o-border-radius: 0;
+	border-radius: 0;
+}
+.nav-tabs {
+	border-bottom: 0;
+}
+.acc-leftbar .nav-tabs > a:last-child {
+	border-bottom: 0;
+}
+.acc-leftbar .nav-tabs > a i {
+	padding-right: 15px;
+	font-size: 20px;
+	position: relative;
+	top: 2px;
+	font-weight: 700;
+	width: 40px;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+	background-color: inherit;
+	color: #0070C0;
+	border-color: inherit;
+}
+.acc-setting {
+	float: left;
+	width: 100%;
+	background-color: #fff;
+	border-left: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	border-right: 1px solid #e5e5e5;
+	-webkit-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-moz-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-ms-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	-o-box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+	box-shadow: 1px 0 4px rgba(0,0,0,0.24);
+}
+.acc-setting form {
+	float: left;
+	width: 100%;
+}
+.acc-setting > h3 {
+	float: left;
+	width: 100%;
+	color: #000000;
+	font-weight: 600;
+	font-size: 18px;
+	text-transform: capitalize;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 17px 20px;
+}
+.notbar {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #e5e5e5;
+	padding: 20px;
+	position: relative;
+}
+.notbar h4 {
+	color: #000000;
+	font-size: 16px;
+	font-weight: 600;
+	margin-bottom: 5px;
+}
+.notbar p {
+	color: #686868;
+	font-size: 14px;
+	line-height: 24px;
+	width: 75%;
+}
+.toggle-btn {
+	position: absolute;
+	top: 35px;
+	right: 20px	;
+}
+.save-stngs {
+	float: left;
+	width: 100%;
+	padding: 30px 20px 50px 20px;
+}
+.save-stngs.pd2 {
+	padding: 25px 20px 42px 20px;
+}
+.save-stngs.pd3 {
+	padding: 25px 20px 25px 20px;
+}
+.save-stngs ul li {
+	display: inline-block;
+	margin-right: 17px;
+}
+.save-stngs ul li button {
+	display: inline-block;
+	color: #000000;
+	font-size: 16px;
+	border: 1px solid #e5e5e5;
+	height: 40px;
+	line-height: 40px;
+	padding: 0 22px;
+	font-weight: 600;
+	background: none;
+	cursor: pointer;
+}
+.save-stngs ul li button:hover {
+	background-color: #e44d3a;
+	color: #fff;
+	border-color: transparent;
+}
+.profile-bx-details {
+	float: left;
+	width: 100%;
+	padding: 30px 7px 30px 7px;
+}
+.profile-bx-details .row .col-lg-3 {
+	padding: 0 7px;
+}
+.profile-bx-info {
+	float: left;
+	width: 100%;
+	background-color: #f2f2f2;
+	padding: 20px;
+	border: 1px solid #e5e5e5;
+}
+.pro-bx {
+	float: left;
+	width: 100%;
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 10px;
+}
+.bx-info {
+	float: left;
+	margin-top: 7px;
+	padding-left: 15px;
+}
+.bx-info h3 {
+	color: #e44d3a;
+	font-size: 20px;
+	font-weight: 600;
+	margin-bottom: 5px;
+}	
+.bx-info h5 {
+	color: #000000;
+	font-size: 14px;
+	font-weight: 600;
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+.pd-left-20 {
+	padding-left: 20px;
+	padding-right: 0;
+}
+.pd-left-15 {
+	padding-left: 15px;
+	padding-right: 0;
+}
+.pd-left-right {
+	padding-left: 15px;
+	padding-right: 20px;
+}
+.profile-bx-info > p {
+	float: left;
+	width: 100%;
+	font-size: 12px;
+	line-height: 22px;
+	padding-top: 3px;
+}
+.pro-work-status {
+	float: left;
+	width: 100%;
+	padding: 0 15px;
+}
+.pro-work-status h4 {
+	color: #000000;
+	font-size: 18px;
+	font-weight: 600;
+	margin-bottom: 50px;
+}
+.cp-field {
+	float: left;
+	width: 100%;
+	margin-top: 29.4px;
+	padding: 0 20px;
+}
+.cp-field h5 {
+	color: #000000;
+	font-size: 16px;
+	font-weight: 600;
+	float: left;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.cp-field h5 a {
+	color: #000;
+}
+.cpp-fiel {
+	float: left;
+	width: 100%;
+	position: relative;
+}
+.cp-field input {
+	height: 40px;
+	padding: 0 40px;
+}
+.cp-field input,
+.cp-field textarea {
+	width: 100%;
+	border: 1px solid #e5e5e5;
+}
+.cp-field textarea {
+	padding: 20px;
+	height: 115px;	
+}
+.cpp-fiel i {
+	position: absolute;
+	top: 12px;
+	left: 15px;
+	color: #b2b2b2;
+	font-size: 16px;
+}
+.cp-field > p {
+	float: left;
+	width: 100%;
+	color: #686868;
+	font-size: 14px;
+	line-height: 24px;
+	margin-top: 5px;
+}
+.notifications-list {
+	float: left;
+	width: 100%;
+}
+.notfication-details {
+	float: left;
+	width: 100%;
+	padding: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.notfication-details:last-child {
+	border-bottom: 0;
+}
+.noty-user-img {
+	float: left;
+	width: 35px;
+}
+.noty-user-img img {
+	width: 100%;
+}
+.notification-info {
+	float: left;
+	width: auto;
+	padding-left: 10px;
+}
+.notification-info h3 {
+	color: #686868;
+	font-size: 14px;
+	font-weight: 600;
+	border: 0;
+	padding: 0;
+	margin-bottom: 6px;
+}
+.notification-info h3 a {
+	color: #000000;
+	font-size: 16px;
+	display: inline-block;
+}
+.notification-info > span {
+	display: inline-block;
+	color: #b2b2b2;
+	font-size: 12px;
+	font-weight: 600;
+}
+.requests-list {
+	float: left;
+	width: 100%;
+	padding-bottom: 0;
+}
+.request-details {
+	float: left;
+	width: 100%;
+	padding: 20px;
+	border-bottom: 1px solid #e5e5e5;
+}
+.request-details:last-child {
+	border-bottom: 0;
+}
+.request-info {
+	float: left;
+	padding-left: 10px;
+}
+.request-info h3 {
+	color: #000000;
+	font-size: 14px;
+	font-weight: 600;
+	padding: 0;
+	border: 0;
+	margin-bottom: 3px;
+}
+.request-info span {
+	color: #686868;
+	font-size: 12px;
+	display: inline-block;
+}
+.accept-feat {
+	float: right;
+}
+.accept-feat ul li {
+	display: inline-block;
+}
+.accept-feat ul li button {
+	cursor: pointer;
+}
+.accept-req {
+	color: #ffffff;
+	font-size: 16px;
+	background-color: #51a5fb;
+	height: 30px;
+	padding: 0 20px;
+	font-weight: 600;
+	border: 0;
+	border: 1px solid #51a5fb;
+}
+.close-req {
+	height: 30px;
+	width: 30px;
+	text-align: center;
+	line-height: 30px;
+	border: 1px solid #e5e5e5;
+	background: inherit;
+	color: #b2b2b2;
+	margin-left: 7px;
+}
+.close-req i {
+	font-weight: 600;
+}
+</style>

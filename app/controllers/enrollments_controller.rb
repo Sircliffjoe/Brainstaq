@@ -1,5 +1,6 @@
 class EnrollmentsController < ApplicationController
   before_action :authenticate_user!, only: [:certificate]
+  before_action :authenticate_admin!, only: %i[index]
   before_action :set_enrollment, only: %i[show edit update destroy certificate]
 
   def index
@@ -11,12 +12,33 @@ class EnrollmentsController < ApplicationController
     render 'index'
   end
 
+  # def certificate
+  #   respond_to do |format|
+  #     format.pdf do
+  #       render pdf: "#{@enrollment.course.title}, #{@enrollment.user.full_name}",
+  #              page_size: 'A4',
+  #              template: 'enrollments/certificate.pdf.erb'
+  #     end
+  #   end
+  # end
+
+
   def certificate
     respond_to do |format|
+      format.html
       format.pdf do
-        render pdf: "#{@enrollment.course.title}, #{@enrollment.user.email}",
-               page_size: 'A4',
-               template: 'enrollments/certificate.pdf.erb'
+        render pdf: "#{@enrollment.course.title}, #{@enrollment.user.full_name}",
+          type: 'application/pdf',
+          layout: 'certificate_pdf.html.erb',
+          page_size: 'A4',
+          template: 'enrollments/certificate.pdf.erb',
+          margin: { :top => 20, :bottom => 10, :left => 20, :right => 20},
+          viewport_size: '1280x1024',
+          lowquality: true,
+          zoom: 1,
+          dpi: 75,
+          orientation: 'Landscape',
+          disposition: 'inline'
       end
     end
   end
@@ -60,5 +82,12 @@ class EnrollmentsController < ApplicationController
 
   def enrollment_params
     params.require(:enrollment).permit(:rating, :review)
+  end
+
+  def authenticate_admin!
+    unless current_user.admin?
+      flash[:alert] = "You are not authorized to perform this action."
+      redirect_to courses_path
+    end
   end
 end

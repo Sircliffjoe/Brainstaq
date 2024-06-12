@@ -69,6 +69,29 @@
                   </li>
                 </ul>
               </li>
+              <li class="nav-item dropdown @@pricing">
+                <a class="nav-link dropdown-toggle d-flex justify-content-between align-items-center" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-1">Courses</span>
+                  <svg width="9" height="6" viewBox="0 0 9 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 1.06L7.94 0L4.5 3.44L1.06 0L0 1.06L4.5 5.56L9 1.06Z" fill="currentColor"/></svg>
+                </a>
+                <ul class="dropdown-menu">
+                  <li> 
+                    <%= link_to courses_path, title: "All Courses", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingOne">All Courses</span>
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to new_course_path, title: "Add Course", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingTwo">Add Course</span>
+                    <% end %>
+                  </li>
+                  <li>
+                    <%= link_to enrollments_path, title: "All Enrollments", class: "text-decoration-none" do %>
+                      <span class="dropdown-item @@pricingTwo">All Enrollments</span>
+                    <% end %>
+                  </li>
+                </ul>
+              </li>
             <% else %>
               <li class="nav-item @@about">
                 <%= link_to new_transaction_path, title: "Pricing", class: "text-decoration-none" do %>
@@ -121,7 +144,7 @@
                   <% end %>
                 </li>
 
-                <li class= "dropdown-item" style="font-size: 14px;">  
+                <li class= "dropdown-item" style="font-size: 14px;"> 
                   <%= link_to conversations_path do %>
                     <i class="fa fa-comment-alt mr-3"></i> Messages
                   <%end%>
@@ -129,7 +152,7 @@
 
                 <li class= "dropdown-item" style="font-size: 14px;">  
                   <%= link_to transactions_path do %>
-                    <i class="fas fa-receipt mr-3"></i> Billing Details
+                    <i class="fas fa-receipt mr-4"></i> Billing Details
                   <%end%>
                 </li>
 

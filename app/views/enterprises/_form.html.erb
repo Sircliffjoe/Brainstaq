@@ -57,8 +57,8 @@
 											<div class="cp-field">
 												<h5>About Brand</h5>
 												<div class="cpp-fiel">
-													<%= form.text_area :info, class: "form-control", placeholder: "About your brand"%>
-                          <%#= tinymce %>
+													<%= form.rich_text_area :info, class: "form-control", placeholder: "About your brand"%>
+													<%#= tinymce %>
 												</div>
 											</div>
 											<div class="cp-field">
@@ -204,6 +204,31 @@
 <% end %>
 
 <style>
+
+.trix-content {
+  /* Ensure the content fits within the editor */
+  overflow-wrap: break-word; /* Handles long words and URLs */
+  word-wrap: break-word; /* For older browsers */
+  white-space: pre-wrap; /* Preserves whitespace formatting */
+}
+
+/* Optional: Ensure the editor grows with content */
+.trix-editor {
+  min-height: 200px; /* Minimum height for the editor */
+  max-width: 100%; /* Ensure the editor does not overflow the container */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Handle any specific form-control styles you need */
+.form-control {
+  max-width: 100%; /* Ensure the control fits within the form group */
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Optional: Additional styling for a better user experience */
+.form-group {
+  margin-bottom: 1rem; /* Space between form groups */
+}
 .acc-leftbar {
 	float: left;
 	width: 100%;

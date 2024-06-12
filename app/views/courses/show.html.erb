@@ -38,7 +38,7 @@
 				<p><%= simple_format(@course.marketing_description) %></p>
 				<!-- Content -->
 				<ul class="list-inline mb-0">
-					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star text-warning me-2"></i> <%= @course.average_rating.round %> Rating</li>
+					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-star text-warning me-2"></i> <%= @course.average_rating.round %> Ratings</li>
 					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-user-graduate text-orange me-2"></i> <%= @course.enrollments_count %> Enrolled</li>
 					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fas fa-signal text-success me-2"></i> <%= @course.level %></li>
 					<li class="list-inline-item h6 me-3 mb-1 mb-sm-0"><i class="fa fa-clock text-danger me-2"> </i> Last updated <%= @course.updated_at.strftime("%m/%Y") %></li>
@@ -299,7 +299,7 @@
 								
 								<!-- Instructor info -->
 								<h5 class="mb-3">About Instructor</h5>
-								<p class="mb-3">Fulfilled direction use continual set him propriety continued. Saw met applauded favorite deficient engrossed concealed and her. Concluded boy perpetual old supposing. Farther related bed and passage comfort civilly. Dashboard see frankness objection abilities. As hastened oh produced prospect formerly up am. Placing forming nay looking old married few has. Margaret disposed of add screened rendered six say his striking confined. </p>
+								<p class="mb-3"><%= @course.user.bio %> </p>
 							</div>
 							<!-- Content END -->
 
@@ -318,7 +318,7 @@
                   <div class="list-group">
                     <% @reviews.each do |enrollment| %>
                       <div class="list-group-item">
-                        <%= render 'enrollments/enrollment', enrollment: enrollment %>
+                        <%= render 'enrollments/enrollment_show', enrollment: enrollment %>
                       </div>
                     <% end %>
                   </div>
@@ -339,12 +339,20 @@
 										<h2 class="accordion-header" id="headingOne">
 											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 												<span class="text-secondary fw-bold me-3">01</span>  
-												<span class="h6 mb-0">How Digital Marketing Work?</span> 
+												<span class="h6 mb-0">What is Brainstaq Academy and what courses does it offer?</span> 
 											</button>
 										</h2>
 										<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
-												Comfort reached gay perhaps chamber his six detract besides add. Moonlight newspaper up its enjoyment agreeable depending. Timed voice share led him to widen noisy young. At weddings believed laughing although the material does the exercise of. Up attempt offered ye civilly so sitting to. She new course gets living within Elinor joy. She rapturous suffering concealed. 
+												Brainstaq Academy is an integral feature of the Brainstaq Enterprise 
+                        Development Platform designed to provide users with free access to a wide 
+                        range of business and entrepreneurship-related courses. Our goal is to 
+                        empower aspiring entrepreneurs and business professionals with the knowledge 
+                        and skills they need to succeed in today's competitive market. 
+                        The courses cover various topics, including business planning, 
+                        financial management, marketing strategies, startup development, and more. 
+                        Upon completion of each course, users can earn a certificate that validates 
+                        their newly acquired skills and knowledge. 
 											</div>
 										</div>
 									</div>
@@ -353,14 +361,39 @@
 										<h2 class="accordion-header" id="headingTwo">
 											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
 												<span class="text-secondary fw-bold me-3">02</span>  
-												<span class="h6 mb-0">What is SEO?</span> 
+												<span class="h6 mb-0">
+                          How can I enroll in a course on Brainstaq Academy, and are 
+                          there any prerequisites?
+                        </span> 
 											</button>
 										</h2>
 										<div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
-												Pleasure and so read the was hope entire first decided the so must have as on was want up of I will rival in came this touched got a physics to travelling so all especially refinement monstrous desk they was arrange the overall helplessly out of particularly ill are purer.
-												<p class="mt-2">Person she control of to beginnings view looked eyes Than continues its and because and given and shown creating curiously to more in are man were smaller by we instead the these sighed Avoid in the sufficient me real man longer of his how her for countries to brains warned notch important Finds be to the of on the increased explain noise of power deep asking contribution this live of suppliers goals bit separated poured sort several the was organization the if relations go work after mechanic But we've area wasn't everything needs of and doctor where would.</p>	
-												Go he prisoners And mountains in just switching city steps Might rung line what Mr Bulk; Was or between towards the have phase were its world my samples are the was royal he luxury the about trying And on he to my enough is was the remember a although lead in were through serving their assistant fame day have for its after would cheek dull have what in go feedback assignment Her of a any help if the a of semantics is rational overhauls following in from our hazardous and used more he themselves the parents up just regulatory.
+												Enrolling in a course on Brainstaq Academy is straightforward and hassle-free. Simply follow these steps:
+                        <ol>
+                            <li>
+                              <strong>Create an Account:</strong> If you haven’t already, sign up 
+                              for a free account on the Brainstaq Enterprise Development Platform.
+                            </li>
+                            <li>
+                              <strong>Navigate to Brainstaq Academy:</strong> 
+                              From the dashboard, click on the Brainstaq Academy section.
+                            </li>
+                            <li>
+                              <strong>Browse Courses:</strong> 
+                              Browse through our extensive catalog of business and entrepreneurship 
+                              courses.
+                            </li>
+                            <li>
+                              <strong>Enroll:</strong> 
+                              Select a course that interests you and click the "Enroll" button. 
+                              There are no prerequisites for most courses, making them accessible to 
+                              everyone regardless of their background or experience level.
+                            </li>
+                        </ol>
+                        
+												<p class="mt-2">Once enrolled, you can start learning at your own pace and 
+                        earn a certificate upon successful completion of the course.
 											</div>
 										</div>
 									</div>
@@ -369,12 +402,33 @@
 										<h2 class="accordion-header" id="headingThree">
 											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
 												<span class="text-secondary fw-bold me-3">03</span>  
-												<span class="h6 mb-0">Who should join this course?</span> 
+												<span class="h6 mb-0">How do I earn a certificate from Brainstaq Academy, and what is its significance?</span> 
 											</button>
 										</h2>
 										<div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
-												Post no so what deal evil rent by real in. But her ready least set lived spite solid. September how men saw tolerably two behavior arranging. She offices for highest and replied one venture pasture. Applauded no discovery in newspaper allowance am northward. Frequently partiality possession resolution at or appearance unaffected me. Engaged its was the evident pleased husband. Ye goodness felicity do disposal dwelling no. First am plate jokes to began to cause a scale. <strong>Subjects he prospect elegance followed no overcame</strong> possible it on. 
+												To earn a certificate from Brainstaq Academy, you need to complete the following steps:
+                        <ol>
+                            <li>
+                              <strong>Complete the Course:</strong> 
+                              Finish all the modules and lessons in the course.
+                            </li>
+                            <li>
+                              <strong>Pass Assessments:</strong> 
+                              Successfully pass any quizzes, assignments, or exams associated with 
+                              the course.
+                            </li>
+                            <li>
+                              <strong>Meet Requirements:</strong> 
+                              Ensure you meet any additional requirements specified by the course, 
+                              such as participation in discussion forums or project submissions.
+                            </li>
+                        </ol>
+                        Once you fulfill all the course requirements, you will receive a digital 
+                        certificate. This certificate serves as a recognition of your efforts and 
+                        validates the knowledge and skills you have gained. You can showcase this 
+                        certificate on your resume, LinkedIn profile, or any other professional 
+                        platform to enhance your career prospects. 
 											</div>
 										</div>
 									</div>
@@ -383,12 +437,40 @@
 										<h2 class="accordion-header" id="headingFour">
 											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
 												<span class="text-secondary fw-bold me-3">04</span>  
-												<span class="h6 mb-0">What are the T&C for this program?</span> 
+												<span class="h6 mb-0">Is there any cost associated with taking courses on 
+                          Brainstaq Academy, and what are the benefits of these free courses?
+                        </span> 
 											</button>
 										</h2>
 										<div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
-												Night signs creeping yielding green Seasons together man green fruitful make fish behold earth unto you'll lights living moving sea open for fish day multiply tree good female god had fruitful of creature fill shall don't day fourth lesser he the isn't let multiply may Creeping earth under was You're without which image stars in Own creeping night of wherein Heaven years their he over doesn't whose won't kind seasons light Won't that fish him whose won't also it dominion heaven fruitful Whales created And likeness doesn't that Years without divided saying morning creeping hath you'll seas cattle in multiply under together in us said above dry tree herb saw living darkness without have won't for i behold meat brought winged Moving living second beast Over fish place beast image very him evening Thing they're fruit together forth day Seed lights Land creature together Multiply waters form brought.
+												No, there is no cost associated with taking courses on Brainstaq Academy. 
+                        All our courses are offered completely free of charge. We believe in 
+                        providing accessible education to empower entrepreneurs and business 
+                        professionals worldwide. The benefits of these free courses include:
+                        <ul>
+                          <li>
+                            <strong>Quality Education:</strong> 
+                            Access to high-quality, expert-led courses without any financial 
+                            burden.
+                          </li>
+                          <li>
+                            <strong>Flexible Learning:</strong> 
+                            Learn at your own pace and convenience.
+                          </li>
+                          <li>
+                            <strong>Certification:</strong> 
+                            Earn certificates upon course completion to showcase your 
+                            achievements.
+                          </li>
+                          <li>
+                            <strong>Career Advancement:</strong> 
+                            Gain valuable skills and knowledge that can enhance your career 
+                            opportunities and business growth.
+                          </li>
+                        </ul>
+                        By offering free courses, we aim to remove financial barriers and create 
+                        equal opportunities for everyone to learn and grow.
 											</div>
 										</div>
 									</div>
@@ -397,12 +479,45 @@
 										<h2 class="accordion-header" id="headingFive">
 											<button class="accordion-button collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
 												<span class="text-secondary fw-bold me-3">05</span>  
-												<span class="h6 mb-0">What certificates will I be received for this program?</span> 
+												<span class="h6 mb-0">How can I track my progress and stay motivated 
+                        throughout the course on Brainstaq Academy?</span> 
 											</button>
 										</h2>
 										<div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
 											<div class="accordion-body pt-0">
-												Smile spoke total few great had never their too Amongst moments do in arrived at my replied Fat weddings servants but man believed prospect Companions understood is as especially pianoforte connection introduced Nay newspaper can sportsman are admitting gentleman belonging his Is oppose no he summer lovers twenty in Not his difficulty boisterous surrounded bed Seems folly if in given scale Sex contented dependent conveying advantage. 
+												Tracking your progress and staying motivated is essential for successful 
+                        learning. Brainstaq Academy provides several features to help you stay on 
+                        track:
+                        <ul>
+                            <li>
+                              <strong>Progress Dashboard:</strong> 
+                              Your personal dashboard shows an overview of your enrolled courses, 
+                              progress, and upcoming milestones.
+                            </li>
+                            <li>
+                              <strong>Regular Updates:</strong> 
+                              Receive email notifications and reminders about upcoming deadlines, 
+                              new course releases, and tips for staying on track.
+                            </li>
+                            <li>
+                              <strong>Community Support:</strong> 
+                              Join discussion forums and community groups to interact with fellow 
+                              learners, share experiences, and seek support.
+                            </li>
+                            <li>
+                              <strong>Instructor Feedback:</strong> 
+                              Get constructive feedback from course instructors on assignments and 
+                              projects to help you improve.
+                            </li>
+                            <li>
+                              <strong>Achievements and Rewards:</strong> 
+                              Earn badges and certificates for completed courses and milestones to 
+                              keep you motivated and acknowledge your accomplishments.
+                            </li>
+                        </ul>
+                        By utilizing these features, you can effectively manage your learning 
+                        journey, stay motivated, and achieve your educational goals on Brainstaq 
+                        Academy. 
 											</div>
 										</div>
 									</div>
@@ -525,7 +640,6 @@
                 <% end %>
               </div>
 						</div>
-						<!-- Video END -->
 
 						<!-- Course info START -->
 						<div class="card card-body shadow p-4 mb-4">

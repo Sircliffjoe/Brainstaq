@@ -5,7 +5,8 @@
   <%= simple_form_for(comment, url: comment_path) do |f| %>
     <%= f.error_notification %>
     <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-    <%= f.input :body, as: :text, label: false %>
-    <%= f.button :submit, "Post", class: "actions btn btn-primary rounded mt-3" %>
+    <%#= f.input :body, as: :text, label: false %>
+    <%= f.input :body, as: :rich_text_area, label: false %>
+    <%= f.button :submit, "Post Comment", class: "actions btn btn-primary rounded mt-3" %>
   <% end %>
 </div>

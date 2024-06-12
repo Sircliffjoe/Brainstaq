@@ -71,7 +71,8 @@
           </a>
           <p class="mt-3 mb-0" style="font-size: 14px;">
             <a class="text-dark" href="<%= idea_url(idea) %>">
-              <%= truncate(sanitize(idea.description, tags: []), length: 200) %>
+              <%#= truncate(sanitize(idea.description, tags: []), length: 200) %>
+              <%= idea.description.to_plain_text.truncate(200) %>
             </a>
           </p>
         </div>

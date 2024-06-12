@@ -4,9 +4,6 @@ class BusinessPlan < ApplicationRecord
   :vision, :mission, :objectives, :value_proposition, :company_tax_rate, :bank_interest_rate,
   :inflation_rate, presence: true
 
-  # before_save :check_quota
-  # validates_uniqueness_of :enterprise_id
-
   belongs_to :enterprise
   belongs_to :user
   
@@ -15,6 +12,8 @@ class BusinessPlan < ApplicationRecord
   has_many :marketing_expenses, dependent: :destroy
   has_many :milestones, dependent: :destroy
   has_many :swots, dependent: :destroy
+
+  # has_rich_text :description
   
 
   accepts_nested_attributes_for :swots, allow_destroy: true

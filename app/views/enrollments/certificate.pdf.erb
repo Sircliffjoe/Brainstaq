@@ -1,42 +1,36 @@
-<center>
-  <div style="width: 1200px; height: 800px; padding: 20px; text-align: center; border: 10px solid #563d7c">
-    <div style="width: 1150px; height: 750px; padding: 20px; text-align: center; border: 5px solid #563d7c">
-      <br>
-      <br>
-      <span style="font-size: 50px; font-weight: bold">Certificate of Completion</span>
-      <br>
-      <br>
-      <br>
-      <p>
-        <h3>This is to certify that the owner of the email address</h3>
-        <h2><u><%= @enrollment.user.email %></u></h2>
-        <h3>has successfully completed the course</h3>
-        <h2><u><%= @enrollment.course.title %></u></h2>
-        <h3>on the Brainstaq.ng platform</h3>
-      </p>
-      <br>
-      <br>
-      <br>
-      <b>Certificate id: </b>
-      <%= @enrollment.slug %>
-      <br>
-      <br>
-      <b>Certificate url: </b>
-      <%= request.base_url %><%= request.original_fullpath %>
-      <br>
-      <br>
-      <b>Registration date: </b>
-      <%= @enrollment.created_at.strftime('%d-%b-%Y') %>
-      <br>
-      <br>
-      <center>
-        <h3>
-          <%= image_tag wicked_pdf_asset_base64('brainstaq-logo.png'), height: "30", width: "auto" %>
-        </h3>
-        <p>
-          www.Brainstaq.ng
-        </p>
-      </center>
+<div class="certificate-container">
+  <div class="certificate-border">
+    <div class="certificate-header">Certificate of Completion</div>
+    <div class="certificate-body">
+      <h3>This is to certify that</h3>
+      <div class="recipient-name"><%= @enrollment.user.full_name %></div>
+      <hr class="horizontal-line">
+      <h3>has successfully completed the course on</h3>
+      <div class="certificate-details">
+        <span class="course-title"><strong><%= @enrollment.course.title %></strong></span>
+      </div>
+      <h3 class="uppercase">FROM BRAINSTAQ BUSINESS DEVELOPMENT ACADEMY</h3>
+    </div>
+    <div class="certificate-id">
+      <h4><strong>Date Completed:</strong> <%= @enrollment.updated_at.strftime('%d-%b-%Y') %></h4>
+    </div>
+    <div class="certificate-footer">
+      <div class="signature-area">
+        <img src="<%= wicked_pdf_asset_base64('signature.png') %>" alt="Signature" class="signature-image">
+        <hr class="signature-line">
+        <p class="teacher-name"><strong>Mr. <%= @enrollment.course.user.full_name %> Joe</strong></p>
+        <p class="teacher-title">CEO, KOBU Innovative Solutions</p>
+      </div>
+      <img src="<%= wicked_pdf_asset_base64('brainstaq-logo.png') %>" alt="Brainstaq Logo" class="brainstaq-logo">
+      <p class="company-info mt-2">KOBU Innovative Solutions | www.brainstaq.ng</p>
     </div>
   </div>
-</center>
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</div>

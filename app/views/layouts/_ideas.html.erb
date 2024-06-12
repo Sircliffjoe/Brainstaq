@@ -31,7 +31,7 @@
                 </div>
                 <p class="mb-0 mt-2" style="font-size: 12px;">
                   <a class="text-dark" href="<%= idea_url(idea) %>">
-                    <%= idea.description.html_safe.truncate(120) %>
+                    <%= idea.description.to_plain_text.truncate(120) %>
                   </a>
                 </p>          
                 <% if idea.relevance_bar.to_i > 75 && idea.expired? || idea.relevance_bar.to_i < 75 && idea.expired? %>

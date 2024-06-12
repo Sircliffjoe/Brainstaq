@@ -26,9 +26,6 @@ class IdeasController < ApplicationController
     @perk = Perk.find_by_id params[:perk_id]
 
     @idea = Idea.find(params[:id]) 
-    @comment = Comment.new
-    @comments = @idea.comments
-    @comment.idea_id = @idea.id
     donation = Donation.includes(:idea).where(idea_id: params[:id])
     @donation = Donation.new
     @donors_count = donation.count

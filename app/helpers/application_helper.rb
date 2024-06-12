@@ -77,5 +77,22 @@ module ApplicationHelper
   def available_plans
     SubscriptionPlan.active.order(:cost) # Assuming active plans
   end
+
+  def truncate_html(text, length = 300, omission = '...')
+    doc = Nokogiri::HTML::DocumentFragment.parse(text)
+    content_length = 0
+
+    doc.traverse do |node|
+      if node.text?
+        content_length += node.text.length
+        if content_length > length
+          node.content = node.text[0, length - content_length + node.text.length] + omission
+          break
+        end
+      end
+    end
+
+    doc.to_html.html_safe
+  end
   
 end

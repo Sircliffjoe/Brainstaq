@@ -70,6 +70,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'sidekiq', '~> 6.2', '>= 6.2.1'
 gem 'sidekiq-cron', '~> 1.12'
 gem 'receipts', '~> 2.4'
+gem 'activeadmin', '~> 3.2', '>= 3.2.2'
 
 # gem 'intro', '~> 0.3.0'
 # gem 'tel_to_helper'

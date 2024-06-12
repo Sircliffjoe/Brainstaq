@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :admins, skip: [:registrations]
+  root to: "home#index"
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+  # devise_for :admins, skip: [:registrations]
   resources :course_categories
   
   # resources :courses
@@ -10,9 +13,9 @@ Rails.application.routes.draw do
     resources :course_wizard, controller: "courses/course_wizard"
   end
 
-  authenticated :admin_user do
-    root to: "admin#index", as: :admin_root
-  end
+  # authenticated :admin_user do
+  #   root to: "admin#index", as: :admin_root
+  # end
 
   namespace :admin do
     resources :courses do
@@ -27,8 +30,6 @@ Rails.application.routes.draw do
 
   require "sidekiq/web"
   mount Sidekiq::Web, at: "/sidekiq"
-  
-  root to: "home#index"
 
   resources :transactions do
     member do

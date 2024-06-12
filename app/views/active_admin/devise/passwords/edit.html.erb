@@ -1,0 +1,75 @@
+<% content_for :title, "Reset Password" %>
+
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Reset Password</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Back", :back, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Reset Password</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+
+<main id="main">
+  <section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+    <div class="container">  
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-9 text-center mb-40">
+          <h2 class="section-title">Choose <strong><span class="text-primary">Password</span></strong></h2>
+          <p style="font-size: 18px;">
+            Enter a new password. This must be at least 6 characters.</p>
+        </div>
+      </div>
+    </div>
+
+    <article class="card-body mx-auto" style="max-width: 400px; padding-top: 10px;">
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <small><%= render "devise/shared/error_messages", resource: resource %></small>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="form-group input-group" data-controller="toggle">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+          </div>
+          <%= f.password_field :password, class: "form-control form__element unhide", "data-target": "toggle.unhide", placeholder: "Enter Password" %>
+          <div class="input-group-prepend">
+            <span class="input-group-text"><a class="show" data-target="toggle.show" data-action="click->toggle#password">show</a></span>
+          </div>
+        </div>
+        
+        <div class="form-group input-group" data-controller="toggle">
+          <div class="input-group-prepend">
+            <span class="input-group-text"><i class="fa fa-lock"></i></span>
+          </div>
+          <%= f.password_field :password_confirmation, class: "form-control form__element unhide", "data-target": "toggle.unhide", placeholder: "Confirm Password" %>
+          <div class="input-group-prepend">
+            <span class="input-group-text"><a class="show" data-target="toggle.show" data-action="click->toggle#password">show</a></span>
+          </div>
+        </div>
+
+        <div class="form-group actions">
+          <%= f.submit "Change my password", class: "btn btn-primary w-100" %>
+        </div>
+
+        <div class="col-12">
+          <p class="text-center"><%= render "devise/shared/links" %></p>
+        </div>
+      <% end %>
+    </article>
+  </section>
+</main>

@@ -1,85 +1,121 @@
-<% content_for :title do %>
-  Brainstaq 
-  |
-  <%= controller_name.humanize %>
-  <%= action_name.humanize %>
-<% end %>
+<% content_for :title, "Enrollments" %>
 
-<h3 class="text-center">
-  <span class="fa fa-lock-open"></span>
-  <%= controller_name.humanize %>:
-  <%= action_name.humanize %>
-  <span class="badge badge-info"><%= @enrollments.count %></span>
-</h3>
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="margin-bottom:50px; background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Enrollments</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to 'Courses', courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Enrollments <span class="badge badge-info"><%= @enrollments.count %></span></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
 
-<%= search_form_for @q, url: @ransack_path do |f| %>
-  <%= f.search_field :user_email_cont, placeholder: 'user email' %>
-  <%= f.search_field :course_title_cont, placeholder: 'course title' %>
-  <%= f.search_field :course_user_email_cont, placeholder: 'teacher' %>
-  <%#= f.search_field :price_eq, placeholder: 'price' %>
-  <%= f.search_field :rating_eq, placeholder: 'rating' %>
-  <%= f.submit %>
-<% end %>
-<%= link_to 'refresh', @ransack_path %>
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
 
-<div class="table-responsive">
-  <table class="table table-bordered table-striped table-sm table-hover">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>User</th>
-        <th>Created At</th>
-        <th>Course</th>
-        <th>Teacher</th>
-        <th>Price</th>
-        <th>Reviewed On</th>
-        <th>Rating</th>
-        <th>Review</th>
-        <th>Progress</th>
-        <th>Certificate</th>
-        <th>See Review</th>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @enrollments.each do |enrollment| %>
-        <tr>
-          <td><%= enrollment.id %></td>
-          <td>
-            <% if enrollment.user.present? %>
-              <%= link_to enrollment.user.email, user_path(enrollment.user) %>
+<div class="container my-4">
+  <div class="card shadow">
+    <div class="card-header">
+      <h5>Enrollments Management</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive" style="max-width: 1000px; margin: auto;">
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>User</th>
+              <th>Course</th>
+              <th>Rating</th>
+              <th>Progress</th>
+              <th>Certificate</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @enrollments.each do |enrollment| %>
+              <tr>
+                <td><%= enrollment.id %></td>
+                <td>
+                  <% if enrollment.user.present? %>
+                    <%= link_to enrollment.user.full_name, profile_path(enrollment.user.username) %>
+                  <% end %>
+                </td>
+                <td><%= link_to enrollment.course.title, course_path(enrollment.course) %></td>
+                <td><%= enrollment.rating %></td>
+                <td><%= number_to_percentage(enrollment.course.progress(enrollment.user), precision: 0) %></td>
+                <td><%= link_to 'PDF', certificate_enrollment_path(enrollment, format: :pdf) %></td>
+                <td>
+                  <div class="btn-group" role="group">
+                    <% if policy(enrollment).edit? %>
+                      <%= link_to 'Edit', edit_enrollment_path(enrollment), class: 'btn btn-sm btn-primary' %>
+                    <% end %>
+                    <%= link_to 'Review', enrollment, class: 'btn btn-sm btn-info' %>
+                    <% if policy(enrollment).destroy? || current_user.admin?%>
+                      <%= link_to 'Delete', enrollment, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-sm btn-danger' %>
+                    <% end %>
+                  </div>
+                </td>
+              </tr>
             <% end %>
-          </td>
-          <td><%= enrollment.created_at.strftime("%d/%m/%Y, %H:%M") %></td>
-          <td><%= link_to enrollment.course, course_path(enrollment.course) %></td>
-          <td><%= link_to enrollment.course.user, user_path(enrollment.course.user) %></td>
-          <td><%= number_to_currency(enrollment.price) %></td>
-          <td>
-            <% if enrollment.rating.present? %>
-              <%= enrollment.updated_at.strftime("%d/%m/%Y, %H:%M") %>
-            <% end %>
-          </td>
-          <td><%= enrollment.rating %></td>
-          <td><%= enrollment.review %></td>
-          <td><%= number_to_percentage(enrollment.course.progress(enrollment.user), precision: 0) %></td>
-          <td><%= link_to 'PDF', certificate_enrollment_path(enrollment, format: :pdf) %></td>
-          <td><%= link_to 'See Review', enrollment %></td>
-          <td>
-            <% if policy(enrollment).edit? %>
-              <%= link_to 'Add Review', edit_enrollment_path(enrollment) %>
-            <% end %>
-          </td>
-          <td>
-            <% if policy(enrollment).destroy? %>
-              <%= link_to 'Delete Enrollment', enrollment, method: :delete, data: { confirm: 'Are you sure?' } %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
-<%= pagy_bootstrap_nav(@pagy) %>
 <br>
+
+<style>
+.table-responsive {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table-hover tbody tr:hover {
+  color: #495057;
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+.btn-group .btn {
+  margin-right: 5px;
+}
+
+.card {
+  margin: 20px auto;
+  max-width: 1000px;
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+</style>

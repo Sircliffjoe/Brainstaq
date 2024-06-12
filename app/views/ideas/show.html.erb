@@ -50,7 +50,8 @@
           on <%= local_time(@idea.created_at) %>
         </small>
         <p class="card-text">
-          <%= @idea.description.html_safe.truncate(300) %>
+          <%#= truncate_html(@idea.description.body.to_html, 300) %>
+          <%= @idea.description.to_plain_text.truncate(300) %>
         </p>
       
         <% if user_signed_in? %>
@@ -194,22 +195,22 @@
             
               <h4 class="mb-0 mt-3" style="font-weight: bold;">Description</h4>
               <p class="mt-2 mb-0">
-                <%= @idea.description.html_safe %>
+                <%= @idea.description %>
               </p>
             
               <h4 class="mb-0 mt-3" style="font-weight: bold;">Problem</h4>
               <p class="mt-2 mb-0">
-                <%= @idea.challenges.html_safe %>
+                <%= @idea.challenges %>
               </p>
             
               <h4 class="mb-0 mt-3" style="font-weight: bold;">Solution</h4>
               <p class="mt-2 mb-0">
-                <%= @idea.overview.html_safe %>
+                <%= @idea.overview %>
               </p>
 
               <h4 class="mb-0 mt-3" style="font-weight: bold;">Impact</h4>
               <p class="mt-2 mb-0">
-                <%= @idea.impact.html_safe %>
+                <%= @idea.impact %>
               </p>
 
               <h4 class="mb-0 mt-3" style="font-weight: bold;">Funding Goal</h4>

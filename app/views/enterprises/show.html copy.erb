@@ -30,12 +30,192 @@
 <main style="padding-top: 100px; background-color: #fff;">
   <div class="container-fluid col-lg-10 mb-5">
     <div class="row">
-      <div class="col-md-6">
-        <%= image_tag @enterprise.image_url, class: "img-fluid float-right rounded mb-3 mb-md-0", width:'50%', height:'50%' if @enterprise.image.present? %>
+      <div class="col-xl-6 col-xxl-5 d-flex">
+        <div class="row">
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Brand Logo</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-image"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <%= image_tag @enterprise.image_url, class: "img-fluid rounded mb-4 mt-4", style: "max-width: 100%; max-height: 200px;" if @enterprise.image.present? %>
+                </div>
+                <div class="mb-0">
+                  <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Business Plans</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-book"></i>
+                    </div>
+                  </div>
+                </div>
+                <h1 class="mt-1 mb-3"><%= @enterprise.business_plans.count %></h1>
+                <div class="mb-0">
+                  <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Pitch Decks</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-book-open"></i>
+                    </div>
+                  </div>
+                </div>
+                <h1 class="mt-2 mb-4"><%= @enterprise.pitch_decks.count %></h1>
+                <div class="mb-0">
+                  <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Invoices</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-shopping-cart"></i>
+                    </div>
+                  </div>
+                </div>
+                <h1 class="mt-1 mb-3"><%= @enterprise.invoices.count %></h1>
+                <div class="mb-0">
+                  <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="row">
+    <!-- First Column: Enterprise Image -->
+    <div class="col-md-6 d-flex">
+      <div class="card w-100 mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col mt-0">
+              <h5 class="card-title">Enterprise Image</h5>
+            </div>
+            <div class="col-auto">
+              <div class="stat text-primary">
+                <i class="fa fa-image"></i>
+              </div>
+            </div>
+          </div>
+          <div>
+            <%= image_tag @enterprise.image_url, class: "img-fluid rounded mb-4 mt-4", style: "max-width: 100%; max-height: 200px;" if @enterprise.image.present? %>
+          </div>
+          <div class="mb-0">
+            <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+            <span class="text-muted"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second Column: Three Rows -->
+    <div class="col-md-6">
+      <!-- Business Plans Card -->
+      <div class="card w-100 mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col mt-0">
+              <h5 class="card-title">Business Plans</h5>
+            </div>
+            <div class="col-auto">
+              <div class="stat text-primary">
+                <i class="fa fa-book"></i>
+              </div>
+            </div>
+          </div>
+          <h1 class="mt-1 mb-3"><%= @enterprise.business_plans.count %></h1>
+          <div class="mb-0">
+            <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+            <span class="text-muted"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pitch Decks Card -->
+      <div class="card w-100 mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col mt-0">
+              <h5 class="card-title">Pitch Decks</h5>
+            </div>
+            <div class="col-auto">
+              <div class="stat text-primary">
+                <i class="fa fa-book-open"></i>
+              </div>
+            </div>
+          </div>
+          <h1 class="mt-2 mb-4"><%= @enterprise.pitch_decks.count %></h1>
+          <div class="mb-0">
+            <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+            <span class="text-muted"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoices Card -->
+      <div class="card w-100 mb-3">
+        <div class="card-body">
+          <div class="row">
+            <div class="col mt-0">
+              <h5 class="card-title">Invoices</h5>
+            </div>
+            <div class="col-auto">
+              <div class="stat text-primary">
+                <i class="fa fa-shopping-cart"></i>
+              </div>
+            </div>
+          </div>
+          <h1 class="mt-1 mb-3"><%= @enterprise.invoices.count %></h1>
+          <div class="mb-0">
+            <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+            <span class="text-muted"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
       
       <div class="container-fluid col-lg-6">
-        <button type="button" class="btn btn-primary btn-sm my-3 float-right rounded" disabled>
+        <button type="button" class="btn btn-primary btn-sm my-3 float-right brand-cat-sm rounded" disabled>
           <% if @enterprise.category %>
             <%= @enterprise.category.name %>
           <% else %>
@@ -49,8 +229,8 @@
         <small>Created by <%= link_to (@enterprise.user.full_name.titleize), profile_path(@enterprise.user.username, @user) %> 
           on <%= local_time(@enterprise.created_at) %>
         </small>
-        <p class="card-text">
-          <%= @enterprise.info.to_plain_text.truncate(300) %>
+        <p class="card-text mt-2">
+          <%= @enterprise.info.to_plain_text %>
         </p>
 
         <% if user_signed_in? && current_user.id == @enterprise.user_id %>
@@ -59,25 +239,33 @@
           <%= link_to fa_icon("edit", title: "Edit Brand", class: "text-primary mr-2 mb-2", style: "font-size: 20px;"), 
             edit_enterprise_path(@enterprise) %>
               
+          <% if @enterprise.status == "inactive" %>
+            <div class="dropdown float-right text-primary mt-3 ml-2" style="font-size: 14px;">
+              <%= link_to 'Activate', activate_brand_enterprise_path(@enterprise.id), class: 'btn btn-sm btn-success', title: 'Activate Brand', role: 'button' %>
+            </div>
+          <% else %>
+            <div class="dropdown float-right text-primary mt-3 ml-2">
+              <%= link_to 'Deactivate', deactivate_brand_enterprise_path(@enterprise.id), class: 'btn btn-sm btn-danger', title: 'Deactivate Brand', role: 'button' %>
+            </div>
+          <% end %>
+          
           <div class="dropdown float-right text-primary mt-3" style="font-size: 14px;">
-            <button class="dropdown-toggle btn btn-primary" href="#" role="button" id="dropdownMenuButton" 
+            <button class="dropdown-toggle btn btn-sm btn-primary" href="#" role="button" id="dropdownMenuButton" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> New
             </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="font-size: 12px;">
+            <div class="dropdown-menu dp-bg dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="font-size: 12px;">
               <%= link_to "Business Plan", new_enterprise_business_plan_path(@enterprise), class: "dropdown-item" %>
-              <%#= link_to "Financial Plan", new_enterprise_financial_plan_path(@enterprise), class: "dropdown-item" %>
               <%= link_to "Pitch Deck", new_enterprise_pitch_deck_path(@enterprise), class: "dropdown-item" %>
               <%= link_to "Invoice", new_enterprise_invoice_path(@enterprise), class: "dropdown-item" %>
             </div>
           </div>
 
           <div class="dropdown float-right text-primary mr-2 mt-3" style="font-size: 14px;">
-            <button class="dropdown-toggle btn btn-primary" href="#" role="button" id="dropdownMenuButton" 
+            <button class="dropdown-toggle btn btn-sm btn-primary" href="#" role="button" id="dropdownMenuButton" 
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> View
             </button>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="font-size: 12px;">
+            <div class="dropdown-menu dp-bg dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="font-size: 12px;">
               <%= link_to "Business Plans", enterprise_business_plans_path(@enterprise), class: "dropdown-item" %>
-              <%#= link_to "Financial Plans", enterprise_financial_plans_path(@enterprise), class: "dropdown-item" %>
               <%= link_to "Pitch Decks", enterprise_pitch_decks_path(@enterprise), class: "dropdown-item" %>
               <%= link_to "Invoices", enterprise_invoices_path(@enterprise), class: "dropdown-item" %>
             </div>
@@ -111,81 +299,13 @@
               <% end %>
             </div>
           </div>
-          <small class="pt-2">
+          <small class="pt-2 mb-5">
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
             <span class="fa fa-star"></span>
           </small>
-        </div>
-      </div>
-
-      <div class="col-lg-12 mt-5">
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link title-blk active" id="about-tab" data-toggle="tab" href="#about" role="tab" aria-controls="about" aria-selected="true">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link title-blk" id="products-tab" data-toggle="tab" href="#products" role="tab" aria-controls="products" aria-selected="false">Products</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link title-blk" id="services-tab" data-toggle="tab" href="#services" role="tab" aria-controls="services" aria-selected="false">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link title-blk" id="portfolio-tab" data-toggle="tab" href="#portfolio" role="tab" aria-controls="portfolio" aria-selected="false">Portfolio</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link title-blk" id="team-tab" data-toggle="tab" href="#team" role="tab" aria-controls="team" aria-selected="false">Team</a>
-          </li>
-        </ul>
-
-        <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade show active" id="about" role="tabpanel" aria-labelledby="about-tab">
-            <div class="card card-body mt-5">
-              <h3 class="mt-5 mb-0 text-center" style="font-size: 24px; font-weight: bold;">
-                About <%= @enterprise.name.titleize %>
-              </h3>
-              <div class="mt-4 m-5">
-                <%= @enterprise.info.to_plain_text %>
-              </div>
-            </div>
-          </div>
-        
-          <div class="tab-pane fade" id="products" role="tabpanel" aria-labelledby="products-tab">
-            <div class="card card-body mt-5">
-              <h3 class="mt-5 text-center" style="font-size: 24px; font-weight: bold;">
-                Our Products
-              </h3>
-              
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="services" role="tabpanel" aria-labelledby="services-tab">
-            <div class="card card-body mt-5">
-              <h3 class="mt-5 text-center" style="font-size: 24px; font-weight: bold;">
-                Our Services
-              </h3>
-              
-            </div>
-          </div>
-          
-          <div class="tab-pane fade" id="portfolio" role="tabpanel" aria-labelledby="portfolio-tab">
-            <div class="card card-body mt-5">
-              <h3 class="mt-5 text-center" style="font-size: 24px; font-weight: bold;">
-                Our Portfolio 
-              </h3>
-              
-            </div>
-          </div>
-          <div class="tab-pane fade" id="team" role="tabpanel" aria-labelledby="team-tab">
-            <div class="card card-body mt-5">
-              <h3 class="mt-5 text-center" style="font-size: 24px; font-weight: bold;">
-                Meet the Team
-              </h3>
-              
-            </div>
-          </div>
         </div>
       </div>
     </div>

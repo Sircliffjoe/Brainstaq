@@ -9,6 +9,10 @@ class Idea < ApplicationRecord
 
   # include PublicActivity::Model
   # tracked
+  has_rich_text :description
+  has_rich_text :impact
+  has_rich_text :challenges
+  has_rich_text :overview
 
   default_scope { order(created_at: :desc)}
   

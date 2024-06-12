@@ -1,0 +1,70 @@
+<% content_for :title, "Log In" %>
+<main id="main">
+  <section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+    <div class="container">  
+      <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-9 text-center mb-0">
+          <h2 class="section-title">Welcome <strong><span class="text-primary">Back!</span></strong></h2>
+        </div>
+      </div>
+    </div>
+
+    <article class="card-body mx-auto" style="max-width: 400px; padding-top: 30px;">
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "admin_user" }) do |f| %>
+    <small><%= render "devise/shared/error_messages", resource: resource %></small>
+
+    <p>
+      <%#= link_to admin_user_google_oauth2_omniauth_authorize_path do %>
+      <!-- <span class="btn btn-outline-primary w-100 mb-2">
+        <i class="fab fa-google"></i> Log in with Google
+      </span> -->
+      <%# end %>
+    </p>
+    <!--<p class="divider-text mb-2 mt-2">
+      <span class="bg-light">OR</span>
+    </p> -->
+
+    <div class="form-group input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+      </div>
+      <%= f.text_field :login, autofocus: true, class: "form-control shadow-none", placeholder: "Email or Username" %>
+    </div>
+
+    <div class="form-group input-group" data-controller="toggle">
+      <div class="input-group-prepend">
+        <span class="input-group-text"><i class="fa fa-lock"></i></span>
+      </div>
+      <%= f.password_field :password, autocomplete: "current-password", class: "form-control form__element unhide", "data-target": "toggle.unhide shadow-none", placeholder: "Password" %>
+      <div class="input-group-prepend">
+        <span class="input-group-text"><a class="show" data-target="toggle.show" data-action="click->toggle#password">show</a></span>
+      </div>
+    </div>
+
+    <% if devise_mapping.rememberable? %>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <div class="checkbox">
+            <label><%= f.check_box :remember_me %> Remember me</label>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <!--<div class="field mb-3 ml-4">
+      <%#= recaptcha_tags %>
+    </div> -->
+    
+    <div class="form-group actions">
+      <%= f.submit "Log In", class: "btn btn-primary w-100" %>
+    </div>
+
+    <div class="col-12">
+      <p class="text-center">Don't have an account?<%= render "devise/shared/links" %></p>
+    </div>
+  <% end %>
+</article>
+  </section>
+</main>
+
+

@@ -31,92 +31,93 @@
   <div class="container-fluid col-lg-10 mb-5">
     <div class="row">
       <div class="col-xl-6 col-xxl-5 d-flex">
-        <div class="w-100">
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col mt-0">
-                      <h5 class="card-title"></h5>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="stat text-primary">
-                        <i class=""></i>
-                      </div>
-                    </div>
+        <div class="row">
+          <!-- First Column: Enterprise Image -->
+          <div class="col-md-6 d-flex">
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title"></h5>
                   </div>
-                  <%# <h1 class="mt-1 mb-3">2.382</h1> %>
-                  <div>
-                    <%= image_tag @enterprise.image_url, style: "max-width: 200px; max-height: 200px; !important", class: "img-fluid rounded mb-4 mt-4" if @enterprise.image.present? %>
-                  </div>
-                  <div class="mb-0">
-                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i></span>
-                    <span class="text-muted"></span>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-image"></i>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="card cd-bt">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col mt-0">
-                      <h5 class="card-title">Business Plans</h5>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="stat text-primary">
-                        <i class="fa fa-book"></i>
-                      </div>
-                    </div>
-                  </div>
-                  <h1 class="mt-1 mb-3"><%= @enterprise.business_plans.count %></h1>
-                  <div class="mb-0">
-                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> </span>
-                    <span class="text-muted"></span>
-                  </div>
+                <div class="d-flex justify-content-center align-items-center">
+                  <%= image_tag @enterprise.image_url, class: "img-fluid rounded mb-4 mt-4", style: "max-width: 100%; max-height: 200px;" if @enterprise.image.present? %>
+                </div>
+                <div class="mb-0">
+                  <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
                 </div>
               </div>
             </div>
-            <div class="col-sm-6">
-              <div class="card mb-3">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col mt-0">
-                      <h5 class="card-title">Pitch Decks</h5>
-                    </div>
+          </div>
 
-                    <div class="col-auto">
-                      <div class="stat text-primary">
-                        <i class="fa fa-book-open"></i>
-                      </div>
-                    </div>
+          <!-- Second Column: Three Rows -->
+          <div class="col-md-6">
+            <!-- Business Plans Card -->
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Business Plans</h5>
                   </div>
-                  <h1 class="mt-2 mb-4"><%= @enterprise.pitch_decks.count %></h1>
-                  <div class="mb-0">
-                    <span class="text-success"> <i class="mdi mdi-arrow-bottom-right"></i> </span>
-                    <span class="text-muted"></span>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-book"></i>
+                    </div>
                   </div>
                 </div>
+                <h1 class="mt-1 mb-3"><%= @enterprise.business_plans.count %></h1>
+                <div class="mb-0">
+                  <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
               </div>
-              <div class="card cd-bt">
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col mt-0">
-                      <h5 class="card-title">Invoices</h5>
-                    </div>
+            </div>
 
-                    <div class="col-auto">
-                      <div class="stat text-primary">
-                        <i class="fa fa-shopping-cart"></i>
-                      </div>
+            <!-- Pitch Decks Card -->
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Pitch Decks</h5>
+                  </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-book-open"></i>
                     </div>
                   </div>
-                  <h1 class="mt-1 mb-3"><%= @enterprise.invoices.count %></h1>
-                  <div class="mb-0">
-                    <span class="text-danger"> <i class="mdi mdi-arrow-bottom-right"></i> </span>
-                    <span class="text-muted"></span>
+                </div>
+                <h1 class="mt-2 mb-4"><%= @enterprise.pitch_decks.count %></h1>
+                <div class="mb-0">
+                  <span class="text-success"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Invoices Card -->
+            <div class="card w-100 mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col mt-0">
+                    <h5 class="card-title">Invoices</h5>
                   </div>
+                  <div class="col-auto">
+                    <div class="stat text-primary">
+                      <i class="fa fa-shopping-cart"></i>
+                    </div>
+                  </div>
+                </div>
+                <h1 class="mt-1 mb-3"><%= @enterprise.invoices.count %></h1>
+                <div class="mb-0">
+                  <span class="text-danger"><i class="mdi mdi-arrow-bottom-right"></i></span>
+                  <span class="text-muted"></span>
                 </div>
               </div>
             </div>
@@ -224,7 +225,3 @@
     <% end %>
   </div>
 </main>
-
-<style>
-
-</style>

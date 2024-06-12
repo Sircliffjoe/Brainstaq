@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #f3f4f6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.horizontal-line {
+  border: none;
+  border-top: 2px solid #563d7c;
+  width: 70%;
+  margin: 5px auto;
+}
+
+.certificate-container {
+  width: 297mm;
+  height: 195mm;
+  padding: 20px;
+  text-align: center;
+  border: 10px solid #563d7c;
+  position: relative;
+  background: url('<%= image_path "banner.svg" %>') no-repeat center center;
+  background-size: cover;
+}
+
+.certificate-border {
+  border: 5px double #563d7c;
+  border-image: linear-gradient(to right, #563d7c, #ffc107, #563d7c) 1;
+  height: 87.5%;
+  padding: 40px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.certificate-header {
+  font-size: 68px;
+  font-weight: bold;
+  font-family: 'Great Vibes', cursive;
+  color: #563d7c;
+  margin-bottom: 50px;
+  margin-top: 40px;
+}
+
+.certificate-body {
+  font-size: 18px;
+}
+
+.certificate-details {
+  font-size: 42px;
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.certificate-details span {
+  display: block;
+  margin: 10px 0;
+}
+
+.recipient-name {
+  font-size: 60px;
+  font-weight: bold;
+  font-family: 'Great Vibes', cursive;
+  color: #563d7c;
+  margin: 10px 0;
+}
+
+.certificate-footer {
+  position: absolute;
+  bottom: 40px;
+  width: 100%;
+}
+
+.certificate-footer img {
+  height: 50px;
+  width: auto;
+}
+
+.certificate-footer p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.certificate-id {
+  margin-top: 20px;
+  font-size: 14px;
+}
+    
+.course-title {
+  color: #0070C0;
+}
+
+.brainstaq-logo {
+  position: absolute;
+  bottom: 30px;
+  left: 20px; /* Move logo to bottom left */
+  height: 40px; /* Adjust logo size as needed */
+  width: auto;
+}
+
+.company-info {
+  position: absolute;
+  bottom: 10px;
+  left: 20px; /* Move company info below logo */
+  font-size: 12px; /* Adjust font size as needed */
+}
+
+.signature-area {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  padding-right: 120px;
+}
+
+.teacher-name,
+.teacher-title {
+  margin: 5px 0; /* Add spacing between teacher name and title */
+  font-size: 14px; /* Adjust font size as needed */
+}
+
+.signature-line {
+  border-top: 1px solid black; /* Signature line style */
+  width: 200px; /* Adjust signature line length as needed */
+  margin: 5px 0; /* Add space below signature line */
+}
+
+.shape-1, .shape-2, .shape-3, .shape-4, .shape-5, .shape-6, .shape-7, .shape-8 {
+  position: absolute;
+}
+
+.shape-1 {
+  top: 10px;
+  left: 10px;
+}
+
+.shape-2 {
+  top: 10px;
+  right: 10px;
+}
+
+.shape-3 {
+  bottom: 10px;
+  left: 10px;
+}
+
+.shape-4 {
+  bottom: 10px;
+  right: 10px;
+}
+
+.shape-5 {
+  top: 60px;
+  left: 60px;
+}
+
+.shape-6 {
+  top: 60px;
+  right: 60px;
+}
+
+.shape-7 {
+  bottom: 60px;
+  left: 60px;
+}
+
+.shape-8 {
+  bottom: 60px;
+  right: 60px;
+}
+
+.bg-secondary {
+  background-color: #6c757d;
+}
+
+.bg-primary {
+  background-color: #007bff;
+}
+
+.bg-tertiary {
+  background-color: #17a2b8;
+}
+
+.shape-xs {
+  width: 30px;
+  height: 30px;
+}
+
+.shape-xs-2 {
+  width: 20px;
+  height: 20px;
+}
+
+.shape-sm {
+  width: 50px;
+  height: 50px;
+}
+
+.shape-sm-2 {
+  width: 40px;
+  height: 40px;
+}
+
+.rounded-circle {
+  border-radius: 50%;
+}

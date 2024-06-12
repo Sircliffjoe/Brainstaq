@@ -488,6 +488,7 @@
 											<%#= tinymce %>
 										</div>
 									</div>
+									
 									<div class="save-stngs pd2">
 										<ul>
                       <% if business_plan.new_record? %>
@@ -544,8 +545,6 @@
 								</div><!--acc-setting end-->
 							</div>
 
-							
-
 							<div class="tab-pane fade" id="nav-financial" role="tabpanel" aria-labelledby="nav-financial-tab">
 								<div class="acc-setting">
 									<h3 class="plan-h3">Financial Plan
@@ -573,7 +572,6 @@
 									<div class="cp-field mb-5">
 										<div class="cpp-fiel">
 											<%= form.text_area :financial, class: "form-control", placeholder: "Enter financial plan summary?"%>
-											<%#= tinymce %>
 										</div>
 									</div>
 
@@ -1594,6 +1592,8 @@ details[open] summary {
 	font-weight: 600;
 	margin-bottom: 50px;
 }
+
+========================
 .cp-field {
 	float: left;
 	width: 100%;
@@ -1612,7 +1612,7 @@ details[open] summary {
 	color: #000;
 }
 .cpp-fiel {
-	float: left;
+	margin-top: 5px;
 	width: 100%;
 	position: relative;
 }
@@ -1629,13 +1629,13 @@ details[open] summary {
 	padding: 20px;
 	height: 115px;	
 }
-.cpp-fiel i {
+<%# .cpp-fiel i {
 	position: absolute;
 	top: 12px;
 	left: 15px;
 	color: #b2b2b2;
 	font-size: 16px;
-}
+} %>
 .cp-field > p {
 	float: left;
 	width: 100%;
@@ -1644,6 +1644,9 @@ details[open] summary {
 	line-height: 24px;
 	margin-top: 5px;
 }
+
+=========================
+
 .notifications-list {
 	float: left;
 	width: 100%;

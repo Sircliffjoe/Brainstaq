@@ -44,16 +44,16 @@ class ApplicationController < ActionController::Base
   
 
   def after_sign_in_path_for(resource)
-    if @user == 'admin'
-      rails_admin_path
-    else
+    if resource.is_a?(AdminUser)
+      admin_root_path
+    elsif resource.is_a?(User)
       dashboard_path(current_user.full_name)
     end
   end
 
   def after_plan_subscription_path_for(resource)
-    if @user == 'admin'
-      rails_admin_path
+    if resource.is_a?(AdminUser)
+      admin_root_path
     else
       dashboard_path(current_user.full_name)
     end

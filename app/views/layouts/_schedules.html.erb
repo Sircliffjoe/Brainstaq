@@ -19,11 +19,11 @@
 											<thead>
 												<tr class="info">
 													<th></th>
-													<th>Year Two</th>
-													<th>Year Three</th>	
-													<th>Year Four</th>	
-													<th>Year Five</th>
-													<th>Year Six</th>	
+													<th>Year 2</th>
+													<th>Year 3</th>	
+													<th>Year 4</th>	
+													<th>Year 5</th>
+													<th>Year 6</th>	
 												</tr>
 											</thead>	
 											
@@ -123,11 +123,11 @@
 											<thead>
 												<tr class="info">
 													<th></th>
-													<th>Year Two</th>
-													<th>Year Three</th>	
-													<th>Year Four</th>	
-													<th>Year Five</th>
-													<th>Year Six</th>	
+													<th>Year 2</th>
+													<th>Year 3</th>	
+													<th>Year 4</th>	
+													<th>Year 5</th>
+													<th>Year 6</th>	
 													<td><%=  %></td>
 													<td><%=  %></td>
 												</tr>
@@ -229,11 +229,11 @@
 											<thead>
 												<tr class="info">
 													<th></th>
-													<th>Year Two</th>
-													<th>Year Three</th>	
-													<th>Year Four</th>	
-													<th>Year Five</th>
-													<th>Year Six</th>	
+													<th>Year 2</th>
+													<th>Year 3</th>	
+													<th>Year 4</th>	
+													<th>Year 5</th>
+													<th>Year 6</th>	
 												</tr>
 											</thead>	
 											
@@ -326,8 +326,8 @@
 												<tr>
 													<td style="font-weight:bold;">TOTAL</td>
 													<td><%= number_to_currency(0, :unit => "₦") %></td>
-													<td><%= number_to_currency((@business_plan.land + @business_plan.utilities + @business_plan.vehicles + 
-													@business_plan.equipment + @business_plan.office_supplies + @business_plan.rent), :unit => "₦") %></td>
+													<td><%= number_to_currency((@business_plan.land.to_f + @business_plan.utilities.to_f + @business_plan.vehicles.to_f + 
+													@business_plan.equipment.to_f + @business_plan.office_supplies.to_f + @business_plan.rent.to_f), :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_2, :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_3, :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_4, :unit => "₦") %></td>
@@ -522,8 +522,8 @@
 
 												<tr>
 													<td style="font-weight:bold;">TOTAL</td>
-													<td><%= number_to_currency((@business_plan.land + @business_plan.utilities + @business_plan.vehicles + 
-													@business_plan.equipment + @business_plan.office_supplies + @business_plan.rent), :unit => "₦") %></td>
+													<td><%= number_to_currency((@business_plan.land.to_f + @business_plan.utilities.to_f + @business_plan.vehicles.to_f + 
+													@business_plan.equipment.to_f + @business_plan.office_supplies.to_f + @business_plan.rent.to_f), :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_2, :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_3, :unit => "₦") %></td>
 													<td><%= number_to_currency(@business_plan.total_close_4, :unit => "₦") %></td>

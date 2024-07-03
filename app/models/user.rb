@@ -35,9 +35,26 @@ class User < ApplicationRecord
   has_many :followees, through: :followed_users
   has_many :following_users, foreign_key: :followee_id, class_name: 'Follow'
   has_many :followers, through: :following_users
+  has_many :subscriptions
+  has_and_belongs_to_many :skills
+  has_many :business_ideas
+  has_many :posts
 
   include PublicActivity::Model
   tracked only: %i[create destroy], owner: :itself
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["admin", "bio", "business_plan_count", "comments_count", "confirmation_sent_at", 
+    "confirmed_at", "country", "courses_count", "created_at", "current_sign_in_at", 
+    "current_sign_in_ip", "customer_code", "email", "encrypted_password", "enrollments_count", 
+    "enterprise_count", "expires", "expires_at", "first_name", "gender", "id", "image", 
+    "instagram_url", "interval", "invitations_count", "invited_by_id", "invited_by_type", "last_name", 
+    "last_sign_in_at", "last_sign_in_ip", "linkedin_url", "paystack_auth_code", "paystack_cust_code", 
+    "paystack_subscription_code", "perk_subscriptions", "phone", "plan", "plan_subscription_id", 
+    "reset_password_sent_at", "reset_password_token", "sign_in_count", "slug", "status", 
+    "subscribed_to_plan", "subscription_plan_id", "twitter_url", 
+    "unconfirmed_email", "updated_at", "user_lessons_count", "username", "website"]
+  end
   
   def full_name
     "#{first_name} #{last_name}"

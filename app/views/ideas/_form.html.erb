@@ -2,7 +2,7 @@
 <%= form_with(model: idea, local: true, multipart: true) do |form| %>
   <% if idea.errors.any? %>
     <div id="error_explanation" class="text-center text-danger">
-      <h4>Oops! You've got <%= pluralize(idea.errors.count, "error") %></h4>
+      <h4>Oops! You have <%= pluralize(idea.errors.count, "error") %></h4>
       <ul>
         <% idea.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -69,7 +69,7 @@
 							  			
 											<div class="cp-field">
 												<div class="cpp-fiel">
-													<%= form.rich_text_area :description, class: "form-control", placeholder: "How would you describe your project in 5 sentences?"%>
+													<%= form.rich_text_area :description, class: "form-control", placeholder: "How would you describe your project?"%>
                           <%#= tinymce %>
 												</div>
 											</div>

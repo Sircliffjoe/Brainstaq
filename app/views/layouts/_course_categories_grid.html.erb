@@ -4,32 +4,54 @@
       <div class="container">
         <div class="row g-4">
           <% group.compact.each do |course_category| %>
-            <div class="col-sm-6 col-md-4 col-xl-3">
-              <div class="card card-body bg-category<%= course_category.id %> bg-opacity-10 text-center position-relative btn-transition p-4" style="height: 200px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div class="col-sm-6 col-md-4 col-xl-3 mb-3">
+              <div class="card card-body bg-category<%= course_category.id %> bg-opacity-10 text-center position-relative btn-transition p-4" style="height: 200px; height: 250px; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
                 <div class="icon-xl bg-body mx-auto rounded-circle mb-3">
                   <span class="fa-stack fa-2x">
-                      <i class="fa fa-circle fa-stack-2x icon-background"></i> <!-- White circular background -->
-                      <i class="fa fa-book fa-stack-1x"></i> <!-- Font Awesome book icon -->
+                    <i class="fa fa-circle fa-stack-2x icon-background"></i>
+                    <i class="fa fa-book fa-stack-1x"></i>
                   </span>
-                </div>
-                <h4 style="font-size:18px;"><%= course_category.name %></a></h4>
+                </div>  
+                <h4 style="font-size:18px;">
+                  <%= link_to course_category.name, course_category_path(course_category), class: 'text-decoration-none text-dark' %>
+                </h4>
                 <% course_count = Course.where(course_category_id: course_category.id).count %>
                 <div class="d-flex justify-content-center align-items-end">
-                  <h5 class="mb-0"><strong><%= pluralize(course_count, 'Course') %></strong></h5>
+                  <h5 class="mb-5"><strong><%= pluralize(course_count, 'Course') %></strong></h5>
                 </div>
+                <% if user_signed_in? && current_user.admin? %>
+                  <div class="admin-actions" style="display: none; position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);">
+                    <%= link_to 'Edit', edit_course_category_path(course_category), class: 'btn btn-primary btn-sm mr-2' %>
+                    <%= link_to 'Destroy', course_category, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+                  </div>
+                <% end %>
               </div>
             </div>
           <% end %>
         </div>
       </div>
-      <% if user_signed_in? && current_user.admin? %>
-        <li>
-          <%= link_to 'New Course Category', new_course_category_path %>
-          <%= link_to 'Edit', edit_course_category_path(course_category) %>
-          <%= link_to 'Destroy', course_category, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </li>
-      <% end %>  
     </div>
   </div>
 <% end %>
-</div>
+
+<% if user_signed_in? && current_user.admin? %>
+  <div class="text-center mt-4">
+    <%= link_to 'New Course Category', new_course_category_path, class: 'btn btn-sm btn-primary' %>
+  </div>
+<% end %>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+      card.addEventListener('mouseover', function() {
+        this.querySelector('.admin-actions').style.display = 'flex';
+      });
+      card.addEventListener('mouseout', function() {
+        this.querySelector('.admin-actions').style.display = 'none';
+      });
+    });
+  });
+</script>
+
+

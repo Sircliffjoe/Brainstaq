@@ -1,0 +1,6 @@
+class GeneratedIdea < ApplicationRecord
+  belongs_to :business_idea
+  # belongs_to :business_idea_template
+
+  validates :name, :description, :problems, :solutions, :products_services, :market_info, :requirements, presence: true
+end

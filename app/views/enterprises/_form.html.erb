@@ -48,16 +48,16 @@
 												</div>
 											</div>
 											<div class="cp-field col-md-4">
-												<h5>Country</h5>
-												<div class="cpp-fiel">
-													<%= form.text_field :country, class: "form-control", placeholder: "Nigeria..."%>
-                          <%#= tinymce %>
-												</div>
+											  <h5>Country</h5>
+											  <div class="cpp-fiel">
+											    <%= form.hidden_field :country, value: "Nigeria" %>
+											    <p class="form-control">Nigeria</p>
+											  </div>
 											</div>
 											<div class="cp-field">
 												<h5>About Brand</h5>
 												<div class="cpp-fiel">
-													<%= form.rich_text_area :info, class: "form-control", placeholder: "About your brand"%>
+													<%= form.rich_text_area :info, class: "form-control", placeholder: "Enter brand description"%>
 													<%#= tinymce %>
 												</div>
 											</div>

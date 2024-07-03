@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  business_idea: one
+  name: MyString
+  description: MyText
+  problems: MyText
+  solutions: MyText
+  products_services: MyText
+  market_info: MyText
+  requirements: MyText
+
+two:
+  business_idea: two
+  name: MyString
+  description: MyText
+  problems: MyText
+  solutions: MyText
+  products_services: MyText
+  market_info: MyText
+  requirements: MyText

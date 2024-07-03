@@ -74,7 +74,7 @@
 					<div id="mail" class="tab justify-content-center">     
             <div class="row align-items-center">
               <% @subscription_plans.each do |subscription_plan| %>
-                <div class="col-lg-4 col-md-12 md-mt-5">
+                <div class="col-lg-4 col-md-12 mb-3 md-mt-5">
                   <div class="price-table">
                     <div class="price-inside"><%= subscription_plan.plan_name %></div>
                     <div class="price-header">
@@ -116,6 +116,7 @@
           </div>
         </div><!-- End of conversation tab-->
       </div>
+
       <%= render partial: "layouts/cta" %>
     </div>
   </section>

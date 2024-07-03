@@ -51,31 +51,33 @@
     <% @messages.each do |message| %>
       <% if message.body %>
         <% user = User.find(message.user_id) %>
-          <div class="mesgs container-fluid">
-            <div class="msg_history">
-              <div class="incoming_msg">
-                <div class="incoming_msg_img"> 
-                  <% if message.user.image.url %>
-                    <%= image_tag message.user.image.url, class: 'mr-0 rounded-circle img-circle img-responsive', style: "width: 30px; height: 30px;" %>
-                  <% else %>
-                    <%= image_tag 'avatar.png', style: "width: 30px; height: 30px;", class: "mr-0 rounded-circle img-circle img-responsive" %>
-                  <% end %> 
-                </div>
-                <div class="received_msg">
-                  <div class="received_withd_msg">
-                    <h5 class="mb-2"> <%= user.full_name.titleize %></h5>
-                    <h6 class="text-primary" style="font-size: 14px; margin-top: -5px;">@<%= link_to user.username %></h6>
-                    <p><%= message.body %></p>
-                    <span class="time_date mb-3"> <%= local_time(message.created_at) %></span>
-                  </div>
+        <div class="mesgs container-fluid">
+          <div class="msg_history">
+            <div class="incoming_msg d-flex align-items-center">
+              <div class="incoming_msg_img mr-2">
+                <% if message.user.image.url %>
+                  <%= image_tag message.user.image.url, class: 'rounded-circle img-responsive', style: "width: 30px; height: 30px;" %>
+                <% else %>
+                  <%= image_tag 'avatar.png', style: "width: 30px; height: 30px;", class: "rounded-circle img-responsive" %>
+                <% end %>
+              </div>
+              <div class="received_msg">
+                <div class="received_withd_msg">
+                  <h5 class="mb-2"> <%= user.full_name.titleize %></h5>
+                  <h6 class="text-primary mb-2" style="font-size: 14px;">
+                    @<%= link_to user.username %>
+                  </h6>
+                  <p><%= message.body %></p>
+                  <span class="time_date mb-3"> <%= local_time(message.created_at) %></span>
                 </div>
               </div>
             </div>
           </div>
-        <% end %>
+        </div>
       <% end %>
+    <% end %>
 
-      <div class="type_msg ml-4">
+      <div class="type_msg ml-4 mr-4">
         <%= form_for [@conversation, @message] do |f| %>
           <div class="form-group">
             <%= f.text_area :body, class: "form-control" %>
@@ -116,14 +118,14 @@
   height: 516px;
   overflow-y: auto;
 }
-.incoming_msg_img {
+<%# .incoming_msg_img {
   display: inline-block;
-}
+} %>
 .received_msg {
   display: inline-block;
-  padding: 0 0 0 10px;
+  padding: 10 10 10 10px !important;
   vertical-align: top;
-  width: 92%;
+  width: 250%;
  }
  .received_withd_msg p {
   background: #ebebeb none repeat scroll 0 0;
@@ -131,8 +133,8 @@
   color: #646464;
   font-size: 14px;
   margin: 0;
-  padding: 5px 10px 5px 12px;
-  width: 150%;
+  padding: 15px 10px 15px 10px;
+  width: 250%;
 }
 .time_date {
   color: #747474;
@@ -141,7 +143,7 @@
   margin: 8px 0 0;
 }
 .received_withd_msg { 
-  width: 57%;
+  width: 250%;
 }
 .mesgs {
   float: left;
@@ -153,6 +155,27 @@
 .msg_history {
   height: auto;
   overflow-y: auto;
+}
+
+@media (max-width: 480px) {
+  .received_msg {
+<%#     display: inline-block; %>
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: auto;
+ }
+  .received_withd_msg p {
+    background: #ebebeb none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: auto;
+  }
+  .received_withd_msg { 
+    width: auto;
+  }
 }
 
 </style>

@@ -16,4 +16,8 @@ class AdminUser < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["created_at", "email", "first_name", "id", "last_name", "remember_created_at", "reset_password_sent_at", "reset_password_token", "updated_at", "username"]
+  end
+
 end

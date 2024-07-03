@@ -1,0 +1,5 @@
+class GeneratedIdeasController < ApplicationController
+  def show
+    @generated_idea = GeneratedIdea.find(params[:id])
+  end
+end

@@ -1,53 +1,86 @@
-<% content_for :title do %>
-  Corsego 
-  | 
-  <%= @course.title %>
-  | 
-  Analytics
-<% end %>
+<% content_for :title, "Analytics" %>
 
-<%= link_to 'Courses', courses_path %> |
-<%= link_to course_path(@course) do %>
-  <i class="fa fa-graduation-cap"></i>
-  <%= @course.title %>
-<% end %> |
-<%= link_to analytics_course_path(@course) do %>
-  <i class="fa fa-chart-bar"></i>
-  Analytics
-<% end %>
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Analytics</h2>
+        <nav class="mt-15 mb-5" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Courses", courses_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page"><%= link_to @course.title, course_path(@course) %></li>
+          </ol>
+        </nav>
+      </div>
+    </div> 
+  </div>
 
-<h4 class="text-center">
-  Enrollments per day, quantity
-</h4>
-<div class="card">
-  <div class="card-body">
-    <%= line_chart @course.enrollments.group_by_day(:created_at).count %>
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+<div class="col-lg-12 p-5">
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card analytics-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title mb-0">Enrollments per Day (Quantity)</h4>
+          <i class="fas fa-chart-line text-primary"></i>
+        </div>
+        <div class="card-body">
+          <%= line_chart @course.enrollments.group_by_day(:created_at).count %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card analytics-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title mb-0">Enrollments per Day (Revenue)</h4>
+          <i class="fas fa-chart-line text-success"></i>
+        </div>
+        <div class="card-body">
+          <%= line_chart @course.enrollments.group_by_day(:created_at).sum(:price) %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card analytics-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title mb-0">Unique User Views per Lesson</h4>
+          <i class="fas fa-chart-bar text-warning"></i>
+        </div>
+        <div class="card-body">
+          <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').count, class: 'chart' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card analytics-card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h4 class="card-title mb-0">Impressions per Lesson</h4>
+          <i class="fas fa-eye text-info"></i>
+        </div>
+        <div class="card-body">
+          <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').sum(:impressions) %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<h4 class="text-center">
-  Enrollments per day, revenue
-</h4>
-<div class="card">
-  <div class="card-body">
-    <%= line_chart @course.enrollments.group_by_day(:created_at).sum(:price) %>
-  </div>
-</div>
-
-<h4 class="text-center">
-  Unique user views (how many unique users viewed the lesson)
-</h4>
-<div class="card">
-  <div class="card-body">
-    <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').count %>
-  </div>
-</div>
-
-<h4 class="text-center">
-  Impressions per lesson (how many times the lesson was opened)
-</h4>
-<div class="card">
-  <div class="card-body">
-    <%= bar_chart @course.user_lessons.joins(:lesson).group(:'lessons.title').sum(:impressions) %>
-  </div>
-</div>
+<style type="text/css">
+  h4 {
+    font-size: 14px;
+  }
+</style>

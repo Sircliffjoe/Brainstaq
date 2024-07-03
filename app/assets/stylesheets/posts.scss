@@ -1,0 +1,234 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+/*body {
+  line-height: 1.7;
+  color: gray;
+  font-weight: 300;
+  font-size: .9rem; }
+*/
+::selection {
+  background: #000;
+  color: #fff; }
+
+a {
+  -webkit-transition: .3s all ease;
+  -o-transition: .3s all ease;
+  transition: .3s all ease; }
+  a:hover {
+    text-decoration: none; }
+
+h1, h2, h3,
+.h1, .h2, .h3 {
+  font-family: "Cabin", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; }
+
+.text-black {
+  color: #000 !important; }
+
+.site-wrap:before {
+  display: none;
+  -webkit-transition: .3s all ease-in-out;
+  -o-transition: .3s all ease-in-out;
+  transition: .3s all ease-in-out;
+  background: rgba(0, 0, 0, 0.6);
+  content: "";
+  position: absolute;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  visibility: hidden; }
+
+.offcanvas-menu .site-wrap {
+  height: 100%;
+  width: 100%;
+  z-index: 2; }
+  .offcanvas-menu .site-wrap:before {
+    opacity: 1;
+    visibility: visible; }
+
+.site-section {
+  padding: 2.5em 0; }
+  @media (min-width: 768px) {
+    .site-section {
+      padding: 7em 0; } }
+
+.ul-check {
+  margin-bottom: 50px; }
+  .ul-check li {
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 15px;
+    line-height: 1.5; }
+    .ul-check li:before {
+      left: 0;
+      font-size: 20px;
+      top: -.3rem;
+      font-family: "icomoon";
+      content: "\e5ca";
+      position: absolute; }
+  .ul-check.white li:before {
+    color: #fff; }
+  .ul-check.success li:before {
+    color: #8bc34a; }
+  .ul-check.primary li:before {
+    color: #8bc34a; }
+
+
+@media (max-width: 991.98px) {
+  .owl-style .owl-nav {
+    display: none; } }
+
+
+/*engineers*/
+
+
+.section-title {
+  color: #000;
+  margin-bottom: 50px; }
+  .section-title h2 {
+    font-size: 20px;
+    font-weight: 400;
+    border-bottom: 1px solid #222;
+    position: relative;
+    display: inline-block; }
+    .section-title h2:before {
+      position: absolute;
+      content: "";
+      height: 1px;
+      background: #777; }
+
+
+.person {
+  position: relative; }
+  .person figure {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 30px; }
+  .person img {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease; }
+  .person:hover img {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05); }
+
+.categories li {
+  position: relative;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dotted #dee2e6;
+  list-style: none; }
+  .categories li:last-child {
+    margin-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0; }
+  .categories li a {
+    display: block; }
+    .categories li a span {
+      position: absolute;
+      right: 0;
+      top: 0;
+      color: #ccc; }
+  .categories li.active a {
+    color: #000;
+    font-style: italic; }
+
+
+.post-meta {
+  font-size: .8rem; }
+  .post-meta a {
+    color: #000; }
+
+.bio-pic {
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 40px;
+  flex: 0 0 40px; }
+  .bio-pic img {
+    max-width: 100%;
+    border-radius: 50%; }
+
+.post-entry-1, .post-entry-2 {
+  font-size: .9rem;
+  margin-bottom: 30px; }
+  .post-entry-1 img, .post-entry-2 img {
+    margin-bottom: 30px; }
+  .post-entry-1 h2, .post-entry-2 h2 {
+    font-size: 20px; }
+    .post-entry-1 h2 a, .post-entry-2 h2 a {
+      color: #000; }
+
+.post-entry-2 {
+  font-size: .9rem; }
+  .post-entry-2 .thumbnail {
+    background-size: cover;
+    background-position: center;
+    width: 30%; }
+  .post-entry-2 .contents {
+    width: 70%;
+    padding: 10px 20px; }
+    .post-entry-2 .contents h2 {
+      font-size: 15px; }
+
+.trend-entry {
+  margin-bottom: 30px; }
+  .trend-entry .number {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 50px;
+    flex: 0 0 50px;
+    font-size: 30px;
+    line-height: 1;
+    color: #ccc; }
+  .trend-entry .trend-contents h2 {
+    font-size: 18px; }
+    .trend-entry .trend-contents h2 a {
+      color: #000; }
+
+.caption {
+  font-size: .9rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem; }
+  .caption.small {
+    font-size: .6rem; }
+
+.half-post-entry .caption {
+  font-size: .9rem;
+  text-transform: uppercase;
+  letter-spacing: .1rem; }
+
+.half-post-entry .img-bg, .half-post-entry .contents {
+  width: 50%; }
+  @media (max-width: 991.98px) {
+    .half-post-entry .img-bg, .half-post-entry .contents {
+      width: 100%;
+      height: 300px; } }
+
+.half-post-entry .img-bg {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat; }
+
+.half-post-entry .contents {
+  padding: 50px;
+  font-size: .9rem;
+  height: auto; }
+  @media (max-width: 991.98px) {
+    .half-post-entry .contents {
+      padding: 30px; } }
+  .half-post-entry .contents h2 {
+    font-size: 26px; }
+    .half-post-entry .contents h2 a {
+      color: #000; }
+
+.single-content h1 {
+  font-size: 2rem;
+  color: #000; }
+
+.single-content {
+  font-size: .9rem; }

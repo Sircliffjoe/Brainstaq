@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row g-4">
           <% group.compact.each do |course| %>   
-            <div class="col-12 col-sm-12 col-xl-4 col-md-6" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
+            <div class="col-12 col-sm-12 col-xl-4 col-md-6 mb-4" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
               <div class="edu-card card-type-3 radius-small">
                 <div class="inner">
                   <div class="thumbnail">        
@@ -13,9 +13,7 @@
                         <%= image_tag course.image, loading: "lazy", height: "240", width: "100%" %>
                       <% end %>
                     <% end %>
-                    <div class="wishlist-top-right">
-                      <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
-                    </div>
+
                     <div class="top-position status-group left-bottom">
                       <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
                     </div>
@@ -54,35 +52,35 @@
                     </div>
                   </div>
                 </div>
+                
                 <div class="card-hover-action">
                   <div class="hover-content">
-                    <div class="content-top">
-                      <div class="top-status-bar">
-                        <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
-                      </div>
-                      <div class="top-wishlist-bar">
-                        <button class="wishlist-btn" style="color:#fff;"><i class="fa fa-heart"></i></button>
-                      </div>
-                    </div>
-                    <h6 class="title"><%= link_to course.title, course_path(course) %></h6>
-                    <p class="description">
-                      <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        <%= simple_format(course.marketing_description.truncate_words(30), style: 'color: white;') %>
-                      </span>
-                    </p>
-                    <div class="price-list price-style-02">
-                      <div class="price current-price">FREE</div>
-                    </div>
-                    <div class="hover-bottom-content">
-                      <div class="author-meta">
-                        <div class="author-thumb" style="color:#fff;" title="Number of Students">
-                          <i class="fa fa-user-graduate"></i> <%= course.enrollments_count %>
+                    <%= link_to course_path(course), class: 'course-card' do %>
+                      <div class="content-top">
+                        <div class="top-status-bar">
+                          <span class="eduvibe-status status-03"><%= course.course_category.name %></span>
                         </div>
                       </div>
-                      <ul class="edu-meta meta-02">
-                        <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
-                      </ul>
-                    </div>
+                      <h6 class="title text-white"><%= course.title %></h6>
+                      <p class="description">
+                        <span class="text-white" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                          <%= simple_format(course.marketing_description.truncate_words(30), style: 'color: white;') %>
+                        </span>
+                      </p>
+                      <div class="price-list price-style-02">
+                        <div class="price current-price">FREE</div>
+                      </div>
+                      <div class="hover-bottom-content">
+                        <div class="author-meta">
+                          <div class="author-thumb" style="color:#fff;" title="Number of Students">
+                            <i class="fa fa-user-graduate"></i> <%= course.enrollments_count %>
+                          </div>
+                        </div>
+                        <ul class="edu-meta meta-02">
+                          <li><i class="fa fa-file mr-2"></i> <%= course.lessons_count %> Lessons</li>
+                        </ul>
+                      </div>
+                    <% end %>
                     <div class="read-more-btn">
                       <%= enrollment_button(course) %>
                     </div>

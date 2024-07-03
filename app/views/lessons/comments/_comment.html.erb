@@ -1,15 +1,15 @@
 <div class="row ml-2">
-  <div class="d-md-flex my-4">
-    <div class="mt-3 flex-shrink-0">
+  <div class="d-md-flex">
+    <div class="mt-2 flex-shrink-0">
       <% if comment.user.image.url %>
         <%= image_tag comment.user.image.url, class: 'avatar-img rounded-circle', style: "width: 30px; height: 30px;" %>
       <% else %>
         <%= image_tag 'avatar.png', class: 'rounded-circle avatar-img', style: "width: 35px; height: 35px;" %>
       <% end %>
     </div>
-    <div class="p-3">
+    <div class="pl-2">
       <div class="d-sm-flex mt-md-0 align-items-center">
-        <h5 class="me-3 mb-0">
+        <h5 class="mb-0">
           <strong><%= link_to comment.user.full_name.titleize %></strong>
         </h5>
       </div>

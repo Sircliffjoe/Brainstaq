@@ -66,18 +66,32 @@ class EnterprisesController < ApplicationController
     render :show
   end  
 
+  # def new
+  #   if current_user.enterprise.present?
+  #     if current_user.enterprise.status == "inactive"
+  #       redirect_to new_transaction_path, notice: "You already have a brand. You need to choose a subscription plan to activate it."
+  #     else
+  #       redirect_to enterprises_path, notice: "You already have a Brand."
+  #     end
+  #   else 
+  #     @enterprise = Enterprise.new
+  #     # render the new enterprise form
+  #   end
+  # end
+
   def new
-    if current_user.enterprise.present?
-      if current_user.enterprise.status == "inactive"
-        redirect_to new_transaction_path, notice: "You already have a brand. You need to choose a subscription plan to activate it."
-      else
-        redirect_to enterprises_path, notice: "You already have a Brand."
-      end
-    else 
-      @enterprise = Enterprise.new
-      # render the new enterprise form
+  if current_user.admin?
+    @enterprise = Enterprise.new  # Allow admins to create a new enterprise
+  elsif current_user.enterprise.present?
+    if current_user.enterprise.status == "inactive"
+      redirect_to new_transaction_path, notice: "You already have a brand. You need to choose a subscription plan to activate it."
+    else
+      redirect_to enterprises_path, notice: "You already have a Brand."
     end
+  else
+    @enterprise = Enterprise.new  # Allow non-admin users to create an enterprise if they don't have one
   end
+end
 
   def edit
   end

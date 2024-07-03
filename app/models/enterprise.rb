@@ -28,6 +28,18 @@ class Enterprise < ApplicationRecord
     "#{id}-#{slug}"
   end
 
+  def self.ransackable_attributes(auth_object = nil)
+    ["address", "category_id", "city", "country", "created_at", "email", "facebook_url", 
+      "id", "image", "info", "instagram_url", "integer", "interval", "name", 
+      "phone_number", "slug", "state", "status", "twitter_url", "updated_at", 
+      "user_id", "website_url"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["business_plans", "category", "images_attachments", "images_blobs", "invoices", 
+      "pitch_decks", "portfolios", "rich_text_info", "services", "transactions", "user"]
+  end
+
   def has_active_transaction?
     transactions.where('expires_on > ?', Date.today).exists?
   end

@@ -1,0 +1,43 @@
+class BusinessIdea < ApplicationRecord
+  belongs_to :user
+  belongs_to :category
+  has_many :generated_ideas, dependent: :destroy
+  has_and_belongs_to_many :skills
+
+
+  validates :category_id, presence: true
+
+  def skill_ids=(ids)
+    super(ids.reject(&:blank?).map(&:to_i))
+  end
+
+  def generate_ideas
+    selected_category = self.category
+    user_skills = self.skill_ids
+
+    # Filter templates by category
+    templates = BusinessIdeaTemplate.where(category: selected_category)
+
+    # Score templates based on matching skills
+    scored_templates = templates.map do |template|
+      matching_skills = (template.required_skills & user_skills).size
+      { template: template, score: matching_skills }
+    end
+
+    # Select top 3 highest-scoring templates
+    top_templates = scored_templates.sort_by { |h| -h[:score] }.first(3).map { |h| h[:template] }
+
+    top_templates.each do |template|
+      GeneratedIdea.create(
+        name: template.name,
+        description: template.description,
+        problems: template.problems,
+        solutions: template.solutions,
+        products_services: template.products_services,
+        market_info: template.market_info,
+        requirements: template.requirements,
+        business_idea: self
+      )
+    end
+  end
+end

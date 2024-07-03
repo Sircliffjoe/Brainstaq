@@ -114,7 +114,8 @@ class SubscriptionPlansController < ApplicationController
   end
 
   def edit
-    @subscription_plan = SubscriptionPlan.find(params[:id])
+    # @subscription_plan = SubscriptionPlan.find(params[:id])
+    @subscription_plan = SubscriptionPlan.find_by(paystack_plan_code: params[:id])
   end
 
   def destroy

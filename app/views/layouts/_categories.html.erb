@@ -19,5 +19,13 @@
         </li>
       <% end %>      
     </div>
+  <% elsif current_page?(posts_path) %>
+    <div class="dropdown-menu dropdown-menu cat-bg" aria-labelledby="dropdownMenu2">
+      <% Category.all.each do |category| %>
+        <li>
+          <%= link_to category.name, posts_path(category: category.name), class: "dropdown-item" %>
+        </li>
+      <% end %>      
+    </div>
   <% end %>
 </div>

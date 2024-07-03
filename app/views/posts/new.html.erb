@@ -1,0 +1,154 @@
+<% content_for :title, "New Post" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-50">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">New Post</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Posts", posts_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">New Post</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+
+<main id="main">
+  <section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+    <div class="container">  
+			<div class="row justify-content-center mt-5">
+				<div class="form-wrap col-md-6">	
+          <%= form_with(model: @post, local: true, html: {class: 'form-group m-t-40', multipart: true }) do |form| %>
+			      
+            <% if @post.errors.any? %>
+			        <% @post.errors.full_messages.each do |message| %>
+			          <div class='alert alert-danger flash-message'>
+			            <%= message %>
+			          </div>
+			        <% end %>
+			      <% end %>
+            
+            <div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label id="name-label" for="name">Post Title</label>
+			            <%= form.text_field :title, class: 'form-control' %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label id="category-label" for="email">Post Category</label>
+									<%= form.collection_select(:category_id, Category.all, :id, :name, 
+                {prompt: 'Select category'}, class: "form-control") %>
+			            </div>
+							</div>
+						</div>
+
+            <div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Short Description</label>
+									<%= form.text_area :short_description, class: 'form-control' %>
+								</div>
+							</div>
+						</div>
+
+            <div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Post Content</label>
+									<%= form.text_area :content, class: 'form-control' %>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+                <div class="form-group">
+                <label>Post Image</label>
+                <%= form.file_field :image, { :class =>  'form-control' }  %>
+              </div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Other Images (Optional)</label>
+									<%= form.file_field :optional_images, multiple: true, class: 'form-control' %>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+			          <div class="save-stngs pd2">
+                  <ul class="float-right">
+                    <% if @post.new_record? %>
+                      <li><%= form.submit 'Publish', class: "actions btn rounded btn-primary" %></li>
+                      <li><%= link_to 'Cancel', :back, class: "btn btn-secondary rounded" %></li>
+                    <% else %>
+                      <li><%= form.submit 'Update', class: "actions btn rounded btn-primary" %></li>
+                      <li><%= link_to 'Back', :back, class: "btn btn-secondary rounded" %></li>
+                    <% end %>
+                  </ul>
+			          </div><!--save-stngs end-->
+			        </div>
+						</div>
+					<% end %>
+				</div>	
+			</div>
+		</div>
+	</section>
+</main>
+<style>
+.save-stngs {
+  float: right;
+  width: 100%;
+  padding: 30px 20px 50px 20px;
+}
+.save-stngs.pd2 {
+  padding: 25px 20px 42px 20px;
+}
+.save-stngs ul li {
+  display: inline-block;
+  margin-right: 17px;
+  float: right;
+}
+.save-stngs ul li button {
+  display: inline-block;
+  color: #000000;
+  font-size: 16px;
+  border: 1px solid #e5e5e5;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 22px;
+  font-weight: 600;
+  background: none;
+  cursor: pointer;
+}
+.save-stngs ul li button:hover {
+  background-color: #e44d3a;
+	color: #fff;
+	border-color: transparent;
+}
+
+/* Mobile view */
+@media (max-width: 300px) {
+  .form-wrap {
+    padding: 0 15px; /* Add padding to prevent touching screen edges */
+  }
+}
+</style>
+
+

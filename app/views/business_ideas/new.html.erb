@@ -1,0 +1,72 @@
+<% content_for :title, "Generate Business Idea" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+      <div class="row d-flex align-items-center h-100">
+          <div class="col-md-12 text-center">
+              <h2 class="h1 font-weight-bold">Generate Business Idea</h2>
+              <nav class="mt-15" aria-label="breadcrumb">
+                  <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+                      <li class="breadcrumb-item"><%= link_to "Home", root_path, class: "text-black-300" %></li>
+                      <li class="breadcrumb-item text-primary" aria-current="page">Generate Business Idea</li>
+                  </ol>
+              </nav>
+          </div>
+      </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+
+<div class="row justify-content-center mt-5">
+  <div class="form-wrap col-md-8">
+    <%= form_with model: @business_idea, url: business_ideas_path, method: :post, html: { class: 'form-group m-t-40' } do |form| %>
+      <% if @business_idea.errors.any? %>
+        <% @business_idea.errors.full_messages.each do |message| %>
+          <div class='alert alert-danger flash-message'>
+            <%= message %>
+          </div>
+        <% end %>
+      <% end %>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label id="category-label" for="category_id">Business Category</label>
+            <%= form.collection_select :category_id, @categories, :id, :name, {}, { class: 'form-control mb-2' } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label id="skills-label" for="skill_ids">Select Skills</label>
+            <%= form.collection_select :skill_ids, Skill.all, :id, :name, { prompt: "Please select 4 skills you're good at" }, { multiple: true, class: "form-control" } %>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= form.submit 'Generate Business Idea', class: "actions btn rounded btn-primary" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= link_to 'Back', :back, class: "btn btn-secondary rounded" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

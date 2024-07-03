@@ -13,6 +13,8 @@ var jQuery = require("jquery");
 //= require turbo
 //= require jquery_ujs
 //= require bootstrap.min
+//= require chartkick
+//= require Chart.bundle
 //= require trix
 //= require_tree .
 
@@ -47,6 +49,7 @@ import "controllers"
 import "@fortawesome/fontawesome-free/js/all";
 
 import "chartkick/chart.js"
+
 
 // require('cocoon')
 // import "cocoon"

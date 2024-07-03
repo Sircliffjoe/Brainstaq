@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_06_12_225319) do
+ActiveRecord::Schema.define(version: 2024_07_03_200156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,6 +146,38 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
     t.datetime "started_at"
     t.index ["user_id"], name: "index_ahoy_visits_on_user_id"
     t.index ["visit_token"], name: "index_ahoy_visits_on_visit_token", unique: true
+  end
+
+  create_table "business_idea_templates", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.text "problems"
+    t.text "solutions"
+    t.text "products_services"
+    t.text "market_info"
+    t.text "requirements"
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "required_skills", default: [], array: true
+    t.index ["category_id"], name: "index_business_idea_templates_on_category_id"
+  end
+
+  create_table "business_ideas", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "skill_ids", default: [], array: true
+    t.index ["category_id"], name: "index_business_ideas_on_category_id"
+    t.index ["user_id"], name: "index_business_ideas_on_user_id"
+  end
+
+  create_table "business_ideas_skills", id: false, force: :cascade do |t|
+    t.bigint "business_idea_id", null: false
+    t.bigint "skill_id", null: false
+    t.index ["business_idea_id", "skill_id"], name: "index_business_ideas_skills_on_business_idea_id_and_skill_id"
+    t.index ["skill_id", "business_idea_id"], name: "index_business_ideas_skills_on_skill_id_and_business_idea_id"
   end
 
   create_table "business_plans", force: :cascade do |t|
@@ -486,6 +518,20 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
+  create_table "generated_ideas", force: :cascade do |t|
+    t.bigint "business_idea_id", null: false
+    t.string "name"
+    t.text "description"
+    t.text "problems"
+    t.text "solutions"
+    t.text "products_services"
+    t.text "market_info"
+    t.text "requirements"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["business_idea_id"], name: "index_generated_ideas_on_business_idea_id"
+  end
+
   create_table "ideas", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -757,6 +803,22 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
     t.index ["business_plan_id"], name: "index_positions_on_business_plan_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.string "title"
+    t.text "short_description"
+    t.text "content"
+    t.string "image"
+    t.string "author"
+    t.datetime "date_posted"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "category_id"
+    t.bigint "user_id", null: false
+    t.integer "views"
+    t.index ["category_id"], name: "index_posts_on_category_id"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
+
   create_table "products_and_growth_rates", force: :cascade do |t|
     t.string "product_name"
     t.text "description"
@@ -811,6 +873,19 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["business_plan_id"], name: "index_services_on_business_plan_id"
+  end
+
+  create_table "skills", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "skills_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "skill_id", null: false
+    t.index ["skill_id", "user_id"], name: "index_skills_users_on_skill_id_and_user_id"
+    t.index ["user_id", "skill_id"], name: "index_skills_users_on_user_id_and_skill_id"
   end
 
   create_table "subs", force: :cascade do |t|
@@ -996,6 +1071,9 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "business_idea_templates", "categories"
+  add_foreign_key "business_ideas", "categories"
+  add_foreign_key "business_ideas", "users"
   add_foreign_key "business_plans", "enterprises"
   add_foreign_key "charges", "users"
   add_foreign_key "course_tags", "courses"
@@ -1005,6 +1083,7 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"
   add_foreign_key "financial_plans", "enterprises"
+  add_foreign_key "generated_ideas", "business_ideas"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoices", "enterprises"
   add_foreign_key "lessons", "courses"
@@ -1015,6 +1094,7 @@ ActiveRecord::Schema.define(version: 2024_06_12_225319) do
   add_foreign_key "pitch_decks", "enterprises"
   add_foreign_key "portfolios", "enterprises"
   add_foreign_key "positions", "business_plans"
+  add_foreign_key "posts", "users"
   add_foreign_key "products_and_growth_rates", "business_plans"
   add_foreign_key "services", "business_plans"
   add_foreign_key "subscriptions", "subscription_plans", on_delete: :cascade

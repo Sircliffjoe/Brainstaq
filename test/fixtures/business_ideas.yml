@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  description: MyText
+  problems_solved: MyText
+  solutions: MyText
+  products_services: MyText
+  market_info: MyText
+  requirements: MyText
+  user: one
+  category: one
+
+two:
+  name: MyString
+  description: MyText
+  problems_solved: MyText
+  solutions: MyText
+  products_services: MyText
+  market_info: MyText
+  requirements: MyText
+  user: two
+  category: two

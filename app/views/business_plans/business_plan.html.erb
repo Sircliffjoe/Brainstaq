@@ -67,6 +67,33 @@
     <%= simple_format(@business_plan.marketing.html_safe) %>
   </p>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+
+      <div class="table-responsive mt-3">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">Expense Item</th>
+            <th scope="col">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @marketing_expenses.each do |marketing_expense| %>
+            <tr>
+              <td><%= marketing_expense.item_name %></td>
+              <td><%= number_to_currency(marketing_expense.cost, unit: "₦") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+      </div>
+    </div>
+  </div>
+
   <h4 class="mb-0 mt-3" style="font-weight: bold;">Management Plan</h4>
   <p class="mt-2 mb-0">
     <%= simple_format(@business_plan.management.html_safe) %>

@@ -1,4 +1,70 @@
-<h1><%= @course_category.name %></h1>
-<%= link_to 'Edit', edit_course_category_path(@course_category) %>
-<%= link_to 'Back', course_categories_path %>
-<%= link_to 'New Course Category', new_course_category_path %>
+<% content_for :title, "Course Category" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Course Category</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to 'Back', course_categories_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page"><%= @course_category.name %></li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+<!-- end of page-header -->
+
+
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-10 offset-md-1">
+      <div class="card">
+        <div class="card-header">
+          <h1 class="card-title"><%= @course_category.name %></h1>
+        </div>
+        <div class="card-body">
+          <% if @course_category.courses.any? %>
+            <h3 class="mb-3">Courses:</h3>
+            <ul class="list-group">
+              <% @course_category.courses.each do |course| %>
+		            <h5><strong><%= link_to course.title, course_path(course), class:"text-dark" %></strong> - </h5>
+		            <p><%= course.description %></p>
+		          <% end %>
+            </ul>
+          <% else %>
+            <p>No courses found.</p>
+          <% end %>
+        </div>
+        <div class="card-footer text-end">
+					<%= link_to 'Back', course_categories_path, class: 'btn btn-secondary mr-2' %>
+					<%= link_to 'Edit', edit_course_category_path(@course_category), class: 'btn btn-primary mr-2' %>
+	      <%= link_to 'New Category', new_course_category_path, class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+@media (max-width: 360px) {
+  .btn {
+    font-size: 14px;
+    padding: 10px 15px;
+  }
+}
+
+</style>

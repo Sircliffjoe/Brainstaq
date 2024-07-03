@@ -1,9 +1,19 @@
 Rails.application.routes.draw do
+  # get 'posts/index'
+  # get 'posts/show'
+  # get 'posts/new'
+  # get 'posts/edit'
   root to: "home#index"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # devise_for :admins, skip: [:registrations]
+  resources :categories
   resources :course_categories
+  resources :posts
+  # resources :skills
+
+  # resources :business_ideas, only: [:new, :create, :index, :show]
+  # resources :generated_ideas, only: [:show]
   
   # resources :courses
   resources :courses do

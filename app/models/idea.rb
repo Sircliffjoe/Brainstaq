@@ -22,7 +22,7 @@ class Idea < ApplicationRecord
 
   belongs_to :user
   belongs_to :category
-  
+
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :donors
   has_many :donations
@@ -42,6 +42,20 @@ class Idea < ApplicationRecord
 
   def to_param
     "#{id}-#{slug}"
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["category_id", "challenges", "created_at", "description", "donated_amount", 
+      "donation_goal", "donations_count", "downvotes", "end_date", "id", "image", 
+      "impact", "overview", "relevance_bar", "slug", "status", "title", 
+      "total_comments", "updated_at", "upvotes", "user_id"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["category", "comments", "donations", "donors", "images_attachments", 
+      "images_blobs", "impressions", "perks", "rich_text_challenges", 
+      "rich_text_description", "rich_text_impact", "rich_text_overview", "user", 
+      "users", "votes_for"]
   end
 
   def not_in_past

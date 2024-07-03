@@ -8,11 +8,11 @@
         <thead>
           <tr>
 						<th scope="col"></th>
-            <th class="text-center" scope="col">Year One</th>
-            <th class="text-center" scope="col">Year Two</th>
-            <th class="text-center" scope="col">Year Three</th>
-						<th class="text-center" scope="col">Year Four</th>
-            <th class="text-center" scope="col">Year Five</th>
+            <th class="text-center" scope="col">Year 1</th>
+            <th class="text-center" scope="col">Year 2</th>
+            <th class="text-center" scope="col">Year 3</th>
+						<th class="text-center" scope="col">Year 4</th>
+            <th class="text-center" scope="col">Year 5</th>
           </tr>
         </thead>
 				<tbody>
@@ -29,11 +29,11 @@
           </tr>
           <tr>
             <td style="padding-left:25px;">Cash & Cash Equivalents</td>
-            <td class="text-right"><%= number_to_currency( @cash_at_year_start_2, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @cash_at_year_start_3, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @cash_at_year_start_4, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @cash_at_year_start_5, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @cash_at_year_start_6, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_5, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_6, :unit => "₦") %></td>
           </tr>
           <tr>
             <td style="padding-left:25px;">Accounts Receivable</td>
@@ -118,11 +118,11 @@
           </tr>
           <tr>
             <td style="padding-left:25px;">Long Term Loan</td>
-            <td class="text-right"><%= number_to_currency( @closing_debt_1, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @closing_debt_2, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @closing_debt_3, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @closing_debt_4, :unit => "₦") %></td>
-            <td class="text-right"><%= number_to_currency( @closing_debt_5, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@closing_debt_1, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@closing_debt_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@closing_debt_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@closing_debt_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@closing_debt_5, :unit => "₦") %></td>
           </tr>
           <tr>
             <td style="font-weight:bold;">Shareholders' Equity</td>

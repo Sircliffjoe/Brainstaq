@@ -51,151 +51,176 @@
 		<li class="nav-item">
 			<a class="nav-link title-blk" id="balance-tab" data-toggle="tab" href="#balance" role="tab" aria-controls="balance" aria-selected="false">Balance Sheet</a>
 		</li>
+    <li class="nav-item">
+      <a class="nav-link title-blk" id="ratio-tab" data-toggle="tab" href="#ratio" role="tab" aria-controls="ratio" aria-selected="false">FInancial Ratios</a>
+    </li>
 	</ul>
 
   <div class="tab-content" id="myTabContent">
-		<div class="tab-pane fade show active" id="business" role="tabpanel" aria-labelledby="business-tab">
-			<div class="card card-body mt-5">
-        <div class="container col-lg-8", style= "margin-top: 30px;">
-          <small class="text-center mb-5">Created by <%= link_to (@enterprise.user.full_name.titleize), profile_path(@enterprise.user.username, @user) %> 
-            on <%= local_time(@business_plan.created_at) %>
-          </small>
+  <div class="tab-pane fade show active" id="business" role="tabpanel" aria-labelledby="business-tab">
+  <div class="container col-lg-8 mt-5">
+    <small class="d-block">
+      Created by <%= link_to @enterprise.user.full_name.titleize, profile_path(@enterprise.user.username, @user) %> 
+      on <%= local_time(@business_plan.created_at) %>
+    </small>
 
-          <div class="container-fluid col-lg-6 text-right float-right">
-            <% if user_signed_in? && current_user.id == @enterprise.user_id %>
-              <%= link_to fa5_icon("trash", title: "Delete", class: "text-danger bus-link mt-4 mr-2 mb-2", style: "font-size: 20px;"), 
-              enterprise_business_plan_path(@enterprise), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <% if user_signed_in? && current_user.id == @enterprise.user_id %>
+        <%= link_to fa5_icon("trash", title: "Delete", class: "text-danger bus-link mt-4 mr-2 mb-4", style: "font-size: 20px;"), 
+          enterprise_business_plan_path(@enterprise), method: :delete, data: { confirm: 'Are you sure?' } %>
 
-              <%= link_to fa_icon("edit", title: "Edit Business Plan", class: "text-primary bus-link mr-2 mb-2", style: "font-size: 20px;"), 
-              edit_enterprise_business_plan_path(@enterprise) %>
-              
-              <%= link_to fa_icon("file", title: "Download", class: "text-primary bus-link mr-2 mb-2", style: "font-size: 20px;"), 
-              enterprise_business_plan_path(@enterprise, format: :pdf) %>
-            <% end %>
-          </div>
+        <%= link_to fa_icon("edit", title: "Edit Business Plan", class: "text-primary bus-link mr-2 mb-4", style: "font-size: 20px;"), 
+          edit_enterprise_business_plan_path(@enterprise) %>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Executive Summary</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.executive_summary.html_safe) %>
-          </p>
+        <%= link_to fa_icon("file", title: "Download", class: "text-primary bus-link mr-2 mb-4", style: "font-size: 20px;"), 
+          enterprise_business_plan_path(@enterprise, format: :pdf) %>
+      <% end %>
+    
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Vision</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.vision.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Executive Summary</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.executive_summary.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Mission</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.mission.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Vision</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.vision.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Objectives</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.objectives.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Mission</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.mission.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Value Proposition</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.value_proposition.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Objectives</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.objectives.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Products and Services</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.products_and_services.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Value Proposition</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.value_proposition.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Industry Analysis</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.industry_analysis.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Products and Services</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.products_and_services.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Competition</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.competition.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Industry Analysis</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.industry_analysis.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">SWOT</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.swot.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Competition</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.competition.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Operations Plan</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.operations.html_safe) %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">SWOT</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.swot.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Marketing Plan</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.marketing.html_safe) %>
-          </p>
-          <div class="container mt-2">
-            <div class="row">
-              <div class="col-12 table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">Expense Item</th>
-                      <th scope="col">Cost</th>
-                    </tr>
-                  </thead>
-                  <% @marketing_expenses.each do |marketing_expense| %>
-                    <tbody>
-                      <tr>
-                        <td scope="row"><%= marketing_expense.item_name %></td>
-                        <td><%= number_to_currency(marketing_expense.cost, :unit => "₦") %></td>
-                      </tr>
-                    </tbody>
-                  <% end %>
-                </table>
-              </div>
-            </div>
-          </div>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Operations Plan</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.operations.html_safe) %></p>
+      </div>
+    </div>
 
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Management Plan</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.management.html_safe) %>
-          </p>
-
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Financial Plan</h4>
-          <p class="mt-2 mb-0">
-            <%= simple_format(@business_plan.financial.html_safe) %>
-          </p>
-
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Milestones</h4>
-          <div class="container">
-            <div class="row">
-              <div class="col-12 table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">Milestone</th>
-                      <th scope="col">Done By</th>
-                      <th scope="col">Cost</th>
-                      <th scope="col">Scheduled Date</th>
-                    </tr>
-                  </thead>
-                  <% @milestones.each do |milestone| %>
-                    <tbody>
-                      <tr>
-                        <td scope="row"><%= milestone.milestone %></td>
-                        <td><%= milestone.done_by %></td>
-                        <td><%= number_to_currency(milestone.cost, :unit => "₦") %></td>
-                        <td><%= local_time(milestone.date_schedule)%></td>
-                      </tr>
-                    </tbody>
-                  <% end %>
-                </table>
-              </div>
-            </div>
-          </div>
-
-          <h4 class="mb-0 mt-3" style="font-weight: bold;">Appendices</h4>
-          <p class="mt-2 mb-0">
-            <%= @business_plan.appendices.html_safe %>
-          </p>
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Marketing Plan</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.marketing.html_safe) %></p>
+        <div class="table-responsive mt-3">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Expense Item</th>
+                <th scope="col">Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @marketing_expenses.each do |marketing_expense| %>
+                <tr>
+                  <td><%= marketing_expense.item_name %></td>
+                  <td><%= number_to_currency(marketing_expense.cost, unit: "₦") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Management Plan</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.management.html_safe) %></p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Financial Plan</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.financial.html_safe) %></p>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Milestones</h4>
+        <div class="table-responsive mt-3">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Milestone</th>
+                <th scope="col">Done By</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Scheduled Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @milestones.each do |milestone| %>
+                <tr>
+                  <td><%= milestone.milestone %></td>
+                  <td><%= milestone.done_by %></td>
+                  <td><%= number_to_currency(milestone.cost, unit: "₦") %></td>
+                  <td><%= local_time(milestone.date_schedule) %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="font-weight-bold">Appendices</h4>
+        <p class="mt-2 mb-0"><%= simple_format(@business_plan.appendices.html_safe) %></p>
+      </div>
+    </div>
+  </div>
+</div>
 
     <div class="tab-pane fade" id="financials" role="tabpanel" aria-labelledby="financials-tab">
       <div class="card card-body mt-5">
@@ -226,6 +251,12 @@
     <div class="tab-pane fade" id="balance" role="tabpanel" aria-labelledby="balance-tab">
       <div class="card card-body mt-5">
         <%= render partial: "layouts/balance_sheet" %>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="ratio" role="tabpanel" aria-labelledby="ratio-tab">
+      <div class="card card-body mt-5">
+        <%= render partial: "layouts/financial_ratios" %>
       </div>
     </div>
   </div>

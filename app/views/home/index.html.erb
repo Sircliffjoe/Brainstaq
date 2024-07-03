@@ -21,18 +21,26 @@
 				<form action="#" method="post" class="needs-validation mt-30" novalidate>
 					<div class="input-group d-block d-sm-flex">
 						<div class="input-group-append">
-							<%= link_to about_path, class: "btn btn-primary has-icon" do %>Learn More
+							<%= link_to about_path, class: "btn btn-primary mr-2 has-icon" do %>Learn More
 								<span class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" 
 								xmlns="http://www.w3.org/2000/svg"><path d="M12.5522 6.66669L20.5522 14.6667C21.0329 15.1473
 								21.0699 15.9036 20.6632 16.4267L20.5522 16.5523L12.5522 24.5523L10.6666 22.6667L17.7228 
 								15.6095L10.6666 8.55231L12.5522 6.66669Z" fill="currentColor"/></svg></span>
 							<% end %>
 						</div>
+						<%# <div class="input-group-append"> %>
+							<%#= link_to new_business_idea_path, class: "btn btn-primary has-icon ml-2" do %>
+								<%# <span class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" 
+								xmlns="http://www.w3.org/2000/svg"><path d="M12.5522 6.66669L20.5522 14.6667C21.0329 15.1473
+								21.0699 15.9036 20.6632 16.4267L20.5522 16.5523L12.5522 24.5523L10.6666 22.6667L17.7228 
+								15.6095L10.6666 8.55231L12.5522 6.66669Z" fill="currentColor"/></svg></span> %>
+							<%# end %>
+						<%# </div> %>
 					</div>
 				</form>
 				<% unless user_signed_in? %>
 					<div class="divider-text mt-25 mb-25">
-						<span class="bg-light-gray">OR GET STARTED</span>
+						<span class="bg-light-gray">LET'S GET STARTED</span>
 					</div>
 			  	<%#= link_to user_google_oauth2_omniauth_authorize_path do %>
 					<%= link_to new_user_registration_path do %>
@@ -91,29 +99,6 @@
 					projects and documents like business plans, financial models, invoices, 
 					and raise funds via crowdfunding.</p>
 		    </div>
-		    <!--<div class="col-lg-11">
-          <ul class="nav nav-pills justify-content-center mb-20" id="pills-tab" role="tablist">
-						<li class="nav-item mb-20" role="presentation">
-							<a class="nav-link active" id="pill-management-tab" data-toggle="pill" href="#management-tab" role="tab" aria-controls="management-tab" aria-selected="true">
-								<i class="circle-shape"></i>Setup Brand
-							</a>
-						</li>
-						<li class="nav-item mb-20" role="presentation">
-							<a class="nav-link" id="pill-chat-tab" data-toggle="pill" href="#chat-tab" role="tab" aria-controls="chat-tab" aria-selected="false">
-								<i class="circle-shape"></i>Business Documents
-							</a>
-						</li>
-						<li class="nav-item mb-20" role="presentation">
-							<a class="nav-link" id="pill-analytics-tab" data-toggle="pill" href="#analytics-tab" role="tab" aria-controls="analytics-tab" aria-selected="false">
-								<i class="circle-shape"></i>Academy
-							</a>
-						</li>
-						<li class="nav-item mb-20" role="presentation">
-							<a class="nav-link" id="pill-collaboration-tab" data-toggle="pill" href="#collaboration-tab" role="tab" aria-controls="collaboration-tab" aria-selected="false">
-								<i class="circle-shape"></i>Crowdfunding
-							</a>
-						</li>
-					</ul> -->
           <div class="col-lg-11">
             <ul class="nav nav-pills d-flex flex-wrap justify-content-center mb-20" id="pills-tab" role="tablist">
               <li class="nav-item mb-20" role="presentation">
@@ -223,7 +208,7 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-9 text-center mt-5 mb-5">
 					<h2 class="section-title">Trending <strong class="text-primary">Projects</strong></h2>
-					<p>We celebrate innovative ideas and projects providing unique solutions to challenges across Africa.</p>
+					<p>We celebrate innovative ideas and projects providing unique solutions to challenges across Africa</p>
 				</div>
 			</div>
 		</div>
@@ -244,6 +229,33 @@
   </section>
   <!-- end section -->
 
+	<!-- start section -->
+	<section id="why-us" class="section-padding how-it-works-tab pt-0 overflow-hidden wow fadeIn mb-0">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-9 text-center mt-5 mb-5">
+					<h2 class="section-title">Explore <strong class="text-primary">Courses</strong></h2>
+					<p>Access a growing library of professional business courses, and build a smarter enterprise using our structured approach</p>
+				</div>
+			</div>
+		</div>
+
+		<%= render 'courses/course_landscape', course: @course %>
+		
+	  </div>
+	  <div class="row justify-content-center mt-5">
+		  <div class="col-7 text-center">
+        <%= link_to courses_path, class: "btn btn-primary has-icon" do %>View More
+          <span class="icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" 
+        xmlns="http://www.w3.org/2000/svg"><path d="M12.5522 6.66669L20.5522 14.6667C21.0329 15.1473
+        21.0699 15.9036 20.6632 16.4267L20.5522 16.5523L12.5522 24.5523L10.6666 22.6667L17.7228 
+        15.6095L10.6666 8.55231L12.5522 6.66669Z" fill="currentColor"/></svg></span>
+        <% end %>
+		  </div>
+	  </div>
+  </section>
+  <!-- end section -->
+
 	<%= render partial: "layouts/growth_rate" %>
 
 	<!-- start of image-info -->
@@ -253,7 +265,6 @@
 				<div class="col-lg-8 col-md-7">
 					<div class="has-shapes">
 						<%= image_tag 'validate.png', class: "img-fluid py-4 my-2" %>
-
 						<div class="shape-1 shape-sm bg-secondary rounded-circle"></div>
 						<div class="shape-2 shape-xs-2 bg-tertiary rounded-circle"></div>
 					</div>

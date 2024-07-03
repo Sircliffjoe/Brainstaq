@@ -26,89 +26,95 @@
   <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
 </section>
 
-<div class="row justify-content-center mt-5">
-	<div class="form-wrap col-md-6">	
-		<%= form_for([@subscription_plan], html: {class: 'form-group m-t-40' }) do |f| %>
-      <% if @subscription_plan.errors.any? %>
-        <% @subscription_plan.errors.full_messages.each do |message| %>
-          <div class='alert alert-danger flash-message'>
-            <%= message %>
-          </div>
-        <% end %>
-      <% end %>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label id="name-label" for="name">Plan Name</label>
-            <%= f.text_field :plan_name, class: 'form-control' %>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label id="email-label" for="email">Cost(₦)</label>
-						<%= f.number_field :cost, class: 'form-control' %>
-            </div>
-				</div>
-			</div>
-			
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Plan Duration</label>
-						<%= f.select(:duration, options_for_select(
-							SubscriptionPlan.durations.keys.map { |duration| [duration.titleize, duration]},
-							selected: f.object.duration), {include_blank: "Monthly or Annually"}, 
-							{ :class =>  "form-control" } ) %>
-					</div>
-				</div>
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Recurring Plan?</label>
-						<%= f.select(:recurring, options_for_select(
-							[['Yes', :true], ['No', :false]], selected: f.object.recurring ), 
-							{include_blank: "Choose Yes or No"}, 
-							{ :class =>  'form-control' } ) %>
-					</div>
-				</div>
-			</div>
+<main id="main">
+  <section class="section-padding pb-0" data-aos="fade-in" data-aos-delay="150">
+    <div class="container">  
+			<div class="row justify-content-center mt-5">
+				<div class="form-wrap col-md-6">	
+					<%= form_for([@subscription_plan], html: {class: 'form-group m-t-40' }) do |f| %>
+			      <% if @subscription_plan.errors.any? %>
+			        <% @subscription_plan.errors.full_messages.each do |message| %>
+			          <div class='alert alert-danger flash-message'>
+			            <%= message %>
+			          </div>
+			        <% end %>
+			      <% end %>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label id="name-label" for="name">Plan Name</label>
+			            <%= f.text_field :plan_name, class: 'form-control' %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label id="email-label" for="email">Cost(₦)</label>
+									<%= f.number_field :cost, class: 'form-control' %>
+			            </div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Plan Duration</label>
+									<%= f.select(:duration, options_for_select(
+										SubscriptionPlan.durations.keys.map { |duration| [duration.titleize, duration]},
+										selected: f.object.duration), {include_blank: "Monthly or Annually"}, 
+										{ :class =>  "form-control" } ) %>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label>Recurring Plan?</label>
+									<%= f.select(:recurring, options_for_select(
+										[['Yes', :true], ['No', :false]], selected: f.object.recurring ), 
+										{include_blank: "Choose Yes or No"}, 
+										{ :class =>  'form-control' } ) %>
+								</div>
+							</div>
+						</div>
 
-			<div class="row">
-				<div class="col-md-12">
-					<div class="form-group">
-						<label>Description</label>
-						<%= f.text_field :description, class: 'form-control' %>
-					</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label>Description</label>
+									<%= f.text_field :description, class: 'form-control' %>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+			          <div data-controller="nested-form">
+			            <template data-target='nested-form.template'>
+			              <%= f.fields_for :features, Feature.new, child_index: 'TEMPLATE_RECORD' do |feature| %>
+			                <%= render 'feature_fields', form: feature %>
+			              <% end %>
+			            </template>
+
+			            <%= f.fields_for :features do |feature| %>
+			              <%= render 'feature_fields', form: feature %>
+			            <% end %>
+			      
+			            <div data-target="nested-form.add_perk">
+			              <%= link_to "Add Feature", "#", data: { action: "nested-form#add_association" }, class: "btn rounded btn-primary mt-3" %>
+			            </div>
+			          </div>
+			          <div class="save-stngs pd2">
+			            <ul class="float-right">
+			              <li><%= f.submit 'Update Plan', class: "actions btn rounded btn-primary" %></li>
+			              <li><%= link_to 'Back', :back, class: "btn btn-secondary rounded"  %></li>
+			            </ul>
+			          </div><!--save-stngs end-->
+			        </div>
+						</div>
+					<% end %>
 				</div>
 			</div>
-			
-			<div class="row">
-				<div class="col-md-12">
-          <div data-controller="nested-form">
-            <template data-target='nested-form.template'>
-              <%= f.fields_for :features, Feature.new, child_index: 'TEMPLATE_RECORD' do |feature| %>
-                <%= render 'feature_fields', form: feature %>
-              <% end %>
-            </template>
-
-            <%= f.fields_for :features do |feature| %>
-              <%= render 'feature_fields', form: feature %>
-            <% end %>
-      
-            <div data-target="nested-form.add_perk">
-              <%= link_to "Add Feature", "#", data: { action: "nested-form#add_association" }, class: "btn rounded btn-primary mt-3" %>
-            </div>
-          </div>
-          <div class="save-stngs pd2">
-            <ul class="float-right">
-              <li><%= f.submit 'Update Plan', class: "actions btn rounded btn-primary" %></li>
-              <li><%= link_to 'Back', :back, class: "btn btn-secondary rounded"  %></li>
-            </ul>
-          </div><!--save-stngs end-->
-        </div>
-			</div>
-		<% end %>
-	</div>	
-</div>
+		</div>
+	</section>
+</main>
 
 <style>
 .save-stngs {

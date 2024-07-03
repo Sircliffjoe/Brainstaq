@@ -1,0 +1,60 @@
+module AI
+  class BusinessIdeaGeneratorService
+    def self.generate(business_idea)
+      response = OpenAI::Client.new.completions(
+        engine: 'text-davinci-003',
+        prompt: generate_prompt(business_idea),
+        max_tokens: 1500
+      )
+      parse_response(response)
+    end
+
+    def self.generate_prompt(business_idea)
+      "Generate 5 unique business ideas for the category '#{business_idea.category.name}' and skills: #{business_idea.skills.map(&:name).join(', ')}."
+    end
+
+    def self.parse_response(response)
+      ideas = []
+      response['choices'].first['text'].split("\n\n").each do |idea_text|
+        ideas << {
+          name: extract_name(idea_text),
+          description: extract_description(idea_text),
+          problems: extract_problems(idea_text),
+          solutions: extract_solutions(idea_text),
+          products_services: extract_products_services(idea_text),
+          market_info: extract_market_info(idea_text),
+          requirements: extract_requirements(idea_text)
+        }
+      end
+      ideas
+    end
+
+    def self.extract_name(idea_text)
+      # Extract the name from the idea_text
+    end
+
+    def self.extract_description(idea_text)
+      # Extract the description from the idea_text
+    end
+
+    def self.extract_problems(idea_text)
+      # Extract problems from the idea_text
+    end
+
+    def self.extract_solutions(idea_text)
+      # Extract solutions from the idea_text
+    end
+
+    def self.extract_products_services(idea_text)
+      # Extract products/services from the idea_text
+    end
+
+    def self.extract_market_info(idea_text)
+      # Extract market information from the idea_text
+    end
+
+    def self.extract_requirements(idea_text)
+      # Extract requirements from the idea_text
+    end
+  end
+end

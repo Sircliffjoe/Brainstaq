@@ -1,6 +1,7 @@
 class SubscriptionPlan < ApplicationRecord
   has_many :users
   has_many :features, dependent: :destroy
+  has_many :subscriptions
 
   enum status: [:active, :deactivated]
   enum duration: [:monthly, :annually]
@@ -17,5 +18,9 @@ class SubscriptionPlan < ApplicationRecord
 
   def self.options_for_select
     order('LOWER(plan_name)').map { |e| [e.plan_name, e.id]}
+  end
+
+  def self.ransackable_attributes(auth_object = nil)
+    ["cost", "created_at", "description", "duration", "id", "paystack_plan_code", "plan_name", "recurring", "status", "updated_at"]
   end
 end

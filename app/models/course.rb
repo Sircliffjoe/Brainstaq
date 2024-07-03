@@ -1,9 +1,16 @@
 class Course < ApplicationRecord
+  belongs_to :user
+  belongs_to :course_category
+
   validates :title, :description, :marketing_description, :language, :price, :level, presence: true
   validates :description, length: { minimum: 150 }
   validates :marketing_description, length: { maximum: 1300 }
+  validates :title, uniqueness: true, length: { maximum: 70 }
+  validates :price, numericality: { greater_than_or_equal_to: 0, less_than: 500_000 }
+  validates :image,
+            content_type: ['image/png', 'image/jpg', 'image/jpeg'],
+            size: { less_than: 500.kilobytes, message: 'size should be under 500 kilobytes' }
 
-  belongs_to :user
   has_many :chapters, dependent: :destroy, inverse_of: :course
   has_many :lessons, dependent: :destroy, inverse_of: :course
   has_many :enrollments, dependent: :restrict_with_error
@@ -11,13 +18,12 @@ class Course < ApplicationRecord
   has_many :course_tags, inverse_of: :course, dependent: :destroy
   has_many :tags, through: :course_tags
   has_many :comments, through: :lessons
-  belongs_to :course_category
+
+  has_one_attached :image
+  has_rich_text :description
 
   accepts_nested_attributes_for :chapters, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :lessons, reject_if: :all_blank, allow_destroy: true
-
-  validates :title, uniqueness: true, length: { maximum: 70 }
-  validates :price, numericality: { greater_than_or_equal_to: 0, less_than: 500_000 }
 
   scope :latest, -> { limit(3).order(created_at: :desc) }
   scope :top_rated, -> { limit(3).order(average_rating: :desc, created_at: :desc) }
@@ -26,13 +32,6 @@ class Course < ApplicationRecord
   scope :unpublished, -> { where(published: false) }
   scope :approved, -> { where(approved: true) }
   scope :unapproved, -> { where(approved: false) }
-
-  has_one_attached :image
-  validates :image,
-            content_type: ['image/png', 'image/jpg', 'image/jpeg'],
-            size: { less_than: 500.kilobytes, message: 'size should be under 500 kilobytes' }
-  
-  has_rich_text :description
 
 
   LANGUAGES = %i[English Russian Polish Spanish].freeze
@@ -68,18 +67,6 @@ class Course < ApplicationRecord
       update_column :average_rating, 0
     end
   end
-
-  # after_create do
-  #   product = Stripe::Product.create(name: title)
-  #   price = Stripe::Price.create(product: product, currency: 'usd', unit_amount: self.price.to_i * 100)
-  #   update(stripe_product_id: product.id, stripe_price_id: price.id)
-  # end
-
-  # after_update :update_stripe_price, if: :saved_change_to_price?
-  # def update_stripe_price
-  #   price = Stripe::Price.create(product: stripe_product_id, currency: 'usd', unit_amount: self.price.to_i * 100)
-  #   update(stripe_price_id: price.id)
-  # end
 
   def similiar_courses
     self.class.joins(:tags)

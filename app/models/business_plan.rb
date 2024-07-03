@@ -24,68 +24,90 @@ class BusinessPlan < ApplicationRecord
   
   
   def raw_materials_op_cost_1
-    self.raw_material_cost * ( 1 + (0.01 * self.direct_cgr1))
+    self.raw_material_cost.to_f * ( 1 + (0.01 * self.direct_cgr1.to_f))
   end
   def raw_materials_op_cost_2
-    self.raw_materials_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2))
+    self.raw_materials_op_cost_1.to_f * ( 1 + (0.01 * self.direct_cgr2.to_f))
   end
   def raw_materials_op_cost_3
-    self.raw_materials_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3))
+    self.raw_materials_op_cost_2.to_f * ( 1 + (0.01 * self.direct_cgr3.to_f))
   end
   def raw_materials_op_cost_4
-    self.raw_materials_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4))
+    self.raw_materials_op_cost_3.to_f * ( 1 + (0.01 * self.direct_cgr4.to_f))
   end
   def raw_materials_op_cost_5
-    self.raw_materials_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5))
+    self.raw_materials_op_cost_4.to_f * ( 1 + (0.01 * self.direct_cgr5.to_f))
   end
 
   def direct_labour_op_cost_1
-    self.direct_labour_cost * ( 1 + (0.01 * self.direct_cgr1))
+    self.direct_labour_cost.to_f * ( 1 + (0.01 * self.direct_cgr1.to_f))
   end
   def direct_labour_op_cost_2
-    self.direct_labour_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2))
+    self.direct_labour_op_cost_1.to_f * ( 1 + (0.01 * self.direct_cgr2.to_f))
   end
   def direct_labour_op_cost_3
-    self.direct_labour_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3))
+    self.direct_labour_op_cost_2.to_f * ( 1 + (0.01 * self.direct_cgr3.to_f))
   end
   def direct_labour_op_cost_4
-    self.direct_labour_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4))
+    self.direct_labour_op_cost_3.to_f * ( 1 + (0.01 * self.direct_cgr4.to_f))
   end
   def direct_labour_op_cost_5
-    self.direct_labour_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5))
+    self.direct_labour_op_cost_4.to_f * ( 1 + (0.01 * self.direct_cgr5.to_f))
   end
+
+  # def factory_overhead_op_cost_1
+  #   self.factory_overhead * ( 1 + (0.01 * self.direct_cgr1))
+  # end
+  # def factory_overhead_op_cost_2
+  #   self.factory_overhead_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2))
+  # end
+  # def factory_overhead_op_cost_3
+  #   self.factory_overhead_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3))
+  # end
+  # def factory_overhead_op_cost_4
+  #   self.factory_overhead_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4))
+  # end
+  # def factory_overhead_op_cost_5
+  #   self.factory_overhead_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5))
+  # end
 
   def factory_overhead_op_cost_1
-    self.factory_overhead * ( 1 + (0.01 * self.direct_cgr1))
-  end
-  def factory_overhead_op_cost_2
-    self.factory_overhead_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2))
-  end
-  def factory_overhead_op_cost_3
-    self.factory_overhead_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3))
-  end
-  def factory_overhead_op_cost_4
-    self.factory_overhead_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4))
-  end
-  def factory_overhead_op_cost_5
-    self.factory_overhead_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5))
+    self.factory_overhead.to_f * (1 + (0.01 * self.direct_cgr1.to_f))
   end
 
+  def factory_overhead_op_cost_2
+    factory_overhead_op_cost_1 * (1 + (0.01 * self.direct_cgr2.to_f))
+  end
+
+  def factory_overhead_op_cost_3
+    factory_overhead_op_cost_2 * (1 + (0.01 * self.direct_cgr3.to_f))
+  end
+
+  def factory_overhead_op_cost_4
+    factory_overhead_op_cost_3 * (1 + (0.01 * self.direct_cgr4.to_f))
+  end
+
+  def factory_overhead_op_cost_5
+    factory_overhead_op_cost_4 * (1 + (0.01 * self.direct_cgr5.to_f))
+  end
+
+
   def inbound_transport_op_cost_1
-    self.inbound_transport * ( 1 + (0.01 * self.direct_cgr1))
+    self.inbound_transport.to_f * ( 1 + (0.01 * self.direct_cgr1.to_f))
   end
   def inbound_transport_op_cost_2
-    self.inbound_transport_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2))
+    self.inbound_transport_op_cost_1 * ( 1 + (0.01 * self.direct_cgr2.to_f))
   end
   def inbound_transport_op_cost_3
-    self.inbound_transport_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3))
+    self.inbound_transport_op_cost_2 * ( 1 + (0.01 * self.direct_cgr3.to_f))
   end
   def inbound_transport_op_cost_4
-    self.inbound_transport_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4))
+    self.inbound_transport_op_cost_3 * ( 1 + (0.01 * self.direct_cgr4.to_f))
   end
   def inbound_transport_op_cost_5
-    self.inbound_transport_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5))
+    self.inbound_transport_op_cost_4 * ( 1 + (0.01 * self.direct_cgr5.to_f))
   end
+  
 
   def total_direct_op_cost_1
     self.raw_materials_op_cost_1 + self.direct_labour_op_cost_1 + self.factory_overhead_op_cost_1 + 
@@ -109,176 +131,176 @@ class BusinessPlan < ApplicationRecord
   end
 
   def inventory_schedule_1
-    (self.raw_materials_op_cost_1 + self.direct_labour_op_cost_1 + self.factory_overhead_op_cost_1 + self.inbound_transport_op_cost_1) * self.inventory_days / 365
+    (self.raw_materials_op_cost_1 + self.direct_labour_op_cost_1 + self.factory_overhead_op_cost_1 + self.inbound_transport_op_cost_1) * self.inventory_days.to_f / 365
   end
 
   def inventory_schedule_2
-    (self.raw_materials_op_cost_2 + self.direct_labour_op_cost_2 + self.factory_overhead_op_cost_2 + self.inbound_transport_op_cost_2) * self.inventory_days / 365
+    (self.raw_materials_op_cost_2 + self.direct_labour_op_cost_2 + self.factory_overhead_op_cost_2 + self.inbound_transport_op_cost_2) * self.inventory_days.to_f / 365
   end
 
   def inventory_schedule_3
-    (self.raw_materials_op_cost_3 + self.direct_labour_op_cost_3 + self.factory_overhead_op_cost_3 + self.inbound_transport_op_cost_3) * self.inventory_days / 365
+    (self.raw_materials_op_cost_3 + self.direct_labour_op_cost_3 + self.factory_overhead_op_cost_3 + self.inbound_transport_op_cost_3) * self.inventory_days.to_f / 365
   end
 
   def inventory_schedule_4
-    (self.raw_materials_op_cost_4 + self.direct_labour_op_cost_4 + self.factory_overhead_op_cost_4 + self.inbound_transport_op_cost_4) * self.inventory_days / 365
+    (self.raw_materials_op_cost_4 + self.direct_labour_op_cost_4 + self.factory_overhead_op_cost_4 + self.inbound_transport_op_cost_4) * self.inventory_days.to_f / 365
   end
 
   def inventory_schedule_5
-    (self.raw_materials_op_cost_5 + self.direct_labour_op_cost_5 + self.factory_overhead_op_cost_5 + self.inbound_transport_op_cost_5) * self.inventory_days / 365
+    (self.raw_materials_op_cost_5 + self.direct_labour_op_cost_5 + self.factory_overhead_op_cost_5 + self.inbound_transport_op_cost_5) * self.inventory_days.to_f / 365
   end
 
   def days_payable_1
-    (self.rent_op_cost_1 + self.utilities_op_cost_1 + self.marketing_op_cost_1 + self.admin_op_cost_1 + 
-      self.website_op_cost_1 + self.telephone_op_cost_1 + self.transport_op_cost_1 + self.misc_op_cost_1 + self.salaries_one) * self.payable_days/365
+    (self.rent_op_cost_1.to_f + self.utilities_op_cost_1.to_f + self.marketing_op_cost_1.to_f + self.admin_op_cost_1.to_f + 
+      self.website_op_cost_1.to_f + self.telephone_op_cost_1.to_f + self.transport_op_cost_1.to_f + self.misc_op_cost_1.to_f + self.salaries_one.to_f) * self.payable_days.to_f/365
   end
 
   def days_payable_2
-    (self.rent_op_cost_2 + self.utilities_op_cost_2 + self.marketing_op_cost_2 + self.admin_op_cost_2 + 
-      self.website_op_cost_2 + self.telephone_op_cost_2 + self.transport_op_cost_2 + self.misc_op_cost_2 + self.salaries_two) * self.payable_days/365
+    (self.rent_op_cost_2.to_f + self.utilities_op_cost_2.to_f + self.marketing_op_cost_2.to_f + self.admin_op_cost_2.to_f + 
+      self.website_op_cost_2.to_f + self.telephone_op_cost_2.to_f + self.transport_op_cost_2.to_f + self.misc_op_cost_2.to_f + self.salaries_two.to_f) * self.payable_days.to_f/365
   end
 
   def days_payable_3
-    (self.rent_op_cost_3 + self.utilities_op_cost_3 + self.marketing_op_cost_3 + self.admin_op_cost_3 + 
-      self.website_op_cost_3 + self.telephone_op_cost_3 + self.transport_op_cost_3 + self.misc_op_cost_3 + self.salaries_three) * self.payable_days/365
+    (self.rent_op_cost_3.to_f + self.utilities_op_cost_3.to_f + self.marketing_op_cost_3.to_f + self.admin_op_cost_3.to_f + 
+      self.website_op_cost_3.to_f + self.telephone_op_cost_3.to_f + self.transport_op_cost_3.to_f + self.misc_op_cost_3.to_f + self.salaries_three.to_f) * self.payable_days.to_f/365
   end
 
   def days_payable_4
-    (self.rent_op_cost_4 + self.utilities_op_cost_4 + self.marketing_op_cost_4 + self.admin_op_cost_4 + 
-      self.website_op_cost_4 + self.telephone_op_cost_4 + self.transport_op_cost_4 + self.misc_op_cost_4 + self.salaries_four) * self.payable_days/365
+    (self.rent_op_cost_4.to_f + self.utilities_op_cost_4.to_f + self.marketing_op_cost_4.to_f + self.admin_op_cost_4.to_f + 
+      self.website_op_cost_4.to_f + self.telephone_op_cost_4.to_f + self.transport_op_cost_4.to_f + self.misc_op_cost_4.to_f + self.salaries_four.to_f) * self.payable_days.to_f/365
   end
 
   def days_payable_5
-    (self.rent_op_cost_5 + self.utilities_op_cost_5 + self.marketing_op_cost_5 + self.admin_op_cost_5 + 
-      self.website_op_cost_5 + self.telephone_op_cost_5 + self.transport_op_cost_5 + self.misc_op_cost_5 + self.salaries_five) * self.payable_days/365
+    (self.rent_op_cost_5.to_f + self.utilities_op_cost_5.to_f + self.marketing_op_cost_5.to_f + self.admin_op_cost_5.to_f + 
+      self.website_op_cost_5.to_f + self.telephone_op_cost_5.to_f + self.transport_op_cost_5.to_f + self.misc_op_cost_5.to_f + self.salaries_five.to_f) * self.payable_days.to_f/365
   end
 
   def rent_op_cost_1
-    self.rent_cost * ( 1 + (0.01 * self.rent_cgr1))
+    self.rent_cost.to_f * ( 1 + (0.01 * self.rent_cgr1.to_f))
   end
   def rent_op_cost_2
-    self.rent_op_cost_1 * ( 1 + (0.01 * self.rent_cgr2))
+    self.rent_op_cost_1 * ( 1 + (0.01 * self.rent_cgr2.to_f))
   end
   def rent_op_cost_3
-    self.rent_op_cost_2 * ( 1 + (0.01 * self.rent_cgr3))
+    self.rent_op_cost_2 * ( 1 + (0.01 * self.rent_cgr3.to_f))
   end
   def rent_op_cost_4
-    self.rent_op_cost_3 * ( 1 + (0.01 * self.rent_cgr4))
+    self.rent_op_cost_3 * ( 1 + (0.01 * self.rent_cgr4.to_f))
   end
   def rent_op_cost_5
-    self.rent_op_cost_4 * ( 1 + (0.01 * self.rent_cgr5))
+    self.rent_op_cost_4 * ( 1 + (0.01 * self.rent_cgr5.to_f))
   end
 
   def utilities_op_cost_1
-    self.utilities_cost * ( 1 + (0.01 * self.utilities_cgr1))
+    self.utilities_cost.to_f * ( 1 + (0.01 * self.utilities_cgr1.to_f))
   end
   def utilities_op_cost_2
-    self.utilities_op_cost_1 * ( 1 + (0.01 * self.utilities_cgr2))
+    self.utilities_op_cost_1 * ( 1 + (0.01 * self.utilities_cgr2.to_f))
   end
   def utilities_op_cost_3
-    self.utilities_op_cost_2 * ( 1 + (0.01 * self.utilities_cgr3))
+    self.utilities_op_cost_2 * ( 1 + (0.01 * self.utilities_cgr3.to_f))
   end
   def utilities_op_cost_4
-    self.utilities_op_cost_3 * ( 1 + (0.01 * self.utilities_cgr4))
+    self.utilities_op_cost_3 * ( 1 + (0.01 * self.utilities_cgr4.to_f))
   end
   def utilities_op_cost_5
-    self.utilities_op_cost_4 * ( 1 + (0.01 * self.utilities_cgr5))
+    self.utilities_op_cost_4 * ( 1 + (0.01 * self.utilities_cgr5.to_f))
   end
 
   def marketing_op_cost_1
-    self.marketing_cost * ( 1 + (0.01 * self.marketing_cgr1))
+    self.marketing_cost.to_f * ( 1 + (0.01 * self.marketing_cgr1.to_f))
   end
   def marketing_op_cost_2
-    self.marketing_op_cost_1 * ( 1 + (0.01 * self.marketing_cgr2))
+    self.marketing_op_cost_1 * ( 1 + (0.01 * self.marketing_cgr2.to_f))
   end
   def marketing_op_cost_3
-    self.marketing_op_cost_2 * ( 1 + (0.01 * self.marketing_cgr3))
+    self.marketing_op_cost_2 * ( 1 + (0.01 * self.marketing_cgr3.to_f))
   end
   def marketing_op_cost_4
-    self.marketing_op_cost_3 * ( 1 + (0.01 * self.marketing_cgr4))
+    self.marketing_op_cost_3 * ( 1 + (0.01 * self.marketing_cgr4.to_f))
   end
   def marketing_op_cost_5
-    self.marketing_op_cost_4 * ( 1 + (0.01 * self.marketing_cgr5))
+    self.marketing_op_cost_4 * ( 1 + (0.01 * self.marketing_cgr5.to_f))
   end
 
   def admin_op_cost_1
-    self.admin_cost * ( 1 + (0.01 * self.admin_cgr1))
+    self.admin_cost.to_f * ( 1 + (0.01 * self.admin_cgr1.to_f))
   end
   def admin_op_cost_2
-    self.admin_op_cost_1 * ( 1 + (0.01 * self.admin_cgr2))
+    self.admin_op_cost_1 * ( 1 + (0.01 * self.admin_cgr2.to_f))
   end
   def admin_op_cost_3
-    self.admin_op_cost_2 * ( 1 + (0.01 * self.admin_cgr3))
+    self.admin_op_cost_2 * ( 1 + (0.01 * self.admin_cgr3.to_f))
   end
   def admin_op_cost_4
-    self.admin_op_cost_3 * ( 1 + (0.01 * self.admin_cgr4))
+    self.admin_op_cost_3 * ( 1 + (0.01 * self.admin_cgr4.to_f))
   end
   def admin_op_cost_5
-    self.admin_op_cost_4 * ( 1 + (0.01 * self.admin_cgr5))
+    self.admin_op_cost_4 * ( 1 + (0.01 * self.admin_cgr5.to_f))
   end
 
   def website_op_cost_1
-    self.website_cost * ( 1 + (0.01 * self.maintenance_cgr1))
+    self.website_cost.to_f * ( 1 + (0.01 * self.maintenance_cgr1.to_f))
   end
   def website_op_cost_2
-    self.website_op_cost_1 * ( 1 + (0.01 * self.maintenance_cgr2))
+    self.website_op_cost_1 * ( 1 + (0.01 * self.maintenance_cgr2.to_f))
   end
   def website_op_cost_3
-    self.website_op_cost_2 * ( 1 + (0.01 * self.maintenance_cgr3))
+    self.website_op_cost_2 * ( 1 + (0.01 * self.maintenance_cgr3.to_f))
   end
   def website_op_cost_4
-    self.website_op_cost_3 * ( 1 + (0.01 * self.maintenance_cgr4))
+    self.website_op_cost_3 * ( 1 + (0.01 * self.maintenance_cgr4.to_f))
   end
   def website_op_cost_5
-    self.website_op_cost_4 * ( 1 + (0.01 * self.maintenance_cgr5))
+    self.website_op_cost_4 * ( 1 + (0.01 * self.maintenance_cgr5.to_f))
   end
 
   def telephone_op_cost_1
-    self.telephone_cost * ( 1 + (0.01 * self.phone_cgr1))
+    self.telephone_cost.to_f * ( 1 + (0.01 * self.phone_cgr1.to_f))
   end
   def telephone_op_cost_2
-    self.telephone_op_cost_1 * ( 1 + (0.01 * self.phone_cgr2))
+    self.telephone_op_cost_1 * ( 1 + (0.01 * self.phone_cgr2.to_f))
   end
   def telephone_op_cost_3
-    self.telephone_op_cost_2 * ( 1 + (0.01 * self.phone_cgr3))
+    self.telephone_op_cost_2 * ( 1 + (0.01 * self.phone_cgr3.to_f))
   end
   def telephone_op_cost_4
-    self.telephone_op_cost_3 * ( 1 + (0.01 * self.phone_cgr4))
+    self.telephone_op_cost_3 * ( 1 + (0.01 * self.phone_cgr4.to_f))
   end
   def telephone_op_cost_5
-    self.telephone_op_cost_4 * ( 1 + (0.01 * self.phone_cgr5))
+    self.telephone_op_cost_4 * ( 1 + (0.01 * self.phone_cgr5.to_f))
   end
 
   def transport_op_cost_1
-    self.transport_cost * ( 1 + (0.01 * self.transport_cgr1))
+    self.transport_cost.to_f * ( 1 + (0.01 * self.transport_cgr1.to_f))
   end
   def transport_op_cost_2
-    self.transport_op_cost_1 * ( 1 + (0.01 * self.transport_cgr2))
+    self.transport_op_cost_1 * ( 1 + (0.01 * self.transport_cgr2.to_f))
   end
   def transport_op_cost_3
-    self.transport_op_cost_2 * ( 1 + (0.01 * self.transport_cgr3))
+    self.transport_op_cost_2 * ( 1 + (0.01 * self.transport_cgr3.to_f))
   end
   def transport_op_cost_4
-    self.transport_op_cost_3 * ( 1 + (0.01 * self.transport_cgr4))
+    self.transport_op_cost_3 * ( 1 + (0.01 * self.transport_cgr4.to_f))
   end
   def transport_op_cost_5
-    self.transport_op_cost_4 * ( 1 + (0.01 * self.transport_cgr5))
+    self.transport_op_cost_4 * ( 1 + (0.01 * self.transport_cgr5.to_f))
   end
 
   def misc_op_cost_1
-    self.misc * ( 1 + (0.01 * self.misc_cgr1))
+    self.misc.to_f * ( 1 + (0.01 * self.misc_cgr1.to_f))
   end
   def misc_op_cost_2
-    self.misc_op_cost_1 * ( 1 + (0.01 * self.misc_cgr2))
+    self.misc_op_cost_1 * ( 1 + (0.01 * self.misc_cgr2.to_f))
   end
   def misc_op_cost_3
-    self.misc_op_cost_2 * ( 1 + (0.01 * self.misc_cgr3))
+    self.misc_op_cost_2 * ( 1 + (0.01 * self.misc_cgr3.to_f))
   end
   def misc_op_cost_4
-    self.misc_op_cost_3 * ( 1 + (0.01 * self.misc_cgr4))
+    self.misc_op_cost_3 * ( 1 + (0.01 * self.misc_cgr4.to_f))
   end
   def misc_op_cost_5
-    self.misc_op_cost_4 * ( 1 + (0.01 * self.misc_cgr5))
+    self.misc_op_cost_4 * ( 1 + (0.01 * self.misc_cgr5.to_f))
   end
 
   def total_op_expenses_1
@@ -308,43 +330,43 @@ class BusinessPlan < ApplicationRecord
   end
 
   def total_add_1
-    self.land + self.utilities + self.vehicles + self.equipment + self.office_supplies + self.rent
+    self.land.to_f + self.utilities.to_f + self.vehicles.to_f + self.equipment.to_f + self.office_supplies.to_f + self.rent.to_f
   end
 
   def land_add_2
     0
   end
   def building_add_2
-    if 3 % (1 / (self.dep_building * 0.01)) < 1 
-      then self.rent * ((1 + self.inflation_rate) ** 3) 
+    if 3 % (1 / (self.dep_building.to_f * 0.01)) < 1 
+      then self.rent.to_f * ((1 + self.inflation_rate.to_f) ** 3) 
     else 
       0 
     end
   end
   def furniture_add_2
-    if 3 % (1 / (self.dep_furniture * 0.01)) < 1 
-      then self.office_supplies * ((1 + self.inflation_rate) ** 3) 
+    if 3 % (1 / (self.dep_furniture.to_f * 0.01)) < 1 
+      then self.office_supplies.to_f * ((1 + self.inflation_rate.to_f) ** 3) 
     else 
       0 
     end
   end
   def machinery_add_2
-    if 3 % (1 / (self.dep_machinery * 0.01)) < 1 
-      then self.equipment * ((1 + self.inflation_rate) ** 3) 
+    if 3 % (1 / (self.dep_machinery.to_f * 0.01)) < 1 
+      then self.equipment.to_f * ((1 + self.inflation_rate.to_f) ** 3) 
     else 
       0 
     end
   end
   def vehicles_add_2
-    if 3 % (1 / (self.dep_vehicles * 0.01)) < 1 
-      then self.vehicles * ((1 + self.inflation_rate) ** 3) 
+    if 3 % (1 / (self.dep_vehicles.to_f * 0.01)) < 1 
+      then self.vehicles.to_f * ((1 + self.inflation_rate.to_f) ** 3) 
     else 
       0 
     end
   end
   def installations_add_2
-    if 3 % (1 / (self.dep_installations * 0.01)) < 1 
-      then self.utilities * ((1 + self.inflation_rate) ** 3) 
+    if 3 % (1 / (self.dep_installations.to_f * 0.01)) < 1 
+      then self.utilities.to_f * ((1 + self.inflation_rate.to_f) ** 3) 
     else 
       0 
     end
@@ -357,36 +379,36 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_add_3
-    if 4 % (1 / (self.dep_building * 0.01)) < 1 
-      then self.rent * ((1 + self.inflation_rate) ** 4) 
+    if 4 % (1 / (self.dep_building.to_f * 0.01)) < 1 
+      then self.rent.to_f * ((1 + self.inflation_rate.to_f) ** 4) 
     else 
       0 
     end
   end
   def furniture_add_3
-    if 4 % (1 / (self.dep_furniture * 0.01)) < 1 
-      then self.office_supplies * ((1 + self.inflation_rate) ** 4) 
+    if 4 % (1 / (self.dep_furniture.to_f * 0.01)) < 1 
+      then self.office_supplies.to_f * ((1 + self.inflation_rate.to_f) ** 4) 
     else 
       0 
     end
   end
   def machinery_add_3
-    if 4 % (1 / (self.dep_machinery * 0.01)) < 1 
-      then self.equipment * ((1 + self.inflation_rate) ** 4) 
+    if 4 % (1 / (self.dep_machinery.to_f * 0.01)) < 1 
+      then self.equipment.to_f * ((1 + self.inflation_rate.to_f) ** 4) 
     else 
       0 
     end
   end
   def vehicles_add_3
-    if 4 % (1 / (self.dep_vehicles * 0.01)) < 1 
-      then self.vehicles * ((1 + self.inflation_rate) ** 4) 
+    if 4 % (1 / (self.dep_vehicles.to_f * 0.01)) < 1 
+      then self.vehicles.to_f * ((1 + self.inflation_rate.to_f) ** 4) 
     else 
       0 
     end
   end
   def installations_add_3
-    if 4 % (1 / (self.dep_installations * 0.01)) < 1 
-      then self.utilities * ((1 + self.inflation_rate) ** 4) 
+    if 4 % (1 / (self.dep_installations.to_f * 0.01)) < 1 
+      then self.utilities.to_f * ((1 + self.inflation_rate.to_f) ** 4) 
     else 
       0 
     end
@@ -399,36 +421,36 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_add_4
-    if 5 % (1 / (self.dep_building * 0.01)) < 1 
-      then self.rent * ((1 + self.inflation_rate) ** 5) 
+    if 5 % (1 / (self.dep_building.to_f * 0.01)) < 1 
+      then self.rent.to_f * ((1 + self.inflation_rate.to_f) ** 5) 
     else 
       0 
     end
   end
   def furniture_add_4
-    if 5 % (1 / (self.dep_furniture * 0.01)) < 1 
-      then self.office_supplies * ((1 + self.inflation_rate) ** 5) 
+    if 5 % (1 / (self.dep_furniture.to_f * 0.01)) < 1 
+      then self.office_supplies.to_f * ((1 + self.inflation_rate.to_f) ** 5) 
     else 
       0 
     end
   end
   def machinery_add_4
-    if 5 % (1 / (self.dep_machinery * 0.01)) < 1 
-      then self.equipment * ((1 + self.inflation_rate) ** 5) 
+    if 5 % (1 / (self.dep_machinery.to_f * 0.01)) < 1 
+      then self.equipment.to_f * ((1 + self.inflation_rate.to_f) ** 5) 
     else 
       0 
     end
   end
   def vehicles_add_4
-    if 5 % (1 / (self.dep_vehicles * 0.01)) < 1 
-      then self.vehicles * ((1 + self.inflation_rate) ** 5) 
+    if 5 % (1 / (self.dep_vehicles.to_f * 0.01)) < 1 
+      then self.vehicles.to_f * ((1 + self.inflation_rate.to_f) ** 5) 
     else 
       0 
     end
   end
   def installations_add_4
-    if 5 % (1 / (self.dep_installations * 0.01)) < 1 
-      then self.utilities * ((1 + self.inflation_rate) ** 5) 
+    if 5 % (1 / (self.dep_installations.to_f * 0.01)) < 1 
+      then self.utilities.to_f * ((1 + self.inflation_rate.to_f) ** 5) 
     else 
       0 
     end
@@ -441,36 +463,36 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_add_5
-    if 6 % (1 / (self.dep_building * 0.01)) < 1 
-      then self.rent * ((1 + self.inflation_rate) ** 6) 
+    if 6 % (1 / (self.dep_building.to_f * 0.01)) < 1 
+      then self.rent.to_f * ((1 + self.inflation_rate.to_f) ** 6) 
     else 
       0 
     end
   end
   def furniture_add_5
-    if 6 % (1 / (self.dep_furniture * 0.01)) < 1 
-      then self.office_supplies * ((1 + self.inflation_rate) ** 6) 
+    if 6 % (1 / (self.dep_furniture.to_f * 0.01)) < 1 
+      then self.office_supplies.to_f * ((1 + self.inflation_rate.to_f) ** 6) 
     else 
       0 
     end
   end
   def machinery_add_5
-    if 6 % (1 / (self.dep_machinery * 0.01)) < 1 
-      then self.equipment * ((1 + self.inflation_rate) ** 6) 
+    if 6 % (1 / (self.dep_machinery.to_f * 0.01)) < 1 
+      then self.equipment.to_f * ((1 + self.inflation_rate.to_f) ** 6) 
     else 
       0 
     end
   end
   def vehicles_add_5
-    if 6 % (1 / (self.dep_vehicles * 0.01)) < 1 
-      then self.vehicles * ((1 + self.inflation_rate) ** 6) 
+    if 6 % (1 / (self.dep_vehicles.to_f * 0.01)) < 1 
+      then self.vehicles.to_f * ((1 + self.inflation_rate.to_f) ** 6) 
     else 
       0 
     end
   end
   def installations_add_5
-    if 6 % (1 / (self.dep_installations * 0.01)) < 1 
-      then self.utilities * ((1 + self.inflation_rate) ** 6) 
+    if 6 % (1 / (self.dep_installations.to_f * 0.01)) < 1 
+      then self.utilities.to_f * ((1 + self.inflation_rate.to_f) ** 6) 
     else 
       0 
     end
@@ -480,22 +502,22 @@ class BusinessPlan < ApplicationRecord
   end
 
   def land_close_2
-    self.land + self.land_add_2
+    self.land.to_f + self.land_add_2
   end
   def building_close_2
-    self.rent + self.building_add_2
+    self.rent.to_f + self.building_add_2
   end
   def furniture_close_2
-    self.office_supplies + self.furniture_add_2
+    self.office_supplies.to_f + self.furniture_add_2
   end
   def machinery_close_2
-    self.equipment + self.machinery_add_2
+    self.equipment.to_f + self.machinery_add_2
   end
   def vehicles_close_2
-    self.vehicles + self.vehicles_add_2
+    self.vehicles.to_f + self.vehicles_add_2
   end
   def installations_close_2
-    self.utilities + self.installations_add_2
+    self.utilities.to_f + self.installations_add_2
   end
   def total_close_2
     (self.land_close_2 + self.building_close_2 + self.furniture_close_2 + self.machinery_close_2 + self.vehicles_close_2 + self.installations_close_2)
@@ -571,41 +593,41 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_charge_1
-    self.rent * self.dep_building * 0.01
+    self.rent.to_f * self.dep_building.to_f * 0.01
   end
   def furniture_charge_1
-    self.office_supplies * self.dep_building * 0.01
+    self.office_supplies.to_f * self.dep_building.to_f * 0.01
   end
   def machinery_charge_1
-    self.equipment * self.dep_machinery * 0.01
+    self.equipment.to_f * self.dep_machinery.to_f * 0.01
   end
   def vehicles_charge_1
-    self.vehicles * self.dep_vehicles * 0.01
+    self.vehicles.to_f * self.dep_vehicles.to_f * 0.01
   end
   def installations_charge_1
-    self.utilities * self.dep_installations * 0.01
+    self.utilities.to_f * self.dep_installations.to_f * 0.01
   end
   def total_charge_1
-    (self.land_charge_1 + self.building_charge_1 + self.furniture_charge_1 + self.machinery_charge_1 + self.vehicles_charge_1 + self.installations_charge_1)
+    (self.land_charge_1.to_f + self.building_charge_1.to_f + self.furniture_charge_1.to_f + self.machinery_charge_1.to_f + self.vehicles_charge_1.to_f + self.installations_charge_1.to_f)
   end
 
   def land_charge_2
     0
   end
   def building_charge_2
-    self.building_close_2 * self.dep_building * 0.01
+    self.building_close_2 * self.dep_building.to_f * 0.01
   end
   def furniture_charge_2
-    self.furniture_close_2 * self.dep_building * 0.01
+    self.furniture_close_2 * self.dep_building.to_f * 0.01
   end
   def machinery_charge_2
-    self.machinery_close_2 * self.dep_machinery * 0.01
+    self.machinery_close_2 * self.dep_machinery.to_f * 0.01
   end
   def vehicles_charge_2
-    self.vehicles_close_2 * self.dep_vehicles * 0.01
+    self.vehicles_close_2 * self.dep_vehicles.to_f * 0.01
   end
   def installations_charge_2
-    self.installations_close_2 * self.dep_installations * 0.01
+    self.installations_close_2 * self.dep_installations.to_f * 0.01
   end
   def total_charge_2
     (self.land_charge_2 + self.building_charge_2 + self.furniture_charge_2 + self.machinery_charge_2 + self.vehicles_charge_2 + self.installations_charge_2)
@@ -615,19 +637,19 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_charge_3
-    self.building_close_3 * self.dep_building * 0.01
+    self.building_close_3 * self.dep_building.to_f * 0.01
   end
   def furniture_charge_3
-    self.furniture_close_3 * self.dep_building * 0.01
+    self.furniture_close_3 * self.dep_building.to_f * 0.01
   end
   def machinery_charge_3
-    self.machinery_close_3 * self.dep_machinery * 0.01
+    self.machinery_close_3 * self.dep_machinery.to_f * 0.01
   end
   def vehicles_charge_3
-    self.vehicles_close_3 * self.dep_vehicles * 0.01
+    self.vehicles_close_3 * self.dep_vehicles.to_f * 0.01
   end
   def installations_charge_3
-    self.installations_close_3 * self.dep_installations * 0.01
+    self.installations_close_3 * self.dep_installations.to_f * 0.01
   end
   def total_charge_3
     (self.land_charge_3 + self.building_charge_3 + self.furniture_charge_3 + self.machinery_charge_3 + self.vehicles_charge_3 + self.installations_charge_3)
@@ -637,19 +659,19 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_charge_4
-    self.building_close_4 * self.dep_building * 0.01
+    self.building_close_4 * self.dep_building.to_f * 0.01
   end
   def furniture_charge_4
-    self.furniture_close_4 * self.dep_building * 0.01
+    self.furniture_close_4 * self.dep_building.to_f * 0.01
   end
   def machinery_charge_4
-    self.machinery_close_4 * self.dep_machinery * 0.01
+    self.machinery_close_4 * self.dep_machinery.to_f * 0.01
   end
   def vehicles_charge_4
-    self.vehicles_close_4 * self.dep_vehicles * 0.01
+    self.vehicles_close_4 * self.dep_vehicles.to_f * 0.01
   end
   def installations_charge_4
-    self.installations_close_4 * self.dep_installations * 0.01
+    self.installations_close_4 * self.dep_installations.to_f * 0.01
   end
   def total_charge_4
     (self.land_charge_4 + self.building_charge_4 + self.furniture_charge_4 + self.machinery_charge_4 + self.vehicles_charge_4 + self.installations_charge_4)
@@ -659,19 +681,19 @@ class BusinessPlan < ApplicationRecord
     0
   end
   def building_charge_5
-    self.building_close_5 * self.dep_building * 0.01
+    self.building_close_5 * self.dep_building.to_f * 0.01
   end
   def furniture_charge_5
-    self.furniture_close_5 * self.dep_building * 0.01
+    self.furniture_close_5 * self.dep_building.to_f * 0.01
   end
   def machinery_charge_5
-    self.machinery_close_5 * self.dep_machinery * 0.01
+    self.machinery_close_5 * self.dep_machinery.to_f * 0.01
   end
   def vehicles_charge_5
-    self.vehicles_close_5 * self.dep_vehicles * 0.01
+    self.vehicles_close_5 * self.dep_vehicles.to_f * 0.01
   end
   def installations_charge_5
-    self.installations_close_5 * self.dep_installations * 0.01
+    self.installations_close_5 * self.dep_installations.to_f * 0.01
   end
   def total_charge_5
     (self.land_charge_5 + self.building_charge_5 + self.furniture_charge_5 + self.machinery_charge_5 + self.vehicles_charge_5 + self.installations_charge_5)
@@ -859,22 +881,22 @@ class BusinessPlan < ApplicationRecord
   end
 
   def land_net_1
-    self.land - self.land_charge_1
+    self.land.to_f - self.land_charge_1
   end
   def building_net_1
-    self.rent - self.building_charge_1
+    self.rent.to_f - self.building_charge_1
   end
   def furniture_net_1
-    self.office_supplies - self.furniture_charge_1
+    self.office_supplies.to_f - self.furniture_charge_1
   end
   def machinery_net_1
-    self.equipment - self.machinery_charge_1
+    self.equipment.to_f - self.machinery_charge_1
   end
   def vehicles_net_1
-    self.vehicles - self.vehicles_charge_1
+    self.vehicles.to_f - self.vehicles_charge_1
   end
   def installations_net_1
-    self.utilities - self.installations_charge_1
+    self.utilities.to_f - self.installations_charge_1
   end
   def total_net_1
     (self.land_net_1 + self.building_net_1 + self.furniture_net_1 + self.machinery_net_1 + self.vehicles_net_1 + self.installations_net_1)

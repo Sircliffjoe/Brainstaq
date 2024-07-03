@@ -1,0 +1,107 @@
+<% content_for :title, "Generated Business Idea" %>
+
+<!-- start of page-header -->
+<section class="page-header bg-light-gray has-shapes has-bg-brash bg-brash-bottom" style="background-image: url(<%= image_path "banner.svg" %>)">
+  <div class="container h-100">
+    <div class="row d-flex align-items-center h-100">
+      <div class="col-md-12 text-center">
+        <h2 class="h1 font-weight-bold">Generated Business Idea</h2>
+        <nav class="mt-15" aria-label="breadcrumb">
+          <ol class="breadcrumb font-weight-bold bg-transparent p-0 justify-content-center">
+            <li class="breadcrumb-item"><%= link_to "Ideas List", business_ideas_path, class: "text-black-300" %></li>
+            <li class="breadcrumb-item text-primary" aria-current="page">Generated Business Idea</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <div class="shape-1 bg-secondary shape-xs rounded-circle"></div>
+  <div class="shape-2 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-3 bg-primary shape-sm-2 rounded-circle"></div>
+  <div class="shape-4 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-5 bg-tertiary shape-xs rounded-circle"></div>
+  <div class="shape-6 bg-primary shape-sm rounded-circle"></div>
+  <div class="shape-7 bg-primary shape-xs-2 rounded-circle"></div>
+  <div class="shape-8 bg-secondary shape-xs rounded-circle"></div>
+</section>
+
+<main style="padding-top: 100px;">
+  <div class="container-fluid project-img col-lg-8 mx-auto" style="margin-bottom: 100px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <div class="container">
+      <h3 class="display-5 text-center" style="margin-bottom: 20px;">
+        <strong>
+          <%= @generated_idea.name %>
+        </strong>
+      </h3>
+      <p><%= @generated_idea.description %></p>
+      <div class="mt-4">
+        <h4>Specific Problems to be Solved</h4>
+        <% problems_list = @generated_idea.problems.split("\n") %>
+        <% problems_list.each do |problem_item| %>
+          <p><%= problem_item %></p>  
+          <% if problem_item.include?("\n") %> 
+            <% problem_item.split("\n").each do |nested_item| %>
+              <%= nested_item %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-4">
+        <h4>How to Solve These Problems</h4>
+        <% solutions_list = @generated_idea.solutions.split("\n") %>
+        <% solutions_list.each do |solution_item| %>
+          <p><%= solution_item %></p>  
+          <% if solution_item.include?("\n") %> 
+            <% solution_item.split("\n").each do |nested_item| %>
+              <%= nested_item %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-4">
+        <h4>Likely Products/Services</h4>
+        <% products_list = @generated_idea.products_services.split("\n") %>
+        <% products_list.each do |product_item| %>
+          <p><%= product_item %></p>  
+          <% if product_item.include?("\n") %> 
+            <% product_item.split("\n").each do |nested_item| %>
+              <%= nested_item %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-4">
+        <h4>African Market Information</h4>
+        <p><%= @generated_idea.market_info %></p>
+      </div>
+      <div class="mt-4">
+        <h4>Requirements to Run Such a Business</h4>
+        <% requirements_list = @generated_idea.requirements.split("\n") %>
+        <% requirements_list.each do |requirement_item| %>
+          <p><%= requirement_item %></p>  
+          <% if requirement_item.include?("\n") %> 
+            <% requirement_item.split("\n").each do |nested_item| %>
+              <%= nested_item %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="mt-5">
+        <%= link_to "Create Brand", new_enterprise_path, class: "btn btn-primary btn-lg mx-2" %>
+        <%= link_to 'Back', new_business_idea_path, class: 'btn btn-secondary btn-lg mx-2' %>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style type="text/css">
+  h3, h4 {
+    text-transform: uppercase;
+  }
+  h4 {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+</style>

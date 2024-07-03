@@ -1,0 +1,5 @@
+class BusinessIdeaTemplate < ApplicationRecord
+  belongs_to :category
+
+  validates :name, :description, :problems, :solutions, :products_services, :market_info, :requirements, presence: true
+end

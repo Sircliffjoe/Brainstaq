@@ -54,6 +54,7 @@ class CourseCategoriesController < ApplicationController
 
 
   def show
+    @course_category = CourseCategory.find(params[:id])
   end
 
   def new
@@ -70,6 +71,7 @@ class CourseCategoriesController < ApplicationController
   end
 
   def edit
+    @course_category = CourseCategory.find(params[:id])
   end
 
   def update

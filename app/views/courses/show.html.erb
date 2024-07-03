@@ -104,7 +104,7 @@
                           <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
                             <div class="accordion-body mt-3">
                               <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex lesson-text justify-content-between align-items-center">
                                   <div class="position-relative d-flex align-items-center">
                                     <a href="<%= course_lesson_path(@course, lesson) + '#current_lesson' %>" class="btn btn-danger-soft play-button-icon btn-round btn-sm mb-0 stretched-link position-static">
                                       <i class="fas fa-play me-0"></i>
@@ -152,7 +152,7 @@
                           <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
                             <div class="accordion-body mt-3">
                               <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex lesson-text justify-content-between align-items-center">
                                   <div class="position-relative d-flex align-items-center">
                                     <a href="<%= course_lesson_path(@course, lesson) + '#current_lesson' %>" class="btn btn-danger-soft play-button-icon btn-round btn-sm mb-0 stretched-link position-static">
                                       <i class="fas fa-play me-0"></i>
@@ -200,7 +200,7 @@
                           <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
                             <div class="accordion-body mt-3">
                               <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                                <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex lesson-text justify-content-between align-items-center">
 
                                   <div class="position-relative d-flex align-items-center">
                                     <%= link_to course_lesson_path(@course, lesson, anchor: "current_lesson") do %>
@@ -250,7 +250,7 @@
                         <div id="collapse-<%= index + 1 %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index + 1 %>" data-parent="#accordionExample2">
                           <div class="accordion-body mt-3">
                             <% chapter.lessons.rank(:row_order).each do |lesson| %>
-                              <div class="position-relative d-flex align-items-center">
+                              <div class="position-relative d-flex lesson-text align-items-center">
                                 <%= link_to "#" do %>
                                   <a class="play-button-icon disabled text-white">
                                     <i class="fas fa-play"></i>
@@ -270,7 +270,7 @@
                   <% end %>
                 </div>
                 <!-- Course accordion END -->
-              </div
+              </div>
 
 							<!-- Content START -->
 							<div class="tab-pane fade" id="instructor" role="tabpanel" aria-labelledby="instructor-tab">
@@ -739,7 +739,7 @@ Page content END -->
   border: 0;
   border-bottom: 2px solid transparent; /* Border color for inactive state */
   padding: 10px 15px;
-  font-weight: 600; /* Bold text */
+  font-weight: 400; /* Bold text */
   transition: border-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
@@ -758,11 +758,7 @@ Page content END -->
   border-bottom: 1px solid #dee2e6; /* Border color for card header */
 }
 
-@media (min-width: 576px) {
-  .nav-item {
-    margin-right: 2rem;
-  }
-}
+
 
 
 .card {
@@ -1132,6 +1128,33 @@ h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
   color: var(--bs-heading-color);
 }
 
+@media (max-width: 360px) {
+  .nav-item {
+    margin-right: 2rem;
+  }
+
+  .h6 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-family: "Heebo", sans-serif;
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--bs-heading-color);
+  }
+
+  .play-button-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 0px;
+    height: 2px !important;
+    margin-right: 10px;
+    border-radius: 5%;
+    background-color: #e74c3c;
+    color: white;
+  }
+}
+
 h1, .h1 {
   font-size: calc(1.40625rem + 1.875vw);
 }
@@ -1231,9 +1254,7 @@ mark, .mark {
   padding: 0.1875em;
   color: var(--bs-highlight-color);
   background-color: var(--bs-highlight-bg);
-} %>
+}
+
+
 </style>
-
-<script>
-
-</script>

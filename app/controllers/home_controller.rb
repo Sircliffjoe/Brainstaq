@@ -19,13 +19,14 @@ class HomeController < ApplicationController
     @next_page = @page + 1 unless Idea.count < 9
     @prev_page = @page - 1 unless @page == 0
     @ideas = Idea.all.offset(@page*IDEAS_PER_PAGE).limit(IDEAS_PER_PAGE).sort_by { |idea| idea.impressions.size.to_i}.reverse
-
+    # @business_idea = BusinessIdea.all
     @enterprises = Enterprise.all
     @enterprises_count = Enterprise.count
     @courses = Course.all
     @users = User.all
     @course_categories = CourseCategory.all
     @course_categories_count = CourseCategory.count
+    @posts = Post.all
   end
 
   def impressionist_count

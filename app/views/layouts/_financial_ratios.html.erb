@@ -1,0 +1,182 @@
+<div class="container">
+	<h3 class="mt-5 mb-3" style="font-size: 18px; font-weight: bold;">
+		
+	</h3>
+  <div class="row">
+    <div class="col-12 table-responsive">
+      <table class="table table-sm table-bordered table-hover">
+        <thead>
+          <tr>
+						<th scope="col"></th>
+            <th class="text-center" scope="col">Year 1</th>
+            <th class="text-center" scope="col">Year 2</th>
+            <th class="text-center" scope="col">Year 3</th>
+						<th class="text-center" scope="col">Year 4</th>
+            <th class="text-center" scope="col">Year 5</th>
+          </tr>
+        </thead>
+				<tbody>
+          <tr>
+            <td style="font-weight:bold;">ACTIVITY RATIOS</td>
+          </tr>
+        
+          <tr>
+            <td style="padding-left:25px;">Cash Conversion Cycle</td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Inventory Turnover</td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_1 / @business_plan.inventory_schedule_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_2 / @business_plan.inventory_schedule_2, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_3 / @business_plan.inventory_schedule_3, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_4 / @business_plan.inventory_schedule_4, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_5 / @business_plan.inventory_schedule_5, precision: 2) %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Receivables Turnover</td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( '#', :unit => "₦") %></td>
+					</tr>
+          <tr>
+            <td style="padding-left:25px;">Payables Turnover</td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_1 / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_2 / @business_plan.days_payable_2, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_3 / @business_plan.days_payable_3, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_4 / @business_plan.days_payable_4, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@business_plan.total_direct_op_cost_5 / @business_plan.days_payable_5, precision: 2) %></td>
+					</tr>
+
+          <tr>
+            <td style="font-weight:bold;">LIQUIDITY RATIOS</td>
+          <tr>
+            <td style="padding-left:25px;">Net Liquid Balance</td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_2 - @business_plan.days_payable_1, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_3 - @business_plan.days_payable_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_4 - @business_plan.days_payable_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_5 - @business_plan.days_payable_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@cash_at_year_start_6 - @business_plan.days_payable_5, :unit => "₦") %></td>
+          </tr>
+
+          <tr>
+            <td style="padding-left:25px;">Current Ratio</td>
+            <td class="text-right"> <%= number_with_precision(@total_current_assets_1 / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@total_current_assets_2 / @business_plan.days_payable_2, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@total_current_assets_3 / @business_plan.days_payable_3, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@total_current_assets_4 / @business_plan.days_payable_4, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@total_current_assets_5 / @business_plan.days_payable_5, precision: 2) %></td>
+          </tr>
+
+          <tr>
+            <td style="padding-left:25px;">Quick Ratio</td>
+            <td class="text-right"> <%= number_with_precision((@total_current_assets_1 - @business_plan.inventory_schedule_1) / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_current_assets_2 - @business_plan.inventory_schedule_2) / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_current_assets_3 - @business_plan.inventory_schedule_3) / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_current_assets_4 - @business_plan.inventory_schedule_4) / @business_plan.days_payable_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_current_assets_5 - @business_plan.inventory_schedule_5) / @business_plan.days_payable_1, precision: 2) %></td>
+          </tr>
+          
+          <tr>
+            <td style="font-weight:bold;">PROFITABILITY RATIOS</td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Return on Investment (ROI)</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_1 / @total_assets_1)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_2 / @total_assets_2)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_3 / @total_assets_3)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_4 / @total_assets_4)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_5 / @total_assets_5)* 100, precision: 2) %>%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Gross Profit Margin</td>
+            <td class="text-right"> <%= number_with_precision((@gross_profit_1 / @business_plan.total_revenue_1)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@gross_profit_2 / @business_plan.total_revenue_2)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@gross_profit_3 / @business_plan.total_revenue_3)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@gross_profit_4 / @business_plan.total_revenue_4)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@gross_profit_5 / @business_plan.total_revenue_5)* 100, precision: 2) %>%</td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Net Profit Margin</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_1 / @business_plan.total_revenue_1)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_2 / @business_plan.total_revenue_2)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_3 / @business_plan.total_revenue_3)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_4 / @business_plan.total_revenue_4)* 100, precision: 2) %>%</td>
+            <td class="text-right"> <%= number_with_precision((@net_income_5 / @business_plan.total_revenue_5)* 100, precision: 2) %>%</td>
+          </tr>
+
+          <tr>
+            <td style="font-weight:bold;">SOLVENCY RATIOS</td>
+          </tr>
+        
+          <tr>
+            <td style="padding-left:25px;">Asset Coverage</td>
+            <td class="text-right"> <%= number_with_precision((@total_assets_1 / (@business_plan.days_payable_1 + @closing_debt_1)), precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_assets_2 / (@business_plan.days_payable_2 + @closing_debt_2)), precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_assets_3 / (@business_plan.days_payable_3 + @closing_debt_3)), precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_assets_4 / (@business_plan.days_payable_4 + @closing_debt_4)), precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision((@total_assets_5 / (@business_plan.days_payable_5 + @closing_debt_5)), precision: 2) %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Interest Coverage</td>
+            <td class="text-right"> <%= number_with_precision(@op_profit_1 / @interest_expense_1, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@op_profit_2 / @interest_expense_2, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@op_profit_3 / @interest_expense_3, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@op_profit_4 / @interest_expense_4, precision: 2) %></td>
+            <td class="text-right"> <%= number_with_precision(@op_profit_5 / @interest_expense_5, precision: 2) %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Debt to Equity Ratio</td>
+            <td class="text-right"> <%= number_with_precision((@business_plan.days_payable_1 + @closing_debt_1) / @total_shareholders_equity_1, precision: 4) %></td>
+            <td class="text-right"> <%= number_with_precision((@business_plan.days_payable_2 + @closing_debt_2) / @total_shareholders_equity_2, precision: 4) %></td>
+            <td class="text-right"> <%= number_with_precision((@business_plan.days_payable_3 + @closing_debt_3) / @total_shareholders_equity_3, precision: 4) %></td>
+            <td class="text-right"> <%= number_with_precision((@business_plan.days_payable_4 + @closing_debt_4) / @total_shareholders_equity_4, precision: 4) %></td>
+            <td class="text-right"> <%= number_with_precision((@business_plan.days_payable_5 + @closing_debt_5) / @total_shareholders_equity_5, precision: 4) %></td>
+					</tr>
+
+          <tr>
+            <td style="font-weight:bold;">VALUATION RATIOS</td>
+          </tr>
+        
+          <tr>
+            <td style="padding-left:25px;">Economic Value Added (EVA)</td>
+            <td class="text-right"><%= number_to_currency( @cash_at_year_start_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( @cash_at_year_start_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( @cash_at_year_start_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( @cash_at_year_start_5, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency( @cash_at_year_start_6, :unit => "₦") %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Net Present Value (NPV)</td>
+            <td class="text-right"><%= number_to_currency(@products_and_growth_rate.days_receivable_one, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@products_and_growth_rate.days_receivable_two, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@products_and_growth_rate.days_receivable_three, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@products_and_growth_rate.days_receivable_four, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@products_and_growth_rate.days_receivable_five, :unit => "₦") %></td>
+          </tr>
+          <tr>
+            <td style="padding-left:25px;">Profitability Index</td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_1, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_5, :unit => "₦") %></td>
+					</tr>
+          <tr>
+            <td style="padding-left:25px;">Internal Rate of Return (IRR)</td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_1, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_2, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_3, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_4, :unit => "₦") %></td>
+            <td class="text-right"><%= number_to_currency(@business_plan.inventory_schedule_5, :unit => "₦") %></td>
+					</tr>
+				</tbody>
+      </table>
+    </div>
+  </div>
+</div>
